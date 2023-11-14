@@ -9,17 +9,20 @@
   },
   "dependencies": {
     "@ant-design/icons": "5.2.6",
+    "@react-three/fiber": "^8.15.11",
     "antd": "5.10.1",
     "dayjs": "1.11.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.17.0"
+    "react-router-dom": "6.17.0",
+    "three": "^0.158.0"
   },
   "devDependencies": {
     "@types/react": "18.2.30",
     "@types/react-dom": "18.2.14",
     "@types/react-router-config": "5.0.9",
     "@types/react-router-dom": "5.3.3",
+    "@types/three": "^0.158.2",
     "@vitejs/plugin-react-swc": "3.4.0",
     "postcss": "8.4.31",
     "rollup-plugin-visualizer": "5.9.2",
