@@ -33,6 +33,10 @@ export default function demo02() {
   return (
     <div>
       <h1>use @react-three/fiber</h1>
+      <ol>
+        <li>mouse hover change box color</li>
+        <li>mouse click change box scale</li>
+      </ol>
 
       <Canvas>
         <ambientLight />

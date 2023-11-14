@@ -37,9 +37,13 @@ export default function App() {
       <div>
         <div>
           <p>index.tsx</p>
-          <Link to="/threejs/demo01">threejs/demo01</Link>
+          <Link to="/threejs/demo01">threejs/demo01: just use threejs</Link>
           <br />
-          <Link to="/threejs/demo02">threejs/demo02</Link>
+          <Link to="/threejs/demo02">threejs/demo02: use @react-three/fiber</Link>
+          <br />
+          <Link to="/threejs/demo03">threejs/demo03: use @react-three/fiber @react-three/drei</Link>
+          <br />
+          <Link to="/threejs/demo04">threejs/demo04: use @react-three/drei load gltf</Link>
           <br />
         </div>
         <div style={{ marginTop: 12 }}>
