@@ -43,7 +43,7 @@ export default function Demo01() {
 
   return (
     <div>
-      <h1>只使用threejs</h1>
+      <h1>just use threejs</h1>
       <div id="three-container" style={{ width: 700, height: 500 }} />
     </div>
   )

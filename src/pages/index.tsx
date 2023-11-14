@@ -39,6 +39,8 @@ export default function App() {
           <p>index.tsx</p>
           <Link to="/threejs/demo01">threejs/demo01</Link>
           <br />
+          <Link to="/threejs/demo02">threejs/demo02</Link>
+          <br />
         </div>
         <div style={{ marginTop: 12 }}>
           <Radio.Group
