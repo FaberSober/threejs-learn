@@ -18,6 +18,7 @@ import Demo17Adaptive from "@/pages/threejs/Demo17Adaptive";
 import Demo18BasicPointsBuffer from "@/pages/threejs/Demo18BasicPointsBuffer";
 import Demo19BasicPointsInstances from "@/pages/threejs/Demo19BasicPointsInstances";
 import Demo20BasicPointsInstancesSelection from "@/pages/threejs/Demo20BasicPointsInstancesSelection";
+import Demo21Segments from "@/pages/threejs/Demo21Segments";
 
 export default function App() {
   const [theme, setTheme] = useState('default');
@@ -85,6 +86,10 @@ export default function App() {
           <Link to="/threejs/Demo19BasicPointsInstances">threejs/Demo19: BasicPointsInstances</Link>
           <br />
           <Link to="/threejs/Demo20BasicPointsInstancesSelection">threejs/Demo20 - BasicPointsInstancesSelection</Link>
+          <br />
+          <Link to="/threejs/Demo21Segments">threejs/Demo21 - Segments</Link>
+          <br />
+          <Link to="/threejs/Demo22AnimatedSegments">threejs/Demo22 - AnimatedSegments</Link>
           <br />
         </div>
         <div style={{ marginTop: 12 }}>
