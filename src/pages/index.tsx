@@ -19,6 +19,12 @@ import Demo18BasicPointsBuffer from "@/pages/threejs/Demo18BasicPointsBuffer";
 import Demo19BasicPointsInstances from "@/pages/threejs/Demo19BasicPointsInstances";
 import Demo20BasicPointsInstancesSelection from "@/pages/threejs/Demo20BasicPointsInstancesSelection";
 import Demo21Segments from "@/pages/threejs/Demo21Segments";
+import Demo23FaceControls from "@/pages/threejs/Demo23FaceControls";
+import Demo25KeyboardControls from "@/pages/threejs/Demo25KeyboardControls";
+import Demo26MapControls from "@/pages/threejs/Demo26MapControls";
+import Demo27Outlines from "@/pages/threejs/Demo27Outlines";
+import Demo28Svg from "@/pages/threejs/Demo28Svg";
+import Demo29UseAnimations from "@/pages/threejs/Demo29UseAnimations";
 
 export default function App() {
   const [theme, setTheme] = useState('default');
@@ -90,6 +96,20 @@ export default function App() {
           <Link to="/threejs/Demo21Segments">threejs/Demo21 - Segments</Link>
           <br />
           <Link to="/threejs/Demo22AnimatedSegments">threejs/Demo22 - AnimatedSegments</Link>
+          <br />
+          <Link to="/threejs/Demo23FaceControls">threejs/Demo23 - FaceControls</Link>
+          <br />
+          <Link to="/threejs/Demo24FirstPersonControls">threejs/Demo24 - FirstPersonControls</Link>
+          <br />
+          <Link to="/threejs/Demo25KeyboardControls">threejs/Demo25 - KeyboardControls</Link>
+          <br />
+          <Link to="/threejs/Demo26MapControls">threejs/Demo26 - MapControls</Link>
+          <br />
+          <Link to="/threejs/Demo27Outlines">threejs/Demo27 - Outlines</Link>
+          <br />
+          <Link to="/threejs/Demo28Svg">threejs/Demo28 - Svg</Link>
+          <br />
+          <Link to="/threejs/Demo29UseAnimations">threejs/Demo29 - UseAnimations</Link>
           <br />
         </div>
         <div style={{ marginTop: 12 }}>
