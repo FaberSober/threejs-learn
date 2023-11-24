@@ -29,7 +29,7 @@ function Box(props:any) {
  * @author xu.pengfei
  * @date 2023/11/14 10:17
  */
-export default function demo02() {
+export default function Demo02() {
   return (
     <div>
       <h1>use @react-three/fiber</h1>
