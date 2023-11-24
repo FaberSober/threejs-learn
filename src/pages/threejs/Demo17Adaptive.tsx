@@ -21,7 +21,7 @@ export default function Demo17Adaptive() {
   } = useGLTF('/assets/model/archer.glb') as ArcherGLTF
 
   return (
-    <Canvas shadows camera={{ position: [0, 0, 30], fov: 50 }} performance={{ min: 1 }}>
+    <Canvas shadows camera={{ position: [0, 0, 30], fov: 50 }} performance={{ min: 0.2 }}>
       <React.Suspense fallback={null}>
         <group dispose={null}>
           <group rotation={[-Math.PI / 2, 0, 0]}>

@@ -15,6 +15,9 @@ import Demo14WireframeScene from "@/pages/threejs/Demo14WireframeScene";
 import Demo15UseMatcapTexture from "@/pages/threejs/Demo15UseMatcapTexture";
 import Demo16UseNormalTexture from "@/pages/threejs/Demo16UseNormalTexture";
 import Demo17Adaptive from "@/pages/threejs/Demo17Adaptive";
+import Demo18BasicPointsBuffer from "@/pages/threejs/Demo18BasicPointsBuffer";
+import Demo19BasicPointsInstances from "@/pages/threejs/Demo19BasicPointsInstances";
+import Demo20BasicPointsInstancesSelection from "@/pages/threejs/Demo20BasicPointsInstancesSelection";
 
 export default function App() {
   const [theme, setTheme] = useState('default');
@@ -76,6 +79,12 @@ export default function App() {
           <Link to="/threejs/Demo16UseNormalTexture">threejs/demo16: useNormalTexture</Link>
           <br />
           <Link to="/threejs/Demo17Adaptive">threejs/demo17: Adaptive</Link>
+          <br />
+          <Link to="/threejs/Demo18BasicPointsBuffer">threejs/Demo18: BasicPointsBuffer</Link>
+          <br />
+          <Link to="/threejs/Demo19BasicPointsInstances">threejs/Demo19: BasicPointsInstances</Link>
+          <br />
+          <Link to="/threejs/Demo20BasicPointsInstancesSelection">threejs/Demo20 - BasicPointsInstancesSelection</Link>
           <br />
         </div>
         <div style={{ marginTop: 12 }}>
