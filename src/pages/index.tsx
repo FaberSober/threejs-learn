@@ -25,6 +25,8 @@ import Demo26MapControls from "@/pages/threejs/Demo26MapControls";
 import Demo27Outlines from "@/pages/threejs/Demo27Outlines";
 import Demo28Svg from "@/pages/threejs/Demo28Svg";
 import Demo29UseAnimations from "@/pages/threejs/Demo29UseAnimations";
+import Demo30Stats from "@/pages/threejs/Demo30Stats";
+import Demo31StatsGl from "@/pages/threejs/Demo31StatsGl";
 
 export default function App() {
   const [theme, setTheme] = useState('default');
@@ -110,6 +112,10 @@ export default function App() {
           <Link to="/threejs/Demo28Svg">threejs/Demo28 - Svg</Link>
           <br />
           <Link to="/threejs/Demo29UseAnimations">threejs/Demo29 - UseAnimations</Link>
+          <br />
+          <Link to="/threejs/Demo30Stats">threejs/Demo30 - Stats</Link>
+          <br />
+          <Link to="/threejs/Demo31StatsGl">threejs/Demo31 - StatsGl</Link>
           <br />
         </div>
         <div style={{ marginTop: 12 }}>
