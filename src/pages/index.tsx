@@ -10,6 +10,11 @@ import zhCN from 'antd/es/locale/zh_CN';
 import 'dayjs/locale/en';
 import 'dayjs/locale/zh-cn';
 import Demo10Sparkles from "@/pages/threejs/Demo10Sparkles";
+import Demo13Star from "@/pages/threejs/Demo13Star";
+import Demo14WireframeScene from "@/pages/threejs/Demo14WireframeScene";
+import Demo15UseMatcapTexture from "@/pages/threejs/Demo15UseMatcapTexture";
+import Demo16UseNormalTexture from "@/pages/threejs/Demo16UseNormalTexture";
+import Demo17Adaptive from "@/pages/threejs/Demo17Adaptive";
 
 export default function App() {
   const [theme, setTheme] = useState('default');
@@ -58,9 +63,19 @@ export default function App() {
           <br />
           <Link to="/threejs/Demo10Sparkles">threejs/demo10: Sparkles</Link>
           <br />
-          <Link to="/threejs/inner/Demo11Spotlight">threejs/demo11: Spotlight</Link>
+          <Link to="/threejs/Demo11Spotlight">threejs/demo11: Spotlight</Link>
           <br />
-          <Link to="/threejs/inner/Demo12Stage">threejs/demo12: Spotlight</Link>
+          <Link to="/threejs/Demo12Stage">threejs/demo12: Spotlight</Link>
+          <br />
+          <Link to="/threejs/Demo13Star">threejs/demo13: Star</Link>
+          <br />
+          <Link to="/threejs/Demo14WireframeScene">threejs/demo14: WireframeScene</Link>
+          <br />
+          <Link to="/threejs/Demo15UseMatcapTexture">threejs/demo15: useMatcapTexture</Link>
+          <br />
+          <Link to="/threejs/Demo16UseNormalTexture">threejs/demo16: useNormalTexture</Link>
+          <br />
+          <Link to="/threejs/Demo17Adaptive">threejs/demo17: Adaptive</Link>
           <br />
         </div>
         <div style={{ marginTop: 12 }}>
