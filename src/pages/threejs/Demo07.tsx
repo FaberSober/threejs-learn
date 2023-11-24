@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+import { Line, OrbitControls, QuadraticBezierLine } from '@react-three/drei'
 
 
 function Box(props:any) {
@@ -57,6 +57,9 @@ export default function Demo07() {
         </mesh>
 
         <Box position={[0, 0, 0]} />
+
+        <Line points={[[0, 0, 0], [4, 7, 5]]} color='blue' lineWidth={2} />
+        <QuadraticBezierLine start={[0, 0, 0]} end={[4, 7, 5]} segments={10} color='red' lineWidth={2} dashed />
 
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" count={v.length / 3} array={v} itemSize={3} />

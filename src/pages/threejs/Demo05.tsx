@@ -13,7 +13,7 @@ export default function Demo05() {
     <div>
       <h1>use @react-three/drei load glb</h1>
 
-      <Canvas>
+      <Canvas shadows camera={{ position: [10, 10, 10], fov: 75 }}>
         {/*<ambientLight />*/}
         <pointLight position={[10, 10, 10]} intensity={500} distance={1000} />
         <Suspense>

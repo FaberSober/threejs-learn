@@ -9,6 +9,7 @@ import zhCN from 'antd/es/locale/zh_CN';
 // 国际化
 import 'dayjs/locale/en';
 import 'dayjs/locale/zh-cn';
+import Demo10Sparkles from "@/pages/threejs/Demo10Sparkles";
 
 export default function App() {
   const [theme, setTheme] = useState('default');
@@ -50,6 +51,16 @@ export default function App() {
           <Link to="/threejs/Demo06">threejs/demo06: load simple-factory gltf</Link>
           <br />
           <Link to="/threejs/Demo07">threejs/demo07: drei</Link>
+          <br />
+          <Link to="/threejs/Demo08">threejs/demo08: Environment</Link>
+          <br />
+          <Link to="/threejs/Demo09">threejs/demo09: Sky</Link>
+          <br />
+          <Link to="/threejs/Demo10Sparkles">threejs/demo10: Sparkles</Link>
+          <br />
+          <Link to="/threejs/inner/Demo11Spotlight">threejs/demo11: Spotlight</Link>
+          <br />
+          <Link to="/threejs/inner/Demo12Stage">threejs/demo12: Spotlight</Link>
           <br />
         </div>
         <div style={{ marginTop: 12 }}>
