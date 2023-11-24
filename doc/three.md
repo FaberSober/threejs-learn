@@ -1,8 +1,9 @@
 # three
 
 ##  参考文档
-1. https://docs.pmnd.rs/react-three-fiber/getting-started/introduction
-2. https://github.com/pmndrs/drei#readme
+1. https://threejs.org/
+2. https://docs.pmnd.rs/react-three-fiber/getting-started/introduction
+3. https://github.com/pmndrs/drei#readme
 
 ## 加载glb、gtlf模型
 [https://github.com/pmndrs/](https://github.com/pmndrs/gltfjsx)

@@ -14,7 +14,8 @@ export default function Demo06() {
       <h1>use @react-three/drei load gltf</h1>
 
       <Canvas>
-        <ambientLight />
+        {/*<ambientLight />*/}
+        <pointLight position={[10, 10, 10]} intensity={500} distance={1000} />
         <Suspense>
           <SimpleFactory/>
         </Suspense>

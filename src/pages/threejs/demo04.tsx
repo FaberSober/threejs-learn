@@ -6,8 +6,7 @@ import { useGLTF, OrbitControls } from '@react-three/drei'
 function Model(props:any) {
   const gltf = useGLTF('/assets/model/simple-factory.gltf') as any
   // const gltf = useGLTF('/assets/model/monkey.glb')
-  console.log('gltf', gltf)
-  console.log('gltf', gltf.nodes['立方体-材质4_1_1'])
+  // console.log('gltf', gltf)
   return <primitive {...props} object={gltf.scene} />
 }
 
@@ -22,7 +21,13 @@ export default function Demo04() {
       <h1>use @react-three/drei load gltf 12345</h1>
 
       <Canvas>
-        <ambientLight />
+        <ambientLight intensity={0.5} />
+        <pointLight position={[-20, 20, 0]} intensity={2000} distance={1000} />
+        <mesh position={[-20, 20, 0]}>
+          <sphereGeometry args={[0.5]} />
+          <meshStandardMaterial color={'gold'} />
+        </mesh>
+
         <Suspense>
           <Model />
         </Suspense>

@@ -49,6 +49,8 @@ export default function App() {
           <br />
           <Link to="/threejs/Demo06">threejs/demo06: load simple-factory gltf</Link>
           <br />
+          <Link to="/threejs/Demo07">threejs/demo07: drei</Link>
+          <br />
         </div>
         <div style={{ marginTop: 12 }}>
           <Radio.Group
