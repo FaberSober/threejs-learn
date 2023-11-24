@@ -45,6 +45,10 @@ export default function App() {
           <br />
           <Link to="/threejs/demo04">threejs/demo04: use @react-three/drei load gltf</Link>
           <br />
+          <Link to="/threejs/Demo05">threejs/demo05: load monkey glb</Link>
+          <br />
+          <Link to="/threejs/Demo06">threejs/demo06: load simple-factory gltf</Link>
+          <br />
         </div>
         <div style={{ marginTop: 12 }}>
           <Radio.Group

@@ -4,8 +4,10 @@ import { useGLTF, OrbitControls } from '@react-three/drei'
 // import modelPath from './path/to/model.glb'
 
 function Model(props:any) {
-  // const gltf = useGLTF('/assets/model/simple-factory.gltf')
-  const gltf = useGLTF('/assets/model/monkey.glb')
+  const gltf = useGLTF('/assets/model/simple-factory.gltf') as any
+  // const gltf = useGLTF('/assets/model/monkey.glb')
+  console.log('gltf', gltf)
+  console.log('gltf', gltf.nodes['立方体-材质4_1_1'])
   return <primitive {...props} object={gltf.scene} />
 }
 
