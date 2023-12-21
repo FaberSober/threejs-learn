@@ -1,5 +1,5 @@
 import React from 'react';
-import ThreeCanvasLayout from "@/components/three/ThreeCanvasLayout";
+import { Canvas } from "@react-three/fiber";
 import { Box, FirstPersonControls } from "@react-three/drei";
 
 
@@ -9,7 +9,11 @@ import { Box, FirstPersonControls } from "@react-three/drei";
  */
 export default function Demo24FirstPersonControls() {
   return (
-    <ThreeCanvasLayout>
+    <Canvas>
+      {/* 灯光 */}
+      <ambientLight intensity={0.8}/>
+      <pointLight position={[0, 6, 0]} intensity={700} distance={10}/>
+
       <FirstPersonControls
         activeLook
         enabled
@@ -23,8 +27,11 @@ export default function Demo24FirstPersonControls() {
         verticalMin={0}
       />
       <Box>
-        <meshBasicMaterial wireframe />
+        <meshBasicMaterial wireframe/>
       </Box>
-    </ThreeCanvasLayout>
+
+      {/* 轴显 */}
+      <axesHelper />
+    </Canvas>
   )
 }
