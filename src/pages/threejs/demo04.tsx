@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { useGLTF, OrbitControls, Sky } from '@react-three/drei'
+import { useGLTF, OrbitControls, Sky, GizmoHelper, GizmoViewcube, GizmoViewport } from '@react-three/drei'
 // import modelPath from './path/to/model.glb'
 
 function Model(props:any) {
   const gltf = useGLTF('/assets/model/simple-factory.gltf') as any
+  // const gltf = useGLTF('/assets/model/001.glb') as any
   // const gltf = useGLTF('/assets/model/monkey.glb')
   // console.log('gltf', gltf)
   return <primitive {...props} object={gltf.scene} />
@@ -20,7 +21,7 @@ export default function Demo04() {
     <div>
       <h1>use @react-three/drei load gltf 12345</h1>
 
-      <Canvas shadows camera={{ position: [10, 10, 10], fov: 75 }} >
+      <Canvas shadows camera={{ position: [200, 100, 100], fov: 75 }} >
         <ambientLight color={'white'} intensity={0.5} />
         {/*<directionalLight color={'white'} intensity={0.5} />*/}
         <hemisphereLight args={['white', 'black']} intensity={2} />
@@ -36,6 +37,11 @@ export default function Demo04() {
           <Model />
         </Suspense>
         <OrbitControls />
+
+        <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
+          {/*<GizmoViewcube />*/}
+          <GizmoViewport />
+        </GizmoHelper>
       </Canvas>
     </div>
   )
