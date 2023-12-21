@@ -29,6 +29,7 @@ import Demo30Stats from "@/pages/threejs/Demo30Stats";
 import Demo31StatsGl from "@/pages/threejs/Demo31StatsGl";
 import Demo32GizmoHelper from "@/pages/threejs/Demo32GizmoHelper";
 import Demo33MeshRefractionMaterial from "@/pages/threejs/Demo33MeshRefractionMaterial";
+import Demo34FirstPersonControls2 from "@/pages/threejs/Demo34FirstPersonControls2";
 
 export default function App() {
   const [theme, setTheme] = useState('default');
@@ -122,6 +123,10 @@ export default function App() {
           <Link to="/threejs/Demo32GizmoHelper">threejs/Demo32 - GizmoHelper</Link>
           <br />
           <Link to="/threejs/Demo33MeshRefractionMaterial">threejs/Demo33 - MeshRefractionMaterial</Link>
+          <br />
+          <Link to="/threejs/Demo34FirstPersonControls2">threejs/Demo34 - 第一人称</Link>
+          <br />
+          <Link to="/threejs/Demo35KeyboardControls2">threejs/Demo35 - 键盘控制角色</Link>
           <br />
         </div>
         <div style={{ marginTop: 12 }}>

@@ -54,32 +54,28 @@ function AnimationController(props: AnimationControllerProps) {
 
 function YBotModel({ selAnim, ...props }: JSX.IntrinsicElements['group']) {
   const ybotRef = React.useRef<THREE.Group>(null)
-  const { nodes, animations } = useGLTF('/assets/model/ybot.glb') as GLTFResult
-  const [matcapBody] = useMatcapTexture('293534_B2BFC5_738289_8A9AA7', 1024)
-  const [matcapJoints] = useMatcapTexture('3A2412_A78B5F_705434_836C47', 1024)
+  const { nodes, materials, animations } = useGLTF('/assets/model/ybot.glb') as GLTFResult
+  // const [matcapBody] = useMatcapTexture('293534_B2BFC5_738289_8A9AA7', 1024)
+  // const [matcapJoints] = useMatcapTexture('3A2412_A78B5F_705434_836C47', 1024)
 
   return (
     <>
       <group ref={ybotRef} {...props} dispose={null}>
         <group rotation={[Math.PI / 2, 0, 0]} scale={[0.01, 0.01, 0.01]}>
-          <primitive object={nodes.mixamorigHips} />
-          <skinnedMesh geometry={nodes.YB_Body.geometry} skeleton={nodes.YB_Body.skeleton}>
-            <meshMatcapMaterial matcap={matcapBody} skinning />
-          </skinnedMesh>
-          <skinnedMesh geometry={nodes.YB_Joints.geometry} skeleton={nodes.YB_Joints.skeleton}>
-            <meshMatcapMaterial matcap={matcapJoints} skinning />
-          </skinnedMesh>
+          <primitive object={nodes.mixamorigHips}/>
+          <skinnedMesh name="YB_Body" geometry={nodes.YB_Body.geometry} material={materials.YB_Body} skeleton={nodes.YB_Body.skeleton}/>
+          <skinnedMesh name="YB_Joints" geometry={nodes.YB_Joints.geometry} material={materials.YB_Joints} skeleton={nodes.YB_Joints.skeleton}/>
         </group>
       </group>
 
-      <AnimationController ybotRef={ybotRef} animations={animations} selAnim={selAnim} />
+      <AnimationController ybotRef={ybotRef} animations={animations} selAnim={selAnim}/>
     </>
   )
 }
 
 useGLTF.preload('/assets/model/ybot.glb')
 
-function UseAnimationsScene({selAnim}:any) {
+function UseAnimationsScene({selAnim}: any) {
   return (
     <React.Suspense fallback={null}>
       <YBotModel position={[0, -1, 0]} selAnim={selAnim} />
