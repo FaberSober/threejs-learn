@@ -56,6 +56,11 @@ export default function App() {
   return (
     <ConfigProvider locale={local === 'zhCN' ? zhCN : enUS}>
       <div>
+        <div className='fa-div-line'>
+          <p>threejs2</p>
+          <Link to="/threejs2/DemoTwo01">threejs2/DemoTwo01: 使用threejs太阳、地球、月亮运动轨迹</Link>
+          <Link to="/threejs2/DemoTwo02">threejs2/DemoTwo02: 使用threejs坦克、固定路线移动、4个视角摄像机</Link>
+        </div>
         <div>
           <p>index.tsx</p>
           <Link to="/threejs/demo01">threejs/demo01: just use threejs</Link>
