@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas, MeshProps, useFrame } from "@react-three/fiber";
 import { Box, Cylinder, GizmoHelper, GizmoViewport, Line, MeshPortalMaterial, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper } from "@react-three/drei";
 import { useControls } from 'leva'
 import { DirectionalLightShadow } from "three/src/lights/DirectionalLightShadow";
 import { CameraHelper } from "three";
+import { Radio, Space } from "antd";
 
 
 let time = 0;
@@ -42,6 +43,7 @@ function Curve() {
 }
 
 function TargetOrbit() {
+  const {cameraType} = useContext(ConfigLayoutContext)
   const targetOrbitRef = useRef<THREE.Object3D>(null!)
   const targetBobRef = useRef<THREE.Object3D>(null!)
   const targetMeshRef = useRef<THREE.Mesh>(null!)
@@ -83,6 +85,7 @@ function TargetOrbit() {
             {/* turretCamera */}
             <PerspectiveCamera
               ref={camera}
+              makeDefault={cameraType === CameraType.Target}
               fov={75}
               position={[0, 1, -2]}
               rotation={[0, Math.PI, 0]}
@@ -117,6 +120,7 @@ const turretLength = carLength * .75 * .2;
 const bodyMaterial = new THREE.MeshPhongMaterial({color: 0x6688AA});
 
 function Turret() {
+  const {cameraType} = useContext(ConfigLayoutContext)
   const turretPivotRef = useRef<THREE.Object3D>(null!)
 
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
@@ -136,6 +140,7 @@ function Turret() {
         {/* turretCamera */}
         <PerspectiveCamera
           ref={camera}
+          makeDefault={cameraType === CameraType.Turret}
           fov={75}
           position={[0, .75 * .2, 0]}
           rotation={[0, Math.PI, 0]}
@@ -180,6 +185,7 @@ function Wheel({position}: {
 }
 
 function Tank() {
+  const {cameraType} = useContext(ConfigLayoutContext)
   const tankRef = useRef<THREE.Object3D>(null!)
 
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
@@ -207,6 +213,7 @@ function Tank() {
         {/* tankCamera */}
         <PerspectiveCamera
           ref={camera}
+          makeDefault={cameraType === CameraType.Tank}
           fov={75}
           position={[0, 3, -6]}
           rotation={[0, Math.PI, 0]}
@@ -231,6 +238,7 @@ function Tank() {
 }
 
 function MyScene() {
+  const {cameraType} = useContext(ConfigLayoutContext)
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
   // useHelper(camera, CameraHelper)
 
@@ -254,6 +262,7 @@ function MyScene() {
     <>
       <PerspectiveCamera
         ref={camera}
+        makeDefault={cameraType === CameraType.Global}
         fov={40}
         position={[8, 4, 10]}
         onUpdate={self => {
@@ -284,21 +293,53 @@ function MyScene() {
   )
 }
 
+enum CameraType {
+  Global,
+  Tank,
+  Turret,
+  Target
+}
+
+export interface ConfigLayoutContextProps {
+  cameraType: CameraType;
+}
+
+export const ConfigLayoutContext = createContext<ConfigLayoutContextProps>({} as any);
+
 export default function DemoTwo03React() {
+  const [cameraType, setCameraType] = useState<CameraType>(CameraType.Global)
+
+  const contextValue: ConfigLayoutContextProps = {
+    cameraType,
+  }
 
   return (
-    <Canvas
-      onCreated={state => {
-        state.gl.setClearColor(0xAAAAAA)
-        state.gl.shadowMap.enabled = true;
-      }}
-    >
-      <MyScene />
+    <ConfigLayoutContext.Provider value={contextValue}>
+      <div>
+        <Canvas
+          onCreated={state => {
+            state.gl.setClearColor(0xAAAAAA)
+            state.gl.shadowMap.enabled = true;
+          }}
+        >
+          <MyScene />
 
-      <OrbitControls />
-      <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
-        <GizmoViewport />
-      </GizmoHelper>
-    </Canvas>
+          <OrbitControls />
+          <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
+            <GizmoViewport />
+          </GizmoHelper>
+        </Canvas>
+
+        <Space style={{marginTop: 12}}>
+          <div>镜头选择：</div>
+          <Radio.Group value={cameraType} onChange={e => setCameraType(e.target.value)} buttonStyle="solid">
+            <Radio.Button value={CameraType.Global}>全局</Radio.Button>
+            <Radio.Button value={CameraType.Tank}>坦克</Radio.Button>
+            <Radio.Button value={CameraType.Turret}>炮筒</Radio.Button>
+            <Radio.Button value={CameraType.Target}>目标</Radio.Button>
+          </Radio.Group>
+        </Space>
+      </div>
+    </ConfigLayoutContext.Provider>
   )
 }
