@@ -1,11 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas, MeshProps, useFrame } from "@react-three/fiber";
-import { GizmoHelper, GizmoViewport, OrbitControls, PerspectiveCamera, useHelper } from "@react-three/drei";
+import { Box, Cylinder, GizmoHelper, GizmoViewport, Line, MeshPortalMaterial, OrbitControls, PerspectiveCamera, Sphere, useHelper } from "@react-three/drei";
 import { useControls } from 'leva'
 import { DirectionalLightShadow } from "three/src/lights/DirectionalLightShadow";
 import { CameraHelper } from "three";
 
+
+// Create a sine-like wave
+const curve = new THREE.SplineCurve( [
+  new THREE.Vector2( -10, 0 ),
+  new THREE.Vector2( -5, 5 ),
+  new THREE.Vector2( 0, 0 ),
+  new THREE.Vector2( 5, -5 ),
+  new THREE.Vector2( 10, 0 ),
+  new THREE.Vector2( 5, 10 ),
+  new THREE.Vector2( -5, 10 ),
+  new THREE.Vector2( -10, -10 ),
+  new THREE.Vector2( -15, -8 ),
+  new THREE.Vector2( -10, 0 ),
+] );
+const points = curve.getPoints( 50 );
+
+function Curve() {
+  return (
+    <Line points={points} />
+  )
+}
 
 function TargetOrbit() {
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
@@ -18,10 +39,9 @@ function TargetOrbit() {
         {/* targetBob */}
         <object3D>
           {/* targetMesh */}
-          <mesh castShadow>
-            <sphereGeometry args={[.5, 6, 3]}/>
+          <Sphere castShadow args={[.5, 6, 3]}>
             <meshPhongMaterial color={0x00FF00} flatShading/>
-          </mesh>
+          </Sphere>
 
           {/* targetCameraPivot */}
           <object3D>
@@ -59,16 +79,15 @@ const turretWidth = .1;
 const turretHeight = .1;
 const turretLength = carLength * .75 * .2;
 
+const bodyMaterial = new THREE.MeshPhongMaterial({color: 0x6688AA});
+
 function Turret() {
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
   // useHelper(camera, CameraHelper)
 
   return (
     <object3D scale={[5, 5, 5]} position={[0, .5, 0]}>
-      <mesh castShadow position={[0,0,turretLength * .5]}>
-        <boxGeometry args={[turretWidth, turretHeight, turretLength]}/>
-        <meshPhongMaterial color={0x6688AA}/>
-
+      <Box castShadow position={[0,0,turretLength * .5]} args={[turretWidth, turretHeight, turretLength]} material={bodyMaterial}>
         {/* turretCamera */}
         <PerspectiveCamera
           ref={camera}
@@ -76,17 +95,19 @@ function Turret() {
           position={[0, .75 * .2, 0]}
           rotation={[0, Math.PI, 0]}
         />
-      </mesh>
+      </Box>
     </object3D>
   )
 }
 
 function Dome() {
   return (
-    <mesh castShadow position={[0, .5, 0]}>
-      <sphereGeometry args={[domeRadius, domeWidthSubdivisions, domeHeightSubdivisions, domePhiStart, domePhiEnd, domeThetaStart, domeThetaEnd]}/>
-      <meshPhongMaterial color={0x6688AA}/>
-    </mesh>
+    <Sphere
+      castShadow
+      position={[0, .5, 0]}
+      args={[domeRadius, domeWidthSubdivisions, domeHeightSubdivisions, domePhiStart, domePhiEnd, domeThetaStart, domeThetaEnd]}
+      material={bodyMaterial}
+    />
   )
 }
 
@@ -94,10 +115,14 @@ function Wheel({position}: {
   position: [number, number, number]
 }) {
   return (
-    <mesh position={position} castShadow rotation={[0,0,Math.PI * .5]}>
-      <cylinderGeometry args={[wheelRadius, wheelRadius, wheelThickness, wheelSegments]}/>
+    <Cylinder
+      castShadow
+      position={position}
+      rotation={[0, 0, Math.PI * .5]}
+      args={[wheelRadius, wheelRadius, wheelThickness, wheelSegments]}
+    >
       <meshPhongMaterial color={0x888888}/>
-    </mesh>
+    </Cylinder>
   )
 }
 
