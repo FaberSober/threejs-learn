@@ -10,6 +10,7 @@ export default function DemoTwo01() {
 
     const canvas = document.querySelector('#three-container') as HTMLCanvasElement;
     const renderer = new THREE.WebGLRenderer({canvas: canvas});
+    renderer.setSize( width, height );
 
     const fov = 75;
     const aspect = width / height;  // 相机默认值
@@ -40,7 +41,7 @@ export default function DemoTwo01() {
     const cube = new THREE.Mesh(geometry, material);
 
     // 最后我们将网格添加到场景中。
-    scene.add(cube);
+    // scene.add(cube);
 
     // 创建一盏平行光。
     const color = 0xFFFFFF;
@@ -56,14 +57,37 @@ export default function DemoTwo01() {
     function render(time:number) {
       time *= 0.001;  // 将时间单位变为秒
 
-      cube.rotation.x = time;
-      cube.rotation.y = time;
+      // cube.rotation.x = time;
+      // cube.rotation.y = time;
+
+      cubes.forEach((cube, ndx) => {
+        const speed = 1 + ndx * .1;
+        const rot = time * speed;
+        cube.rotation.x = rot;
+        cube.rotation.y = rot;
+      });
 
       renderer.render(scene, camera);
 
       requestAnimationFrame(render);
     }
     requestAnimationFrame(render);
+
+    function makeInstance(geometry:THREE.BoxGeometry, color:number, x:number) {
+      const material = new THREE.MeshPhongMaterial({color});
+
+      const cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
+
+      cube.position.x = x;
+
+      return cube;
+    }
+    const cubes = [
+      makeInstance(geometry, 0x44aa88,  0),
+      makeInstance(geometry, 0x8844aa, -2),
+      makeInstance(geometry, 0xaa8844,  2),
+    ];
   }
 
   useEffect(() => {
