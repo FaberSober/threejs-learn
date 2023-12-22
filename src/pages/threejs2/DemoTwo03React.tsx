@@ -7,6 +7,38 @@ import { DirectionalLightShadow } from "three/src/lights/DirectionalLightShadow"
 import { CameraHelper } from "three";
 
 
+function TargetOrbit() {
+  const camera = React.useRef<THREE.PerspectiveCamera>(null!)
+  // useHelper(camera, CameraHelper)
+
+  return (
+    <object3D>
+      {/* targetElevation */}
+      <object3D position={[0,8,carLength * 2]}>
+        {/* targetBob */}
+        <object3D>
+          {/* targetMesh */}
+          <mesh castShadow>
+            <sphereGeometry args={[.5, 6, 3]}/>
+            <meshPhongMaterial color={0x00FF00} flatShading/>
+          </mesh>
+
+          {/* targetCameraPivot */}
+          <object3D>
+            {/* turretCamera */}
+            <PerspectiveCamera
+              ref={camera}
+              fov={75}
+              position={[0, 1, -2]}
+              rotation={[0, Math.PI, 0]}
+            />
+          </object3D>
+        </object3D>
+      </object3D>
+    </object3D>
+  )
+}
+
 const carWidth = 4;
 const carHeight = 1;
 const carLength = 8;
@@ -23,9 +55,35 @@ const domePhiEnd = Math.PI * 2;
 const domeThetaStart = 0;
 const domeThetaEnd = Math.PI * .5;
 
+const turretWidth = .1;
+const turretHeight = .1;
+const turretLength = carLength * .75 * .2;
+
+function Turret() {
+  const camera = React.useRef<THREE.PerspectiveCamera>(null!)
+  // useHelper(camera, CameraHelper)
+
+  return (
+    <object3D scale={[5, 5, 5]} position={[0, .5, 0]}>
+      <mesh castShadow position={[0,0,turretLength * .5]}>
+        <boxGeometry args={[turretWidth, turretHeight, turretLength]}/>
+        <meshPhongMaterial color={0x6688AA}/>
+
+        {/* turretCamera */}
+        <PerspectiveCamera
+          ref={camera}
+          fov={75}
+          position={[0, .75 * .2, 0]}
+          rotation={[0, Math.PI, 0]}
+        />
+      </mesh>
+    </object3D>
+  )
+}
+
 function Dome() {
   return (
-    <mesh castShadow position={[0,.5,0]}>
+    <mesh castShadow position={[0, .5, 0]}>
       <sphereGeometry args={[domeRadius, domeWidthSubdivisions, domeHeightSubdivisions, domePhiStart, domePhiEnd, domeThetaStart, domeThetaEnd]}/>
       <meshPhongMaterial color={0x6688AA}/>
     </mesh>
@@ -70,7 +128,11 @@ function Tank() {
         <Wheel position={[-carWidth / 2 - wheelThickness / 2, -carHeight / 2, -carLength / 3]} />
         <Wheel position={[ carWidth / 2 + wheelThickness / 2, -carHeight / 2, -carLength / 3]} />
 
+        {/* 圆顶 */}
         <Dome />
+
+        {/* 炮筒 */}
+        <Turret />
       </mesh>
     </object3D>
   )
@@ -116,6 +178,8 @@ function MyScene() {
       </mesh>
 
       <Tank />
+
+      <TargetOrbit />
     </>
   )
 }
@@ -133,7 +197,6 @@ export default function DemoTwo03React() {
 
       <OrbitControls />
       <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
-        {/*<GizmoViewcube />*/}
         <GizmoViewport />
       </GizmoHelper>
     </Canvas>
