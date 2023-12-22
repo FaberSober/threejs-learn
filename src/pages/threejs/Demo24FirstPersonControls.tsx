@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Canvas } from "@react-three/fiber";
-import { Box, FirstPersonControls } from "@react-three/drei";
+import { Box, FirstPersonControls, OrbitControls, useGLTF } from "@react-three/drei";
 
+
+function Model(props:any) {
+  const gltf = useGLTF('/assets/model/factory-demo.01.glb') as any
+  // const gltf = useGLTF('/assets/model/simple-factory.gltf') as any
+  // const gltf = useGLTF('/assets/model/001.glb') as any
+  // const gltf = useGLTF('/assets/model/monkey.glb')
+  console.log('gltf', gltf)
+  gltf.scene.traverse((child:any)=>{
+    console.log("name:",child?.name);
+  })
+  return <primitive {...props} object={gltf.scene} />
+}
 
 /**
  * @author xu.pengfei
@@ -15,7 +27,7 @@ export default function Demo24FirstPersonControls() {
       <pointLight position={[0, 6, 0]} intensity={700} distance={10}/>
 
       <FirstPersonControls
-        activeLook
+        activeLook={false}
         enabled
         heightCoef={1}
         heightMax={1}
@@ -29,6 +41,13 @@ export default function Demo24FirstPersonControls() {
       <Box>
         <meshBasicMaterial wireframe/>
       </Box>
+
+      <Suspense>
+        <Model />
+      </Suspense>
+
+      {/* 轨道控制 */}
+      <OrbitControls enableZoom={false} enablePan={false} />
 
       {/* 轴显 */}
       <axesHelper />

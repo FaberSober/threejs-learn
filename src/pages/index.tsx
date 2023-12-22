@@ -128,6 +128,8 @@ export default function App() {
           <br />
           <Link to="/threejs/Demo35KeyboardControls2">threejs/Demo35 - 键盘控制角色</Link>
           <br />
+          <Link to="/threejs/demo36">threejs/demo36 - 使用threejs坦克、固定路线移动、4个视角摄像机</Link>
+          <br />
         </div>
         <div style={{ marginTop: 12 }}>
           <Radio.Group
