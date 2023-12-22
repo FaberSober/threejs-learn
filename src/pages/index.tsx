@@ -65,6 +65,7 @@ export default function App() {
           <Link to="/threejs2/DemoTwo02React">threejs2/DemoTwo02: 太阳+地球+月球运行轨道（React实现）</Link>
 
           <Link to="/threejs2/DemoTwo03">threejs2/DemoTwo03: 使用threejs坦克、固定路线移动、4个视角摄像机</Link>
+          <Link to="/threejs2/DemoTwo03React">threejs2/DemoTwo03: 使用threejs坦克、固定路线移动、4个视角摄像机（React实现）</Link>
         </div>
         <div>
           <p>index.tsx</p>

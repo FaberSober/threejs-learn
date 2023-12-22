@@ -12,7 +12,7 @@ interface BoxProps extends MeshProps {
 
 function Box({ color, x, ...props}: BoxProps) {
   // This reference will give us direct access to the mesh
-  const meshRef = useRef<THREE.Mesh>()
+  const meshRef = useRef<THREE.Mesh>(null!)
 
   // Subscribe this component to the render-loop, rotate the mesh every frame
   useFrame((state, delta) => {
@@ -24,7 +24,6 @@ function Box({ color, x, ...props}: BoxProps) {
   // Return view, these are regular three.js elements expressed in JSX
   return (
     <mesh
-      // @ts-ignore
       ref={meshRef}
       position={[x, 0, 0]}
       {...props}

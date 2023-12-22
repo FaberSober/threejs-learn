@@ -27,15 +27,12 @@ interface NormalOrbitProps extends MyHelperProps{
 }
 
 function NormalOrbit({name, children, x = 0, ...myHelperProps}: NormalOrbitProps) {
-  const ref = useRef<any>()
+  const ref = useRef<THREE.Object3D>(null!)
   useFrame((state, delta) => {
     ref.current!.rotation.y += delta
   })
   return (
-    <object3D
-      ref={ref}
-      position={[x, 0, 0]}
-    >
+    <object3D ref={ref} position={[x, 0, 0]}>
       <MyHelper {...myHelperProps} />
       {children}
     </object3D>
@@ -43,18 +40,14 @@ function NormalOrbit({name, children, x = 0, ...myHelperProps}: NormalOrbitProps
 }
 
 function Sun(props: MyHelperProps) {
-  const meshRef = useRef<THREE.Mesh>()
+  const meshRef = useRef<THREE.Mesh>(null!)
 
   useFrame((state, delta) => {
     meshRef.current!.rotation.y += delta
   })
 
   return (
-    <mesh
-      // @ts-ignore
-      ref={meshRef}
-      scale={[5,5,5]}
-    >
+    <mesh ref={meshRef} scale={[5,5,5]}>
       <sphereGeometry args={[1, 6, 6]} />
       <meshPhongMaterial emissive={0xffff00} />
       <MyHelper {...props} />
@@ -63,17 +56,14 @@ function Sun(props: MyHelperProps) {
 }
 
 function Earth(props: MyHelperProps) {
-  const meshRef = useRef<THREE.Mesh>()
+  const meshRef = useRef<THREE.Mesh>(null!)
 
   useFrame((state, delta) => {
     meshRef.current!.rotation.y += delta
   })
 
   return (
-    <mesh
-      // @ts-ignore
-      ref={meshRef}
-    >
+    <mesh ref={meshRef}>
       <sphereGeometry args={[1, 6, 6]}/>
       <meshPhongMaterial color={0x2233ff} emissive={0x112244}/>
       <MyHelper {...props} />
@@ -82,16 +72,12 @@ function Earth(props: MyHelperProps) {
 }
 
 function Moon(props: MyHelperProps) {
-  const meshRef = useRef<THREE.Mesh>()
+  const meshRef = useRef<THREE.Mesh>(null!)
   useFrame((state, delta) => {
     meshRef.current!.rotation.y += delta
   })
   return (
-    <mesh
-      // @ts-ignore
-      ref={meshRef}
-      scale={[.5, .5, .5]}
-    >
+    <mesh ref={meshRef} scale={[.5, .5, .5]}>
       <sphereGeometry args={[1, 6, 6]}/>
       <meshPhongMaterial color={0x888888} emissive={0x222222}/>
       <MyHelper {...props} />
