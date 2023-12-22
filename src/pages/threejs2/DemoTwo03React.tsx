@@ -1,10 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas, MeshProps, useFrame } from "@react-three/fiber";
-import { Box, Cylinder, GizmoHelper, GizmoViewport, Line, MeshPortalMaterial, OrbitControls, PerspectiveCamera, Sphere, useHelper } from "@react-three/drei";
+import { Box, Cylinder, GizmoHelper, GizmoViewport, Line, MeshPortalMaterial, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper } from "@react-three/drei";
 import { useControls } from 'leva'
 import { DirectionalLightShadow } from "three/src/lights/DirectionalLightShadow";
 import { CameraHelper } from "three";
+
+
+let time = 0;
+
+const targetPosition = new THREE.Vector3();
+const tankWorldPosition = new THREE.Vector3();
+const tankPosition = new THREE.Vector2();
+const tankTarget = new THREE.Vector2();
 
 
 // Create a sine-like wave
@@ -24,23 +32,50 @@ const points = curve.getPoints( 50 );
 
 function Curve() {
   return (
-    <Line points={points} />
+    <Line
+      points={points}
+      position={[0,0.05,0]}
+      rotation={[Math.PI * .5, 0, 0]}
+      color={0xff0000}
+    />
   )
 }
 
 function TargetOrbit() {
+  const targetOrbitRef = useRef<THREE.Object3D>(null!)
+  const targetBobRef = useRef<THREE.Object3D>(null!)
+  const targetMeshRef = useRef<THREE.Mesh>(null!)
+  const targetMaterialRef = useRef<THREE.MeshPhongMaterial>(null!)
+
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
-  // useHelper(camera, CameraHelper)
+  useHelper(camera, CameraHelper)
+
+  useFrame((state, delta, frame) => {
+    // move target
+    targetOrbitRef.current.rotation.y = time * .27;
+    targetBobRef.current.position.y = Math.sin(time * 2) * 4;
+    targetMeshRef.current.rotation.x = time * 7;
+    targetMeshRef.current.rotation.y = time * 13;
+    targetMaterialRef.current.emissive.setHSL(time * 10 % 1, 1, .25);
+    targetMaterialRef.current.color.setHSL(time * 10 % 1, 1, .25);
+
+    // get target world position
+    targetMeshRef.current.getWorldPosition(targetPosition);
+
+    // make the targetCameraPivot look at the at the tank
+    camera.current.lookAt(tankWorldPosition);
+  })
 
   return (
-    <object3D>
+    // targetOrbit
+    <object3D ref={targetOrbitRef}>
       {/* targetElevation */}
       <object3D position={[0,8,carLength * 2]}>
         {/* targetBob */}
-        <object3D>
+        <object3D ref={targetBobRef}>
           {/* targetMesh */}
-          <Sphere castShadow args={[.5, 6, 3]}>
-            <meshPhongMaterial color={0x00FF00} flatShading/>
+          <Sphere ref={targetMeshRef} castShadow args={[.5, 6, 3]}>
+            <meshPhongMaterial ref={targetMaterialRef} color={0x00FF00} flatShading/>
           </Sphere>
 
           {/* targetCameraPivot */}
@@ -82,11 +117,21 @@ const turretLength = carLength * .75 * .2;
 const bodyMaterial = new THREE.MeshPhongMaterial({color: 0x6688AA});
 
 function Turret() {
+  const turretPivotRef = useRef<THREE.Object3D>(null!)
+
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
   // useHelper(camera, CameraHelper)
 
+  useFrame(() => {
+    // face turret at target
+    turretPivotRef.current.lookAt(targetPosition);
+
+    // make the turretCamera look at target
+    camera.current.lookAt(targetPosition);
+  })
+
   return (
-    <object3D scale={[5, 5, 5]} position={[0, .5, 0]}>
+    <object3D ref={turretPivotRef} scale={[5, 5, 5]} position={[0, .5, 0]}>
       <Box castShadow position={[0,0,turretLength * .5]} args={[turretWidth, turretHeight, turretLength]} material={bodyMaterial}>
         {/* turretCamera */}
         <PerspectiveCamera
@@ -114,8 +159,16 @@ function Dome() {
 function Wheel({position}: {
   position: [number, number, number]
 }) {
+  const ref = useRef<THREE.Mesh>(null!)
+
+  useFrame(() => {
+    // 滚动车轮
+    ref.current.rotation.x = time * 3;
+  })
+
   return (
     <Cylinder
+      ref={ref}
       castShadow
       position={position}
       rotation={[0, 0, Math.PI * .5]}
@@ -127,14 +180,28 @@ function Wheel({position}: {
 }
 
 function Tank() {
+  const tankRef = useRef<THREE.Object3D>(null!)
+
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
-  useHelper(camera, CameraHelper)
+  // useHelper(camera, CameraHelper)
+
+  useFrame(() => {
+    // move tank
+    const tankTime = time * .05;
+
+    curve.getPointAt(tankTime % 1, tankPosition);
+    curve.getPointAt((tankTime + 0.01) % 1, tankTarget);
+    tankRef.current.position.set(tankPosition.x, 0, tankPosition.y);
+    tankRef.current.lookAt(tankTarget.x, 0, tankTarget.y);
+
+    // get tank world position
+    tankRef.current.getWorldPosition(tankWorldPosition);
+  })
 
   return (
-    <object3D>
+    <object3D ref={tankRef}>
       {/* body */}
-      <mesh position={[0,1.4,0]} castShadow>
-        <boxGeometry args={[carWidth, carHeight, carLength]}/>
+      <Box args={[carWidth, carHeight, carLength]} position={[0, 1.4, 0]} castShadow>
         <meshPhongMaterial color={0x6688AA}/>
 
         {/* tankCamera */}
@@ -158,7 +225,7 @@ function Tank() {
 
         {/* 炮筒 */}
         <Turret />
-      </mesh>
+      </Box>
     </object3D>
   )
 }
@@ -179,6 +246,10 @@ function MyScene() {
   shadow.camera.far = 50;
   shadow.bias = 0.001;
 
+  useFrame((state, delta, frame) => {
+    time += delta
+  })
+
   return (
     <>
       <PerspectiveCamera
@@ -197,14 +268,18 @@ function MyScene() {
       {/* 点光源2 */}
       <directionalLight color={0xffffff} intensity={1} position={[1, 2, 4]} />
 
-      <mesh>
-        <planeGeometry args={[50, 50]} />
-        <meshPhongMaterial color={0xCC8866} />
-      </mesh>
+      <Plane
+        args={[50, 50]}
+        material={new THREE.MeshPhongMaterial({color: 0xCC8866})}
+        receiveShadow
+        rotation={[Math.PI * -.5,0,0]}
+      />
 
       <Tank />
 
       <TargetOrbit />
+
+      <Curve />
     </>
   )
 }
