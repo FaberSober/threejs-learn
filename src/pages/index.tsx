@@ -66,6 +66,13 @@ export default function App() {
 
           <Link to="/threejs2/DemoTwo03">threejs2/DemoTwo03: 使用threejs坦克、固定路线移动、4个视角摄像机</Link>
           <Link to="/threejs2/DemoTwo03React">threejs2/DemoTwo03: 使用threejs坦克、固定路线移动、4个视角摄像机（React实现）</Link>
+
+          <Link to="/threejs2/DemoTwo04">threejs2/DemoTwo04: 材质详解</Link>
+          <Link to="/threejs2/DemoTwo04React">threejs2/DemoTwo04: 材质详解（React实现）</Link>
+
+          <Link to="/threejs2/DemoTwo05">threejs2/DemoTwo05: 纹理</Link>
+          <Link to="/threejs2/DemoTwo05React">threejs2/DemoTwo05: 纹理（React实现）</Link>
+
         </div>
         <div>
           <p>index.tsx</p>
