@@ -1,12 +1,41 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas, MeshProps, useFrame } from "@react-three/fiber";
-import { Box, Cylinder, GizmoHelper, GizmoViewport, Line, MeshPortalMaterial, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper } from "@react-three/drei";
+import {
+  Box,
+  CameraControls,
+  Cylinder,
+  FirstPersonControls,
+  GizmoHelper,
+  GizmoViewport,
+  Line,
+  MeshPortalMaterial,
+  OrbitControls,
+  PerspectiveCamera,
+  Plane,
+  Sphere,
+  useHelper
+} from "@react-three/drei";
 import { useControls } from 'leva'
 import { DirectionalLightShadow } from "three/src/lights/DirectionalLightShadow";
 import { CameraHelper } from "three";
 import { Radio, Space } from "antd";
 
+
+
+interface MyHelperProps {
+  unit?: number,
+  helperVisible?: boolean,
+}
+
+function MyHelper({ unit = 10, helperVisible }: MyHelperProps) {
+  return (
+    <>
+      <gridHelper visible={helperVisible} args={[unit, unit]} renderOrder={1} onUpdate={self => self.material.depthTest = false}/>
+      <axesHelper visible={helperVisible} renderOrder={2} onUpdate={self => self.material.depthTest = false}/>
+    </>
+  )
+}
 
 let time = 0;
 
@@ -50,7 +79,7 @@ function TargetOrbit() {
   const targetMaterialRef = useRef<THREE.MeshPhongMaterial>(null!)
 
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
-  useHelper(camera, CameraHelper)
+  // useHelper(camera, CameraHelper)
 
   useFrame((state, delta, frame) => {
     // move target
@@ -189,7 +218,7 @@ function Tank() {
   const tankRef = useRef<THREE.Object3D>(null!)
 
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
-  // useHelper(camera, CameraHelper)
+  useHelper(camera, CameraHelper)
 
   useFrame(() => {
     // move tank
@@ -202,6 +231,9 @@ function Tank() {
 
     // get tank world position
     tankRef.current.getWorldPosition(tankWorldPosition);
+
+    // tank camera
+    camera.current.lookAt(tankWorldPosition.x, tankWorldPosition.y, tankWorldPosition.z);
   })
 
   return (
@@ -215,6 +247,8 @@ function Tank() {
           ref={camera}
           makeDefault={cameraType === CameraType.Tank}
           fov={75}
+          near={1}
+          far={10}
           position={[0, 3, -6]}
           rotation={[0, Math.PI, 0]}
         />
@@ -233,6 +267,9 @@ function Tank() {
         {/* 炮筒 */}
         <Turret />
       </Box>
+
+
+      <MyHelper helperVisible />
     </object3D>
   )
 }
@@ -324,7 +361,9 @@ export default function DemoTwo03React() {
         >
           <MyScene />
 
-          <OrbitControls />
+          <FirstPersonControls  />
+
+          {/*<OrbitControls />*/}
           <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
             <GizmoViewport />
           </GizmoHelper>
