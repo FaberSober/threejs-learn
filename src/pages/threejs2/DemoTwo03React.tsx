@@ -12,7 +12,7 @@ import {
   MeshPortalMaterial,
   OrbitControls,
   PerspectiveCamera,
-  Plane,
+  Plane, PointerLockControls,
   Sphere,
   useHelper
 } from "@react-three/drei";
@@ -233,7 +233,7 @@ function Tank() {
     tankRef.current.getWorldPosition(tankWorldPosition);
 
     // tank camera
-    camera.current.lookAt(tankWorldPosition.x, tankWorldPosition.y, tankWorldPosition.z);
+    // camera.current.lookAt(tankWorldPosition.x, tankWorldPosition.y, tankWorldPosition.z);
   })
 
   return (
@@ -361,7 +361,8 @@ export default function DemoTwo03React() {
         >
           <MyScene />
 
-          <FirstPersonControls  />
+          {/*<FirstPersonControls  />*/}
+          <PointerLockControls />
 
           {/*<OrbitControls />*/}
           <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
