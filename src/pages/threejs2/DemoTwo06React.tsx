@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera, PointerLockControls, useHelper } from "@react-three/drei";
+import { Billboard, Html, OrbitControls, PerspectiveCamera, PointerLockControls, Text, useHelper } from "@react-three/drei";
 import MyFactory from "@/components/modal/myFactory/MyFactory";
 import { Checkbox, Radio, Space } from "antd";
+import MyHelper from "@/components/modal/MyHelper";
 
 
 function Scene() {
@@ -62,6 +63,18 @@ export default function DemoTwo06React() {
             makeDefault={cameraType === CameraType.Global}
             position={[30, 30, 30]}
           />
+
+
+          {/* 标志广告牌 */}
+          <Billboard follow={true} lockY={false} position={[-12, 12, -12]}>
+            {/*<Plane args={[10,10]} material-color="red" />*/}
+            {/*<Text fontSize={1} color={'#EC2D2D'}>摄像头</Text>*/}
+            <Html center>
+              <div style={{ background: '#FFFFFF', color: '#333', padding: 2, borderRadius: 2, width: 50, cursor: 'pointer' }} onClick={() => console.log('click div')}>
+                <span>摄像头</span>
+              </div>
+            </Html>
+          </Billboard>
 
           {controlType === 'Orbit' && <OrbitControls/>}
           {controlType === 'PointerLock' && <PointerLockControls/>}
