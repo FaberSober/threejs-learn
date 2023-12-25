@@ -9,7 +9,7 @@ import gsap from "gsap";
 
 let animate1: gsap.core.Tween|undefined = undefined
 
-function Scene({ animated }: {animated:boolean}) {
+function Scene() {
   const boxRef = useRef<THREE.Mesh>(null!);
 
   useEffect(() => {
@@ -34,18 +34,6 @@ function Scene({ animated }: {animated:boolean}) {
     gsap.to(boxRef.current.rotation, { x: 2 * Math.PI, duration: 5, ease: "power1.inOut" });
   }, [boxRef.current])
 
-  useEffect(() => {
-    console.log('animated', animated, animate1, animate1?.isActive())
-    if (animate1 === undefined) return;
-    if (animate1.isActive()) {
-      //   暂停
-      animate1.pause();
-    } else {
-      //   恢复
-      animate1.resume();
-    }
-  }, [animated])
-
   return (
     <>
       <mesh ref={boxRef} rotation={[Math.PI / 4, 0, 0]}>
@@ -57,22 +45,34 @@ function Scene({ animated }: {animated:boolean}) {
 }
 
 export default function DemoTwo07React() {
-  const [animated, setAnimated] = useState(true)
+  // const [animated, setAnimated] = useState(true)
+
+  function handleClick() {
+    // console.log('animated', animated, animate1, animate1?.isActive())
+    if (animate1 === undefined) return;
+    if (animate1.isActive()) {
+      //   暂停
+      animate1.pause();
+    } else {
+      //   恢复
+      animate1.resume();
+    }
+  }
 
   return (
     <div>
       <Canvas>
         <directionalLight position={[-1, 2, 4]} color={0xFFFFFF} intensity={1} />
-        <PerspectiveCamera makeDefault fov={75} near={0.1} far={1000} position={[0, 0, 10]} />
+        <PerspectiveCamera makeDefault fov={75} near={0.1} far={1000} position={[5, 5, 5]} />
 
-        <Scene animated={animated} />
+        <Scene />
 
         <OrbitControls />
         <MyHelper />
       </Canvas>
 
-      <Button onClick={() => setAnimated(!animated)}>
-        {animated ? '动画中' : '动画暂停'}
+      <Button onClick={() => handleClick()}>
+        动画中
       </Button>
     </div>
   )

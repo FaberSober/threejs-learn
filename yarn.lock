@@ -774,7 +774,7 @@
 
 "@react-spring/three@~9.6.1":
   version "9.6.1"
-  resolved "https://registry.npmmirror.com/@react-spring/three/-/three-9.6.1.tgz"
+  resolved "https://registry.npmmirror.com/@react-spring/three/-/three-9.6.1.tgz#095fcd1dc6509127c33c14486d88289b89baeb9d"
   integrity sha512-Tyw2YhZPKJAX3t2FcqvpLRb71CyTe1GvT3V+i+xJzfALgpk10uPGdGaQQ5Xrzmok1340DAeg2pR/MCfaW7b8AA==
   dependencies:
     "@react-spring/animated" "~9.6.1"
@@ -787,9 +787,9 @@
   resolved "https://registry.npmmirror.com/@react-spring/types/-/types-9.6.1.tgz"
   integrity sha512-POu8Mk0hIU3lRXB3bGIGe4VHIwwDsQyoD1F394OK7STTiX9w4dG3cTLljjYswkQN+hDSHRrj4O36kuVa7KPU8Q==
 
-"@react-three/drei@^9.88.13":
+"@react-three/drei@9.88.13":
   version "9.88.13"
-  resolved "https://registry.npmmirror.com/@react-three/drei/-/drei-9.88.13.tgz"
+  resolved "https://registry.npmmirror.com/@react-three/drei/-/drei-9.88.13.tgz#a267f1b8975bda9c440689aec513ca75350b568d"
   integrity sha512-oxXqHnt3SXHm2ICh1CChBGLhwqHOooxibPYm4x0Yk+L1JopqdWVBSZIw+MjsUsQeDj0Tl5fizAXnS594NQxAYQ==
   dependencies:
     "@babel/runtime" "^7.11.2"

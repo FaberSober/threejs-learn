@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "5.2.6",
-    "@react-three/drei": "^9.88.13",
+    "@react-spring/three": "~9.6.1",
+    "@react-three/drei": "9.88.13",
     "@react-three/fiber": "^8.15.11",
     "antd": "5.10.1",
     "dayjs": "1.11.10",
