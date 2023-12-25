@@ -92,14 +92,16 @@ export default function DemoTwo07() {
     });
     gsap.to(cube.rotation, { x: 2 * Math.PI, duration: 5, ease: "power1.inOut" });
 
-    window.addEventListener("dblclick", () => {
+    window.document.getElementById("btn1")!.addEventListener("click", () => {
         console.log('dblclick', animate1);
       if (animate1.isActive()) {
         //   暂停
         animate1.pause();
+        window.document.getElementById("btn1")!.innerHTML = "动画 暂停";
       } else {
         //   恢复
         animate1.resume();
+        window.document.getElementById("btn1")!.innerHTML = "动画 恢复";
       }
     });
 
@@ -125,6 +127,7 @@ export default function DemoTwo07() {
       <h1>just use threejs</h1>
       <canvas id="three-container" style={{width: 700, height: 500}}/>
       <div id="info"></div>
+      <button id="btn1">动画</button>
     </div>
   )
 }

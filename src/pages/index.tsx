@@ -77,6 +77,7 @@ export default function App() {
           <Link to="/threejs2/DemoTwo06React">threejs2/DemoTwo06: 锁定点控制（React实现）</Link>
 
           <Link to="/threejs2/DemoTwo07">threejs2/DemoTwo07: Gsap动画库基本使用</Link>
+          <Link to="/threejs2/DemoTwo07React">threejs2/DemoTwo07: Gsap动画库基本使用（React实现）</Link>
 
         </div>
         <div>
