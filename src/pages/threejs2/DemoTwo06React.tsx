@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
-import { Billboard, Html, OrbitControls, PerspectiveCamera, PointerLockControls, Text, useHelper } from "@react-three/drei";
+import { Billboard, GizmoHelper, GizmoViewport, Html, OrbitControls, PerspectiveCamera, PointerLockControls, Text, useHelper } from "@react-three/drei";
 import MyFactory from "@/components/modal/myFactory/MyFactory";
 import { Checkbox, Radio, Space } from "antd";
 import MyHelper from "@/components/modal/MyHelper";
@@ -10,11 +10,21 @@ import MyHelper from "@/components/modal/MyHelper";
 function Scene() {
   const {cameraType, showHelper} = useContext(ConfigLayoutContext)
   const cameraRef = useRef<THREE.PerspectiveCamera>(null!)
+  const light1 = React.useRef<THREE.DirectionalLight>(null!)
+  const light2 = React.useRef<THREE.DirectionalLight>(null!)
 
   useHelper(showHelper && cameraRef, THREE.CameraHelper)
+  useHelper(showHelper && light1, THREE.DirectionalLightHelper)
+  useHelper(showHelper && light2, THREE.DirectionalLightHelper)
 
   return (
     <>
+      {/* 点光源1 */}
+      <directionalLight ref={light1} color={0xffffff} intensity={1} position={[-20, 20, 20]} castShadow/>
+
+      {/* 点光源2 */}
+      <directionalLight ref={light2} color={0xffffff} intensity={1} position={[20, 10, 20]}/>
+
       <MyFactory showHelper={showHelper} />
 
       {/* 场景摄像机 */}
@@ -64,20 +74,13 @@ export default function DemoTwo06React() {
             position={[30, 30, 30]}
           />
 
-
-          {/* 标志广告牌 */}
-          <Billboard follow={true} lockY={false} position={[-12, 12, -12]}>
-            {/*<Plane args={[10,10]} material-color="red" />*/}
-            {/*<Text fontSize={1} color={'#EC2D2D'}>摄像头</Text>*/}
-            <Html center>
-              <div style={{ background: '#FFFFFF', color: '#333', padding: 2, borderRadius: 2, width: 50, cursor: 'pointer' }} onClick={() => console.log('click div')}>
-                <span>摄像头</span>
-              </div>
-            </Html>
-          </Billboard>
-
           {controlType === 'Orbit' && <OrbitControls/>}
           {controlType === 'PointerLock' && <PointerLockControls/>}
+
+
+          <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
+            <GizmoViewport/>
+          </GizmoHelper>
         </Canvas>
 
         <div style={{marginTop: 12, display: 'flex', flexDirection: 'column'}}>
