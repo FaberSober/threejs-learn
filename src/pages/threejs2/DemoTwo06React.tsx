@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
-import { Billboard, GizmoHelper, GizmoViewport, Html, OrbitControls, PerspectiveCamera, PointerLockControls, Text, useHelper } from "@react-three/drei";
+import { Billboard, CycleRaycast, GizmoHelper, GizmoViewport, Html, OrbitControls, PerspectiveCamera, PointerLockControls, Text, useHelper } from "@react-three/drei";
 import MyFactory from "@/components/modal/myFactory/MyFactory";
 import { Checkbox, Radio, Space } from "antd";
 import MyHelper from "@/components/modal/MyHelper";
@@ -26,6 +26,13 @@ function Scene() {
       <directionalLight ref={light2} color={0xffffff} intensity={1} position={[20, 10, 20]}/>
 
       <MyFactory showHelper={showHelper} />
+
+      <CycleRaycast
+        onChanged={(objects, cycle) => {
+          console.log(objects, cycle)
+          return null;
+        }}
+      />
 
       {/* 场景摄像机 */}
       <PerspectiveCamera

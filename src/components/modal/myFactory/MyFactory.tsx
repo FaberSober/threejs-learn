@@ -20,21 +20,26 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
     <object3D>
       {/* 平面 */}
       <Plane
+        name="平面"
         args={[50, 50]}
         material={new THREE.MeshPhongMaterial({color: 0xFFFFFF})}
         receiveShadow
         rotation={[Math.PI * -0.5, 0, 0]}
+        onPointerOver={(event) => event.stopPropagation()}
       />
 
       {/* 厂房 */}
       <object3D
+        name="厂房"
         position={[0, 2, -15]} // 厂房整体位置
       >
         {/* 一层 */}
         <Box
+          name="一层"
           args={[1, 1, 1]}
           scale={[20, 4, 10]}
           onPointerOver={(event) => {
+            event.stopPropagation()
             // console.log('onPointerOver', 1)
             setHoverBoxId(1)
           }}
@@ -51,10 +56,12 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
         </Box>
         {/* 二层 */}
         <Box
+          name="二层"
           args={[1, 1, 1]}
           position={[0, 4, 0]}
           scale={[20, 4, 10]}
           onPointerOver={(event) => {
+            event.stopPropagation()
             // console.log('onPointerOver', 2)
             setHoverBoxId(2)
           }}
@@ -71,10 +78,12 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
         </Box>
         {/* 三层 */}
         <Box
+          name="三层"
           args={[1, 1, 1]}
           position={[0, 8, 0]}
           scale={[20, 4, 10]}
           onPointerOver={(event) => {
+            event.stopPropagation()
             // console.log('onPointerOver', 3)
             setHoverBoxId(3)
           }}
@@ -93,7 +102,11 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
       </object3D>
 
       {/* 摄像头 */}
-      <object3D position={[-12, 5, 12]}>
+      <object3D
+        position={[-12, 5, 12]}
+        name="摄像头"
+        onPointerOver={(event) => event.stopPropagation()}
+      >
         {/* 柱子 */}
         <Box args={[1, 1, 1]} scale={[1, 10, 1]} material-color={0x0000ff} />
         {/* 摄像头 */}
