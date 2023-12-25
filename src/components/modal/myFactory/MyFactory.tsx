@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Billboard, Box, GizmoHelper, GizmoViewport, Outlines, Plane, Sphere, Text, useHelper } from "@react-three/drei";
+import { Billboard, Box, Edges, GizmoHelper, GizmoViewport, Outlines, Plane, Sphere, Text, useHelper } from "@react-three/drei";
 import * as THREE from "three";
 import MyHelper from "@/components/modal/MyHelper";
 
@@ -41,38 +41,65 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
         {/* 厂房 */}
         <object3D
           position={[15, 0, 2]} // 厂房整体位置
-          onPointerOut={(event) => setHoverBoxId(undefined)}
         >
           {/* 一层 */}
           <Box
             args={[1, 1, 1]}
             scale={[10, 20, 4]}
-            onPointerOver={(event) => setHoverBoxId(1)}
+            onPointerOver={(event) => {
+              console.log('onPointerOver', 1)
+              setHoverBoxId(1)
+            }}
+            onPointerOut={(event) => {
+              console.log('onPointerOut', 1)
+              setHoverBoxId(undefined)
+            }}
           >
             <meshPhongMaterial color={0xFF0000}/>
-            <Outlines visible={hoverBoxId === 1} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />
+            <Edges visible={hoverBoxId === 1} scale={1.05} renderOrder={1000}>
+              <meshBasicMaterial transparent color="#333" depthTest={false} />
+            </Edges>
+            {/*<Outlines visible={hoverBoxId === 1} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
           </Box>
           {/* 二层 */}
           <Box
             args={[1, 1, 1]}
             position={[0, 0, 4]}
             scale={[10, 20, 4]}
-            onPointerOver={(event) => setHoverBoxId(2)}
-            // onPointerOut={(event) => setHoverBoxId(undefined)}
+            onPointerOver={(event) => {
+              console.log('onPointerOver', 2)
+              setHoverBoxId(2)
+            }}
+            onPointerOut={(event) => {
+              console.log('onPointerOut', 2)
+              setHoverBoxId(undefined)
+            }}
           >
             <meshPhongMaterial color={0xFFFF00}/>
-            <Outlines visible={hoverBoxId === 2} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />
+            <Edges visible={hoverBoxId === 2} scale={1.1} renderOrder={1000}>
+              <meshBasicMaterial transparent color="#333" depthTest={false} />
+            </Edges>
+            {/*<Outlines visible={hoverBoxId === 2} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
           </Box>
           {/* 三层 */}
           <Box
             args={[1, 1, 1]}
             position={[0, 0, 8]}
             scale={[10, 20, 4]}
-            onPointerOver={(event) => setHoverBoxId(3)}
-            // onPointerOut={(event) => setHoverBoxId(undefined)}
+            onPointerOver={(event) => {
+              console.log('onPointerOver', 3)
+              setHoverBoxId(3)
+            }}
+            onPointerOut={(event) => {
+              console.log('onPointerOut', 3)
+              setHoverBoxId(undefined)
+            }}
           >
             <meshPhongMaterial color={0x00FF00}/>
-            <Outlines visible={hoverBoxId === 3} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />
+            <Edges visible={hoverBoxId === 3} scale={1.1} renderOrder={1000}>
+              <meshBasicMaterial transparent color="#333" depthTest={false} />
+            </Edges>
+            {/*<Outlines visible={hoverBoxId === 3} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
           </Box>
 
         </object3D>
