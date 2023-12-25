@@ -34,10 +34,8 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
         position={[0, 2, -15]} // 厂房整体位置
       >
         {/* 一层 */}
-        <Box
+        <object3D
           name="一层"
-          args={[1, 1, 1]}
-          scale={[20, 4, 10]}
           onPointerOver={(event) => {
             event.stopPropagation()
             // console.log('onPointerOver', 1)
@@ -48,18 +46,32 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
             setHoverBoxId(undefined)
           }}
         >
-          <meshPhongMaterial color={0xFF0000}/>
-          <Edges visible={hoverBoxId === 1} scale={1.05} renderOrder={1000}>
-            <meshBasicMaterial transparent color="#333" depthTest={false} />
-          </Edges>
-          {/*<Outlines visible={hoverBoxId === 1} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
-        </Box>
+          <Box
+            args={[1, 1, 1]}
+            scale={[20, 4, 10]}
+          >
+            <meshPhongMaterial color={0xFF0000}/>
+            {/*<Outlines visible={hoverBoxId === 1} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
+            <Edges visible={hoverBoxId === 1} scale={1.05} renderOrder={1000}>
+              <meshBasicMaterial transparent color="#333" depthTest={false} />
+            </Edges>
+          </Box>
+
+          <Billboard follow={true} position={[10, 0, 5]}>
+            {hoverBoxId === 1 && (
+              <Html center transform={true} occlude={false}>
+                <div style={{ background: '#FFFFFF', color: '#333', padding: 2, borderRadius: 2, cursor: 'pointer', fontSize: '30px' }} onClick={() => console.log('click div')}>
+                  <span>一层</span>
+                </div>
+              </Html>
+            )}
+          </Billboard>
+        </object3D>
+
         {/* 二层 */}
-        <Box
+        <object3D
           name="二层"
-          args={[1, 1, 1]}
           position={[0, 4, 0]}
-          scale={[20, 4, 10]}
           onPointerOver={(event) => {
             event.stopPropagation()
             // console.log('onPointerOver', 2)
@@ -70,18 +82,32 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
             setHoverBoxId(undefined)
           }}
         >
-          <meshPhongMaterial color={0xFFFF00}/>
-          <Edges visible={hoverBoxId === 2} scale={1.1} renderOrder={1000}>
-            <meshBasicMaterial transparent color="#333" depthTest={false} />
-          </Edges>
-          {/*<Outlines visible={hoverBoxId === 2} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
-        </Box>
+          <Box
+            args={[1, 1, 1]}
+            scale={[20, 4, 10]}
+          >
+            <meshPhongMaterial color={0xFFFF00}/>
+            <Edges visible={hoverBoxId === 2} scale={1.1} renderOrder={1000}>
+              <meshBasicMaterial transparent color="#333" depthTest={false} />
+            </Edges>
+            {/*<Outlines visible={hoverBoxId === 2} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
+          </Box>
+
+          <Billboard follow={true} position={[10, 0, 5]}>
+            {hoverBoxId === 2 && (
+              <Html center transform={true} occlude={false}>
+                <div style={{ background: '#FFFFFF', color: '#333', padding: 2, borderRadius: 2, cursor: 'pointer', fontSize: '30px' }} onClick={() => console.log('click div')}>
+                  <span>二层</span>
+                </div>
+              </Html>
+            )}
+          </Billboard>
+        </object3D>
+
         {/* 三层 */}
-        <Box
+        <object3D
           name="三层"
-          args={[1, 1, 1]}
           position={[0, 8, 0]}
-          scale={[20, 4, 10]}
           onPointerOver={(event) => {
             event.stopPropagation()
             // console.log('onPointerOver', 3)
@@ -92,12 +118,27 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
             setHoverBoxId(undefined)
           }}
         >
-          <meshPhongMaterial color={0x00FF00}/>
-          <Edges visible={hoverBoxId === 3} scale={1.1} renderOrder={1000}>
-            <meshBasicMaterial transparent color="#333" depthTest={false} />
-          </Edges>
-          {/*<Outlines visible={hoverBoxId === 3} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
-        </Box>
+          <Box
+            args={[1, 1, 1]}
+            scale={[20, 4, 10]}
+          >
+            <meshPhongMaterial color={0x00FF00}/>
+            <Edges visible={hoverBoxId === 3} scale={1.1} renderOrder={1000}>
+              <meshBasicMaterial transparent color="#333" depthTest={false} />
+            </Edges>
+            {/*<Outlines visible={hoverBoxId === 3} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
+          </Box>
+
+          <Billboard follow={true} position={[10, 0, 5]}>
+            {hoverBoxId === 3 && (
+              <Html center transform={true} occlude={false}>
+                <div style={{ background: '#FFFFFF', color: '#333', padding: 2, borderRadius: 2, cursor: 'pointer', fontSize: '30px' }} onClick={() => console.log('click div')}>
+                  <span>三层</span>
+                </div>
+              </Html>
+            )}
+          </Billboard>
+        </object3D>
 
       </object3D>
 
@@ -117,7 +158,7 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
           {/*<Plane args={[10,10]} material-color="red" />*/}
           {/*<Text fontSize={1} color={'#EC2D2D'}>摄像头</Text>*/}
           <Html center transform occlude>
-            <div style={{ background: '#FFFFFF', color: '#333', padding: 2, borderRadius: 2, cursor: 'pointer' }} onClick={() => console.log('click div')}>
+            <div style={{ background: '#FFFFFF', color: '#333', padding: 2, borderRadius: 2, cursor: 'pointer', fontSize: '30px' }} onClick={() => console.log('click div')}>
               <span>摄像头</span>
             </div>
           </Html>
