@@ -30,6 +30,7 @@ import Demo31StatsGl from "@/pages/threejs/Demo31StatsGl";
 import Demo32GizmoHelper from "@/pages/threejs/Demo32GizmoHelper";
 import Demo33MeshRefractionMaterial from "@/pages/threejs/Demo33MeshRefractionMaterial";
 import Demo34FirstPersonControls2 from "@/pages/threejs/Demo34FirstPersonControls2";
+import DemoTwo06React from "@/pages/threejs2/DemoTwo06React";
 
 export default function App() {
   const [theme, setTheme] = useState('default');
@@ -72,6 +73,8 @@ export default function App() {
 
           <Link to="/threejs2/DemoTwo05">threejs2/DemoTwo05: 纹理</Link>
           <Link to="/threejs2/DemoTwo05React">threejs2/DemoTwo05: 纹理（React实现）</Link>
+
+          <Link to="/threejs2/DemoTwo06React">threejs2/DemoTwo06: 锁定点控制（React实现）</Link>
 
         </div>
         <div>
