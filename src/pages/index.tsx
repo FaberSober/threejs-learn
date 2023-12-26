@@ -85,6 +85,8 @@ export default function App() {
           <Link to="/threejs2/DemoTwo09React">threejs2/DemoTwo09: GLTF动态城市（React实现）</Link>
 
           <Link to="/threejs2/DemoTwo10">threejs2/DemoTwo10: shadow阴影</Link>
+
+          <Link to="/threejs2/DemoTwo11">threejs2/DemoTwo11: Raycaster射线检测</Link>
         </div>
         <div>
           <p>index.tsx</p>
