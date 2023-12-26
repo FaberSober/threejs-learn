@@ -11,25 +11,27 @@ function Scene() {
   const {cameraType, showHelper} = useContext(ConfigLayoutContext)
   const cameraRef = useRef<THREE.PerspectiveCamera>(null!)
   const light1 = React.useRef<THREE.DirectionalLight>(null!)
-  const light2 = React.useRef<THREE.DirectionalLight>(null!)
+  const light1ShadowCamera = useRef<THREE.OrthographicCamera>(null!)
 
   useHelper(showHelper && cameraRef, THREE.CameraHelper)
   useHelper(showHelper && light1, THREE.DirectionalLightHelper)
-  useHelper(showHelper && light2, THREE.DirectionalLightHelper)
+  // useHelper(showHelper && light1ShadowCamera, THREE.CameraHelper)
 
   return (
     <>
       {/* 点光源1 */}
-      <directionalLight ref={light1} color={0xffffff} intensity={1} position={[-20, 20, 20]} castShadow/>
+      <directionalLight ref={light1} color={0xffffff} intensity={1} position={[-40, 40, 0]} castShadow>
+        {/* 使用react-three-fiber的嵌套属性 */}
+        <orthographicCamera ref={light1ShadowCamera} attach="shadow-camera" args={[-50, 50, 50, -50]}/>
+      </directionalLight>
 
-      {/* 点光源2 */}
-      <directionalLight ref={light2} color={0xffffff} intensity={1} position={[20, 10, 20]}/>
+      <ambientLight intensity={0.8}/>
 
-      <MyFactory showHelper={showHelper} />
+      <MyFactory showHelper={showHelper}/>
 
       <CycleRaycast
         onChanged={(objects, cycle) => {
-          console.log(objects, cycle)
+          // console.log(objects, cycle)
           return null;
         }}
       />
@@ -72,7 +74,7 @@ export default function DemoTwo06React() {
   return (
     <ConfigLayoutContext.Provider value={contextValue}>
       <div>
-        <Canvas>
+        <Canvas shadows>
           <Scene/>
 
           {/* 全局摄像机 */}

@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { GizmoHelper, GizmoViewport, Line, OrbitControls, PerspectiveCamera, useGLTF, useHelper } from "@react-three/drei";
 import MyHelper from "@/components/modal/MyHelper";
 import { Line2 } from "three/examples/jsm/lines/Line2";
+import { Switch } from "antd";
 
 const gltfUrl = '/assets/model/cartoon_lowpoly_small_city_free_pack/scene.gltf'
 useGLTF.preload(gltfUrl)
@@ -160,7 +161,9 @@ function BasicCityModel() {
 
 function Scene() {
   const light2 = useRef<THREE.DirectionalLight>(null!)
-  useHelper(light2, THREE.DirectionalLightHelper)
+  const camera = useRef<THREE.OrthographicCamera>(null!)
+  // useHelper(light2, THREE.DirectionalLightHelper)
+  // useHelper(camera, THREE.CameraHelper)
 
   const scene = useThree((state) => state.scene)
 
@@ -191,7 +194,7 @@ function Scene() {
         shadow-mapSize={[1024, 1024]}
       >
         {/* 使用react-three-fiber的嵌套属性 */}
-        <orthographicCamera attach="shadow-camera" args={[-20, 20, 20, -20]}/>
+        <orthographicCamera ref={camera} attach="shadow-camera" args={[-20, 20, 20, -20]}/>
       </directionalLight>
 
       <BasicCityModel/>
@@ -200,17 +203,23 @@ function Scene() {
 }
 
 export default function DemoTwo09React() {
+  const [load, setLoad] = useState(false)
+
   return (
-    <Canvas shadows>
-      <PerspectiveCamera makeDefault fov={75} near={0.1} far={2000} position={[10, 10, 10]} />
+    <div>
+      <Canvas shadows>
+        <PerspectiveCamera makeDefault fov={75} near={0.1} far={2000} position={[10, 10, 10]} />
 
-      <Scene />
+        <Scene />
 
-      {/*<MyHelper />*/}
-      <OrbitControls />
-      <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
-        <GizmoViewport/>
-      </GizmoHelper>
-    </Canvas>
+        {/*<MyHelper />*/}
+        <OrbitControls />
+        <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
+          <GizmoViewport/>
+        </GizmoHelper>
+      </Canvas>
+
+      <Switch checked={load} onChange={e => setLoad(e)} />
+    </div>
   )
 }

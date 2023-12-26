@@ -22,7 +22,7 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
       {/* 平面 */}
       <Plane
         name="平面"
-        args={[50, 50]}
+        args={[80, 80]}
         material={new THREE.MeshPhongMaterial({color: 0xFFFFFF})}
         receiveShadow
         rotation={[Math.PI * -0.5, 0, 0]}
@@ -50,6 +50,7 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
           <Box
             args={[1, 1, 1]}
             scale={[20, 4, 10]}
+            castShadow
           >
             <meshPhongMaterial color={0xFF0000}/>
             {/*<Outlines visible={hoverBoxId === 1} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
@@ -86,6 +87,7 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
           <Box
             args={[1, 1, 1]}
             scale={[20, 4, 10]}
+            castShadow
           >
             <meshPhongMaterial color={0xFFFF00}/>
             <Edges visible={hoverBoxId === 2} scale={1.1} renderOrder={1000}>
@@ -111,13 +113,14 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
           position={[0, 8, 0]}
           onPointerOver={(event) => {
             event.stopPropagation()
-            // console.log('onPointerOver', 3)
+            console.log('onPointerOver', 3)
             setHoverBoxId(3)
           }}
           onPointerOut={(event) => {
             // console.log('onPointerOut', 3)
             setHoverBoxId(undefined)
           }}
+          castShadow
         >
           <Box
             args={[1, 1, 1]}
@@ -130,7 +133,10 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
             {/*<Outlines visible={hoverBoxId === 3} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
           </Box>
 
-          <Billboard follow={true} position={[20, 0, 5]}>
+          <Billboard
+            follow={true}
+            position={[20, 0, 5]}
+          >
             {hoverBoxId === 3 && (
               <Html center transform={false} occlude={false}>
                 <div
@@ -154,7 +160,6 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
             )}
           </Billboard>
         </object3D>
-
       </object3D>
 
       {/* 摄像头 */}
@@ -164,9 +169,9 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
         onPointerOver={(event) => event.stopPropagation()}
       >
         {/* 柱子 */}
-        <Box args={[1, 1, 1]} scale={[1, 10, 1]} material-color={0x0000ff} />
+        <Box args={[1, 1, 1]} scale={[1, 10, 1]} material-color={0x0000ff} castShadow />
         {/* 摄像头 */}
-        <Sphere position={[0,5,0]} material-color={0xff0000} />
+        <Sphere position={[0,5,0]} material-color={0xff0000} castShadow />
 
         {/* 标志广告牌 */}
         <Billboard follow={true} position={[0, 6.5, 0]}>
