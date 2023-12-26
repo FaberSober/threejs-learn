@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import * as THREE from 'three';
-import { Canvas, MeshProps, useFrame, useThree } from "@react-three/fiber";
-import { Box, GizmoHelper, GizmoViewport, OrbitControls, PerspectiveCamera, Plane, Shadow, useGLTF, useHelper } from "@react-three/drei";
-import { GLTF } from "three-stdlib";
+import { Canvas, useThree } from "@react-three/fiber";
+import { GizmoHelper, GizmoViewport, Line, OrbitControls, PerspectiveCamera, useGLTF, useHelper } from "@react-three/drei";
 import MyHelper from "@/components/modal/MyHelper";
 
 const gltfUrl = '/assets/model/cartoon_lowpoly_small_city_free_pack/scene.gltf'
@@ -156,11 +155,67 @@ function Model(props:any) {
   )
 }
 
+// 创建曲线
+let curve:THREE.CatmullRomCurve3;
+let curveObject:THREE.Line;
+
+const controlPoints:[number, number, number][] = [
+  [1.118281, 5.115846, -3.681386],
+  [3.948875, 5.115846, -3.641834],
+  [3.960072, 5.115846, -0.240352],
+  [3.985447, 5.115846, 4.585005],
+  [-3.793631, 5.115846, 4.585006],
+  [-3.826839, 5.115846, -14.736200],
+  [-14.542292, 5.115846, -14.765865],
+  [-14.520929, 5.115846, -3.627002],
+  [-5.452815, 5.115846, -3.634418],
+  [-5.467251, 5.115846, 4.549161],
+  [-13.266233, 5.115846, 4.567083],
+  [-13.250067, 5.115846, -13.499271],
+  [4.081842, 5.115846, -13.435463],
+  [4.125436, 5.115846, -5.334928],
+  [-14.521364, 5.115846, -5.239871],
+  [-14.510466, 5.115846, 5.486727],
+  [5.745666, 5.115846, 5.510492],
+  [5.787942, 5.115846, -14.728308],
+  [-5.423720, 5.115846, -14.761919],
+  [-5.373599, 5.115846, -3.704133],
+  [1.004861, 5.115846, -3.641834],
+];
+const p0 = new THREE.Vector3();
+const p1 = new THREE.Vector3();
+curve = new THREE.CatmullRomCurve3(
+  controlPoints.map((p, ndx) => {
+    p0.set(...p);
+    p1.set(...controlPoints[(ndx + 1) % controlPoints.length]);
+    return [
+      (new THREE.Vector3()).copy(p0),
+      (new THREE.Vector3()).lerpVectors(p0, p1, 0.1),
+      (new THREE.Vector3()).lerpVectors(p0, p1, 0.9),
+    ];
+  }).flat(),
+  true,
+);
+
+const points = curve.getPoints(250);
+
+function Curve() {
+  return (
+    <Line points={points} color={0xff0000} position={[0,-6.21,0]} depthTest={true} renderOrder={1} />
+  )
+}
+
 function BasicCityModel() {
   const gltf = useGLTF(gltfUrl) as any
 
   // 删除场景里的小车
   const root = gltf.scene as THREE.Scene
+
+  const loadedCars = root.getObjectByName('Cars') as THREE.Object3D;
+  root.updateMatrixWorld();
+  for (const car of loadedCars.children.slice()) {
+
+  }
 
   // 加载完之后，我们需要开启所有物体的阴影
   root.traverse((obj) => {
@@ -211,7 +266,7 @@ function Scene() {
         <BasicCityModel />
       </object3D>
 
-      <MyHelper/>
+      <Curve />
     </>
   )
 }
@@ -223,6 +278,7 @@ export default function DemoTwo09React() {
 
       <Scene />
 
+      <MyHelper />
       <OrbitControls />
       <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
         <GizmoViewport/>
