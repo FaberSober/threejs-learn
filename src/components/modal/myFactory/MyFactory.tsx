@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Billboard, Box, Edges, GizmoHelper, GizmoViewport, Html, Outlines, Plane, Sphere, Text, useHelper } from "@react-three/drei";
 import * as THREE from "three";
 import MyHelper from "@/components/modal/MyHelper";
+import { Button } from "antd";
 
 
 interface MyFactoryProps {
@@ -129,11 +130,25 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
             {/*<Outlines visible={hoverBoxId === 3} thickness={0.05} color="hotpink" screenspace={false} opacity={1} transparent={false} angle={Math.PI} />*/}
           </Box>
 
-          <Billboard follow={true} position={[10, 0, 5]}>
+          <Billboard follow={true} position={[20, 0, 5]}>
             {hoverBoxId === 3 && (
-              <Html center transform={true} occlude={false}>
-                <div style={{ background: '#FFFFFF', color: '#333', padding: 2, borderRadius: 2, cursor: 'pointer', fontSize: '30px' }} onClick={() => console.log('click div')}>
+              <Html center transform={false} occlude={false}>
+                <div
+                  style={{
+                    background: '#fffefd',
+                    color: '#413e1d',
+                    padding: 12,
+                    border: '1px solid #413e1d',
+                    borderRadius: 4,
+                    fontSize: '16px',
+                    width: 200,
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
                   <span>三层</span>
+                  <span>不随摄像头缩放，展示在屏幕之上</span>
+                  <Button type="primary" onClick={() => console.log('click Antd Button')}>Hello</Button>
                 </div>
               </Html>
             )}
