@@ -183,7 +183,7 @@ function Scene() {
 
   return (
     <>
-      {/*<ambientLight intensity={0.8}/>*/}
+      <ambientLight intensity={0.8}/>
       <directionalLight
         ref={light2}
         position={[0, 5, 5]}
@@ -192,36 +192,24 @@ function Scene() {
         castShadow
         onUpdate={light => {
           //Set up shadow properties for the light
-          light.shadow.mapSize.width = 1512; // default
-          light.shadow.mapSize.height = 1512; // default
+          light.shadow.mapSize.width = 512; // default
+          light.shadow.mapSize.height = 512; // default
           light.shadow.camera.near = 0.5; // default
           light.shadow.camera.far = 1500; // default
+          light.shadow.camera.left = -10;
+          light.shadow.camera.top = 10;
+          light.shadow.camera.right = 10;
+          light.shadow.camera.bottom = -10;
 
           //Create a helper for the shadow camera (optional)
-          const helper = new THREE.CameraHelper( light.shadow.camera );
-          scene.add( helper );
+          // const helper = new THREE.CameraHelper( light.shadow.camera );
+          // scene.add( helper );
         }}
       />
 
-      {/*<object3D scale={[0.01, 0.01, 0.01]}>*/}
-      {/*  <BasicCityModel />*/}
-      {/*</object3D>*/}
-
-      <object3D position={[5,0,0]}>
-        <Plane args={[10,10]} rotation={[Math.PI * -0.5,0,0]} receiveShadow>
-          <meshPhongMaterial color='grey' />
-        </Plane>
-
-        <object3D position={[2, 2, 2]}>
-          <Box args={[1, 1, 1]} castShadow >
-            <meshPhongMaterial color='red'/>
-          </Box>
-          <Box args={[1, 1, 1]} position={[-3,0,0]} castShadow >
-            <meshPhongMaterial color='yellow'/>
-          </Box>
-        </object3D>
+      <object3D scale={[0.01, 0.01, 0.01]}>
+        <BasicCityModel />
       </object3D>
-
 
       <MyHelper/>
     </>
