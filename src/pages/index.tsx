@@ -82,6 +82,7 @@ export default function App() {
           <Link to="/threejs2/DemoTwo08React">threejs2/DemoTwo08: React Spring动画库基本使用（React实现）</Link>
 
           <Link to="/threejs2/DemoTwo09">threejs2/DemoTwo09: GLTF动态城市</Link>
+          <Link to="/threejs2/DemoTwo09React">threejs2/DemoTwo09: GLTF动态城市（React实现）</Link>
         </div>
         <div>
           <p>index.tsx</p>

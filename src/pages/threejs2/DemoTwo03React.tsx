@@ -37,8 +37,6 @@ function MyHelper({ unit = 10, helperVisible }: MyHelperProps) {
   )
 }
 
-let time = 0;
-
 const targetPosition = new THREE.Vector3();
 const tankWorldPosition = new THREE.Vector3();
 const tankPosition = new THREE.Vector2();
@@ -81,7 +79,8 @@ function TargetOrbit() {
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
   // useHelper(camera, CameraHelper)
 
-  useFrame((state, delta, frame) => {
+  useFrame(({ clock }, delta, frame) => {
+    const time = clock.getElapsedTime();
     // move target
     targetOrbitRef.current.rotation.y = time * .27;
     targetBobRef.current.position.y = Math.sin(time * 2) * 4;
@@ -195,7 +194,8 @@ function Wheel({position}: {
 }) {
   const ref = useRef<THREE.Mesh>(null!)
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
+    const time =  clock.getElapsedTime();
     // 滚动车轮
     ref.current.rotation.x = time * 3;
   })
@@ -220,7 +220,8 @@ function Tank() {
   const camera = React.useRef<THREE.PerspectiveCamera>(null!)
   useHelper(camera, CameraHelper)
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
+    const time =  clock.getElapsedTime();
     // move tank
     const tankTime = time * .05;
 
@@ -290,10 +291,6 @@ function MyScene() {
   shadow.camera.near = 1;
   shadow.camera.far = 50;
   shadow.bias = 0.001;
-
-  useFrame((state, delta, frame) => {
-    time += delta
-  })
 
   return (
     <>
