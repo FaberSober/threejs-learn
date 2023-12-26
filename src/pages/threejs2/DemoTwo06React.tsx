@@ -14,15 +14,7 @@ const controlPoints:[number, number, number][] = [
   [-30, 0, 30],
   [-30, 0, -30],
   [30, 0, -30],
-  // [30, 0, 30],
 ];
-// const curve = new THREE.SplineCurve( [
-//   new THREE.Vector2( 30, 30 ),
-//   new THREE.Vector2( -30, 30 ),
-//   new THREE.Vector2( -30, -30 ),
-//   new THREE.Vector2( 30, -30 ),
-//   new THREE.Vector2( 30, 30 ),
-// ]);
 const p0 = new THREE.Vector3();
 const p1 = new THREE.Vector3();
 const curve = new THREE.CatmullRomCurve3(
@@ -41,9 +33,55 @@ const curve = new THREE.CatmullRomCurve3(
 const points = curve.getPoints(250);
 
 
-const tankWorldPosition = new THREE.Vector3();
-const tankPosition = new THREE.Vector3();
-const tankTarget = new THREE.Vector3();
+const carWorldPosition = new THREE.Vector3();
+const carPosition = new THREE.Vector3();
+const carTarget = new THREE.Vector3();
+
+function MovingCar() {
+  const {cameraType, showHelper} = useContext(ConfigLayoutContext)
+  const cameraRef = useRef<THREE.PerspectiveCamera>(null!)
+
+  const carRef = useRef<THREE.Object3D>(null!)
+
+  useHelper(showHelper && cameraRef, THREE.CameraHelper)
+
+  useFrame(({ clock }) => {
+    const time =  clock.getElapsedTime();
+    // move tank
+    const carTime = time * .05;
+
+    curve.getPointAt(carTime % 1, carPosition);
+    curve.getPointAt((carTime + 0.01) % 1, carTarget);
+    carRef.current.position.set(carPosition.x, carPosition.y, carPosition.z);
+    carRef.current.lookAt(carTarget);
+    cameraRef.current.lookAt(carTarget.x, 4, carTarget.z);
+
+    // get tank world position
+    carRef.current.getWorldPosition(carWorldPosition);
+  })
+
+  return (
+    <>
+      <object3D ref={carRef} position={[5, 0, 5]}>
+        <MyCar anim="Move"/>
+
+        {/* 小车摄像头 */}
+        <PerspectiveCamera
+          ref={cameraRef}
+          makeDefault={cameraType === CameraType.Car}
+          position={[0, 4, -4]}
+          rotation={[0,Math.PI, 0]}
+        />
+
+        {showHelper && <MyHelper />}
+      </object3D>
+
+      {/* 小车运动线路 */}
+      <Line points={points} position={[0, 0.05, 0]} color={0xff0000}/>
+    </>
+  )
+}
+
 
 function Scene() {
   const {cameraType, showHelper} = useContext(ConfigLayoutContext)
@@ -54,22 +92,6 @@ function Scene() {
   useHelper(showHelper && cameraRef, THREE.CameraHelper)
   useHelper(showHelper && light1, THREE.DirectionalLightHelper)
   // useHelper(showHelper && light1ShadowCamera, THREE.CameraHelper)
-
-  const carRef = useRef<THREE.Object3D>(null!)
-
-  useFrame(({ clock }) => {
-    const time =  clock.getElapsedTime();
-    // move tank
-    const tankTime = time * .05;
-
-    curve.getPointAt(tankTime % 1, tankPosition);
-    curve.getPointAt((tankTime + 0.01) % 1, tankTarget);
-    carRef.current.position.set(tankPosition.x, tankPosition.y, tankPosition.z);
-    carRef.current.lookAt(tankTarget);
-
-    // get tank world position
-    carRef.current.getWorldPosition(tankWorldPosition);
-  })
 
   return (
     <>
@@ -85,12 +107,7 @@ function Scene() {
       <MyFactory showHelper={showHelper}/>
 
       {/* 小车 */}
-      <object3D ref={carRef} position={[5,0,5]}>
-        <MyCar anim="Move" />
-      </object3D>
-
-      {/* 小车运动线路 */}
-      <Line points={points} position={[0,0.05,0]} color={0xff0000} />
+      <MovingCar />
 
       <CycleRaycast
         onChanged={(objects, cycle) => {
@@ -115,6 +132,7 @@ function Scene() {
 enum CameraType {
   Global,
   Scene,
+  Car,
 }
 
 export interface ConfigLayoutContextProps {
@@ -169,6 +187,7 @@ export default function DemoTwo06React() {
             <Radio.Group value={cameraType} onChange={e => setCameraType(e.target.value)} buttonStyle="solid">
               <Radio.Button value={CameraType.Global}>全局摄像机</Radio.Button>
               <Radio.Button value={CameraType.Scene}>场景摄像机</Radio.Button>
+              <Radio.Button value={CameraType.Car}>移动小车</Radio.Button>
             </Radio.Group>
           </Space>
 
