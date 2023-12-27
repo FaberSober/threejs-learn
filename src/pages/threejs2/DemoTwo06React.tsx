@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useRef, useState } from 'react'
+import React, { createContext, PropsWithoutRef, RefAttributes, useContext, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three';
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Box, GizmoHelper, GizmoViewport, Line, OrbitControls, PerspectiveCamera, PointerLockControls, useHelper } from "@react-three/drei";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Box, GizmoHelper, GizmoViewport, KeyboardControls, KeyboardControlsEntry, Line, OrbitControls, PerspectiveCamera, PointerLockControls, useHelper, useKeyboardControls } from "@react-three/drei";
 import MyFactory from "@/components/modal/myFactory/MyFactory";
 import { Button, Checkbox, Radio, Space } from "antd";
 import MyHelper from "@/components/modal/MyHelper";
@@ -9,6 +9,7 @@ import MyCar from "@/components/modal/car/MyCar";
 import XbotModel, { Anim } from "@/components/modal/bot/XbotModel";
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib/controls/OrbitControls";
 import gsap from "gsap";
+import { Vector3 } from "three";
 
 
 // Create a sine-like wave
@@ -39,6 +40,10 @@ const points = curve.getPoints(250);
 const carWorldPosition = new THREE.Vector3();
 const carPosition = new THREE.Vector3();
 const carTarget = new THREE.Vector3();
+const personPosition = new THREE.Vector3(); // 人物位置
+
+enum OprType { GLOBAL, PERSON }
+let oprType:OprType = OprType.GLOBAL; // 操作类型
 
 function MovingCar() {
   const {cameraType, showHelper} = useContext(ConfigLayoutContext)
@@ -85,53 +90,143 @@ function MovingCar() {
   )
 }
 
+type ForwardRefComponent<P, T> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>
 
-function Scene() {
-  const {cameraType, showHelper} = useContext(ConfigLayoutContext)
-  const cameraRef = useRef<THREE.PerspectiveCamera>(null!)
-  const light1 = React.useRef<THREE.DirectionalLight>(null!)
-  const light1ShadowCamera = useRef<THREE.OrthographicCamera>(null!)
-
-  const botBoxRef = useRef<THREE.Mesh>(null!); // 人物
-
-  useHelper(showHelper && cameraRef, THREE.CameraHelper)
-  useHelper(showHelper && light1, THREE.DirectionalLightHelper)
-  // useHelper(showHelper && light1ShadowCamera, THREE.CameraHelper)
-
-  return (
-    <>
-      {/* 点光源1 */}
-      <directionalLight ref={light1} color={0xffffff} intensity={1} position={[-40, 40, 0]} castShadow>
-        {/* 使用react-three-fiber的嵌套属性 */}
-        <orthographicCamera ref={light1ShadowCamera} attach="shadow-camera" args={[-50, 50, 50, -50]}/>
-      </directionalLight>
-
-      <ambientLight intensity={0.8}/>
-
-      {/* 工厂-基础模型 */}
-      <MyFactory showHelper={showHelper}/>
-
-      {/* 小车 */}
-      <MovingCar/>
-
-      {/* 人物 */}
-      <object3D ref={botBoxRef} position={[0, 0, 0]} scale={[2,2,2]}>
-        <XbotModel selAnim={Anim.idle}/>
-        {/*<MyHelper size={5} unit={20}/>*/}
-      </object3D>
-
-      {/* 场景摄像机 */}
-      <PerspectiveCamera
-        ref={cameraRef}
-        makeDefault={cameraType === CameraType.Scene}
-        position={[10, 10, 10]}
-        fov={40}
-        near={1}
-        far={20}
-      />
-    </>
-  )
+interface SceneProps {}
+interface SceneImpl {
+  handleFollowPerson: () => void;
+  animPerson: (anim: Anim) => void;
 }
+
+const Scene: ForwardRefComponent<SceneProps, SceneImpl> = React.forwardRef(
+  (props, ref) => {
+    const {cameraType, showHelper} = useContext(ConfigLayoutContext)
+    const cameraRef = useRef<THREE.PerspectiveCamera>(null!)
+    const light1 = React.useRef<THREE.DirectionalLight>(null!)
+    const light1ShadowCamera = useRef<THREE.OrthographicCamera>(null!)
+
+    const botBoxRef = useRef<THREE.Mesh>(null!); // 人物
+
+    useHelper(showHelper && cameraRef, THREE.CameraHelper)
+    useHelper(showHelper && light1, THREE.DirectionalLightHelper)
+    // useHelper(showHelper && light1ShadowCamera, THREE.CameraHelper)
+
+    const [anim, setAnim] = useState<Anim>(Anim.idle)
+
+    const { scene, camera, controls } = useThree()
+
+    // 封装供外部主动调用的接口
+    useImperativeHandle(ref, () => ({
+      handleFollowPerson: () => {
+        // console.log(scene)
+        // const camera = scene.getObjectByName('CameraGlobal01') as THREE.PerspectiveCamera;
+        // console.log('camera', camera)
+        // console.log('s', s)
+        console.log('跟随人物，第三人称视角')
+
+        oprType = OprType.PERSON;
+
+        const botPos = botBoxRef.current.position;
+        const movePos = new THREE.Vector3(
+          botPos.x,
+          botPos.y,
+          botPos.z,
+        ); // 人物位置
+
+        gsap.to(camera.position, { x: movePos.x, y: movePos.y + 2, z: movePos.z - 2, duration: 3, ease: "power1.inOut", });
+        if (controls) {
+          const orbitControl = controls as OrbitControlsImpl
+          gsap.to(orbitControl.target, { x: movePos.x, y: movePos.y + 2, z: movePos.z, duration: 3, ease: "power1.inOut", });
+
+          orbitControl.enablePan = false;
+          orbitControl.enableZoom = false;
+        }
+      },
+      animPerson: (anim: Anim) => {
+        setAnim(anim)
+      },
+    }));
+
+
+    // 键盘控制
+    const [, get] = useKeyboardControls<Controls>()
+
+    useFrame(({ camera, pointer }, delta) => {
+      if (oprType !== OprType.PERSON) {
+        return;
+      }
+
+      const state = get()
+      const orbitControl = controls as OrbitControlsImpl
+
+      // 前后方向
+      if (state.forward) {
+        transformed.z = -speed
+      } else if (state.back) {
+        transformed.z = speed
+      } else {
+        transformed.z = 0
+      }
+
+      // 左右方向
+      if (state.left) {
+        transformed.x = -speed
+      } else if (state.right) {
+        transformed.x = speed
+      } else {
+        transformed.x = 0
+      }
+
+      // 获取控制器旋转，使得永远朝向控制器的前方前进
+      const angle = orbitControl.getAzimuthalAngle();
+      transformed.applyAxisAngle(THREE.Object3D.DEFAULT_UP, angle);
+
+      // 同步移动位置
+      botBoxRef.current.position.add(transformed);
+      camera.position.add(transformed);
+      orbitControl.target.add(transformed);
+
+      // 更新人物模型旋转方向
+      botBoxRef.current.rotation.y = angle - Math.PI
+
+      transformed.set(0, 0, 0);
+    })
+
+    return (
+      <>
+        {/* 点光源1 */}
+        <directionalLight ref={light1} color={0xffffff} intensity={1} position={[-40, 40, 0]} castShadow>
+          {/* 使用react-three-fiber的嵌套属性 */}
+          <orthographicCamera ref={light1ShadowCamera} attach="shadow-camera" args={[-50, 50, 50, -50]}/>
+        </directionalLight>
+
+        <ambientLight intensity={0.8}/>
+
+        {/* 工厂-基础模型 */}
+        <MyFactory showHelper={showHelper}/>
+
+        {/* 小车 */}
+        <MovingCar/>
+
+        {/* 人物 */}
+        <object3D ref={botBoxRef} position={[0, 0, 0]} scale={[1,1,1]} name="Person01">
+          <XbotModel selAnim={anim}/>
+          {/*<MyHelper size={5} unit={20}/>*/}
+        </object3D>
+
+        {/* 场景摄像机 */}
+        <PerspectiveCamera
+          ref={cameraRef}
+          makeDefault={cameraType === CameraType.Scene}
+          position={[10, 10, 10]}
+          fov={40}
+          near={1}
+          far={20}
+        />
+      </>
+    )
+  }
+)
 
 enum CameraType {
   Global,
@@ -146,17 +241,44 @@ interface ConfigLayoutContextProps {
 
 const ConfigLayoutContext = createContext<ConfigLayoutContextProps>({} as any);
 
+const _velocity = new Vector3() // 移动速度向量
+let moving = false; // 是否在移动中
+let canJump = true; // 是否可以跳跃
+const speed = 0.05;
+
+const transformed = new THREE.Vector3(); // 移动向量
+
+enum Controls {
+  forward = 'forward',
+  left = 'left',
+  right = 'right',
+  back = 'back',
+  jump = 'jump',
+}
+
 export default function DemoTwo06React() {
   const [controlType, setControlType] = useState<'Orbit' | 'PointerLock'>('Orbit')
   const [cameraType, setCameraType] = useState<CameraType>(CameraType.Global)
   const [showHelper, setShowHelper] = useState(true)
   const cameraRef = useRef<THREE.PerspectiveCamera>(null!)
   const controlRef = useRef<OrbitControlsImpl>(null!)
+  const sceneRef = useRef<SceneImpl>(null!)
 
   const contextValue: ConfigLayoutContextProps = {
     cameraType,
     showHelper,
   }
+
+  const map = useMemo<KeyboardControlsEntry[]>(
+    () => [
+      { name: Controls.forward, keys: ['ArrowUp', 'KeyW'] },
+      { name: Controls.back, keys: ['ArrowDown', 'KeyS'] },
+      { name: Controls.left, keys: ['ArrowLeft', 'KeyA'] },
+      { name: Controls.right, keys: ['ArrowRight', 'KeyD'] },
+      { name: Controls.jump, keys: ['Space'] },
+    ],
+    []
+  )
 
   /**
    * 查看全局场景
@@ -188,71 +310,97 @@ export default function DemoTwo06React() {
   }
 
   return (
-      <div>
-        <Canvas shadows>
+    <div>
+      <Canvas shadows>
 
-          {/* Context需要包裹Scene，如果Context包裹Canvas，会导致每次热更新代码触发THREE.WebGLRenderer: Context Lost.。导致重新渲染 */}
-          <ConfigLayoutContext.Provider value={contextValue}>
-            <Scene/>
-          </ConfigLayoutContext.Provider>
+        {/* Context需要包裹Scene，如果Context包裹Canvas，会导致每次热更新代码触发THREE.WebGLRenderer: Context Lost.。导致重新渲染 */}
+        <ConfigLayoutContext.Provider value={contextValue}>
+          <KeyboardControls
+            map={map}
+            onChange={(name, pressed, _state: any) => {
+              if (oprType !== OprType.PERSON) {
+                return;
+              }
+              // 控制人物动画
+              if (_state.forward || _state.back || _state.left || _state.right) {
+                if (!moving) {
+                  sceneRef.current && sceneRef.current.animPerson(Anim.walk)
+                }
+                moving = true
+              } else {
+                if (moving) {
+                  sceneRef.current && sceneRef.current.animPerson(Anim.idle)
+                }
+                moving = false
+              }
+            }}
+          >
+            <Scene ref={sceneRef} />
+          </KeyboardControls>
+        </ConfigLayoutContext.Provider>
 
-          {/* 全局摄像机 */}
-          <PerspectiveCamera
-            ref={cameraRef}
-            makeDefault={cameraType === CameraType.Global}
-            position={[30, 30, 30]}
-          />
+        {/* 全局摄像机 */}
+        <PerspectiveCamera
+          ref={cameraRef}
+          name="CameraGlobal01"
+          makeDefault={cameraType === CameraType.Global}
+          position={[30, 30, 30]}
+        />
 
-          <OrbitControls ref={controlRef} enabled={controlType === 'Orbit'} />
-          {/*<PointerLockControls enabled={controlType === 'PointerLock'} />*/}
+        <OrbitControls
+          ref={controlRef}
+          makeDefault
+        />
+        {/*<PointerLockControls enabled={controlType === 'PointerLock'} />*/}
 
-          <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
-            <GizmoViewport/>
-          </GizmoHelper>
-        </Canvas>
+        <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
+          <GizmoViewport/>
+        </GizmoHelper>
+      </Canvas>
 
-        <div style={{marginTop: 12, display: 'flex', flexDirection: 'column'}}>
-          <Space style={{marginTop: 12}}>
-            <div>控制方式：</div>
-            <Radio.Group value={controlType} onChange={e => setControlType(e.target.value)} buttonStyle="solid">
-              <Radio.Button value='Orbit'>Orbit</Radio.Button>
-              <Radio.Button value='PointerLock'>PointerLock</Radio.Button>
-            </Radio.Group>
-          </Space>
+      <div style={{marginTop: 12, display: 'flex', flexDirection: 'column'}}>
+        <Space style={{marginTop: 12}}>
+          <div>控制方式：</div>
+          <Radio.Group value={controlType} onChange={e => setControlType(e.target.value)} buttonStyle="solid">
+            <Radio.Button value='Orbit'>Orbit</Radio.Button>
+            <Radio.Button value='PointerLock'>PointerLock</Radio.Button>
+          </Radio.Group>
+        </Space>
 
-          <Space style={{marginTop: 12}}>
-            <div>镜头选择：</div>
-            <Radio.Group value={cameraType} onChange={e => setCameraType(e.target.value)} buttonStyle="solid">
-              <Radio.Button value={CameraType.Global}>全局摄像机</Radio.Button>
-              <Radio.Button value={CameraType.Scene}>场景摄像机</Radio.Button>
-              <Radio.Button value={CameraType.Car}>移动小车</Radio.Button>
-            </Radio.Group>
-          </Space>
+        <Space style={{marginTop: 12}}>
+          <div>镜头选择：</div>
+          <Radio.Group value={cameraType} onChange={e => setCameraType(e.target.value)} buttonStyle="solid">
+            <Radio.Button value={CameraType.Global}>全局摄像机</Radio.Button>
+            <Radio.Button value={CameraType.Scene}>场景摄像机</Radio.Button>
+            <Radio.Button value={CameraType.Car}>移动小车</Radio.Button>
+          </Radio.Group>
+          <Button onClick={() => sceneRef.current && sceneRef.current.handleFollowPerson()}>跟随人物</Button>
+        </Space>
 
-          <Space style={{marginTop: 12}}>
-            <div>查看场景：</div>
-            <Button onClick={handleViewGlobal}>全局</Button>
-            <Button onClick={handleViewBuilding}>楼栋</Button>
-            <Button onClick={handleViewCamera}>摄像头</Button>
-          </Space>
+        <Space style={{marginTop: 12}}>
+          <div>查看场景：</div>
+          <Button onClick={handleViewGlobal}>全局</Button>
+          <Button onClick={handleViewBuilding}>楼栋</Button>
+          <Button onClick={handleViewCamera}>摄像头</Button>
+        </Space>
 
-          <Space style={{marginTop: 12}}>
-            <div>获取数据：</div>
-            <Button onClick={handlePrintInfo}>获取数据</Button>
-          </Space>
+        <Space style={{marginTop: 12}}>
+          <div>获取数据：</div>
+          <Button onClick={handlePrintInfo}>获取数据</Button>
+        </Space>
 
-          <Space style={{marginTop: 12}}>
-            <div>showHelper：</div>
-            <Checkbox checked={showHelper} onChange={e => setShowHelper(e.target.checked)}>
-              showHelper
-            </Checkbox>
-          </Space>
+        <Space style={{marginTop: 12}}>
+          <div>showHelper：</div>
+          <Checkbox checked={showHelper} onChange={e => setShowHelper(e.target.checked)}>
+            showHelper
+          </Checkbox>
+        </Space>
 
-          <ol>
-            <li>固定路线循环运动小车</li>
-            <li>控制移动的人物</li>
-          </ol>
-        </div>
+        <ol>
+          <li>固定路线循环运动小车</li>
+          <li>控制移动的人物</li>
+        </ol>
       </div>
+    </div>
   )
 }
