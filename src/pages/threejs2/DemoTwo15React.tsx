@@ -25,6 +25,7 @@ import MyFactory from "@/components/modal/myFactory/MyFactory";
 
 
 const _velocity = new Vector3() // 移动速度向量
+let moving = false; // 是否在移动中
 let canJump = true; // 是否可以跳跃
 const speed = 0.05;
 
@@ -38,7 +39,7 @@ enum Controls {
   jump = 'jump',
 }
 
-function Scene() {
+function Scene({anim}: {anim: Anim}) {
   const planeRef = useRef<THREE.Mesh>(null!);
   const boxRef = useRef<THREE.Mesh>(null!);
   const sphereRef = useRef<THREE.Mesh>(null!);
@@ -52,8 +53,6 @@ function Scene() {
   useHelper(cameraBotRef, THREE.CameraHelper)
 
   const controlRef = useRef<OrbitControlsImpl>(null!)
-
-  const [anim, setAnim] = useState<Anim>(Anim.walk)
 
   // 键盘控制
   const [, get] = useKeyboardControls<Controls>()
@@ -110,7 +109,7 @@ function Scene() {
         <meshPhongMaterial color={0xEEEEEE} />
       </Plane>
 
-      <Box args={[1,1,1]} position={[0,1,0]} castShadow>
+      <Box args={[1,1,1]} position={[0,1,4]} castShadow>
         <meshPhongMaterial color='blue' />
       </Box>
 
@@ -138,23 +137,38 @@ export default function DemoTwo15React() {
     []
   )
 
+  const [anim, setAnim] = useState<Anim>(Anim.idle)
+
   return (
     <div>
       <Canvas shadows>
         <KeyboardControls
           map={map}
-          onChange={(name, pressed, _state) => {
+          onChange={(name, pressed, _state: any) => {
             // Test onChange by toggling the color.
             if ( canJump === true ) {
               _velocity.y += 350;
             }
             canJump = false;
+
+            // 控制人物动画
+            if (_state.forward || _state.back || _state.left || _state.right) {
+              if (!moving) {
+                setAnim(Anim.walk)
+              }
+              moving = true
+            } else {
+              if (moving) {
+                setAnim(Anim.idle)
+              }
+              moving = false
+            }
           }}
         >
-          <Scene/>
+          <Scene anim={anim} />
         </KeyboardControls>
 
-        <MyHelper size={20} unit={20} />
+        {/*<MyHelper size={20} unit={20} />*/}
         <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
           <GizmoViewport />
         </GizmoHelper>
