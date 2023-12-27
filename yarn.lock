@@ -2993,6 +2993,18 @@ three-stdlib@^2.28.0:
     fflate "^0.6.9"
     potpack "^1.0.1"
 
+three-stdlib@^2.28.9:
+  version "2.28.9"
+  resolved "https://registry.npmmirror.com/three-stdlib/-/three-stdlib-2.28.9.tgz#55a593da63f16c55a5033d0c1e9c2682448eca36"
+  integrity sha512-rZr9r4wwigQ3VjvvXRpwri1zswv4an/WpW2zPKmylfG2p2Du6AAsmjGbwICxWjPCg1jR0sJN8p8s8msFBg0RaQ==
+  dependencies:
+    "@types/draco3d" "^1.4.0"
+    "@types/offscreencanvas" "^2019.6.4"
+    "@types/webxr" "^0.5.2"
+    draco3d "^1.4.1"
+    fflate "^0.6.9"
+    potpack "^1.0.1"
+
 three@^0.158.0:
   version "0.158.0"
   resolved "https://registry.npmmirror.com/three/-/three-0.158.0.tgz"
