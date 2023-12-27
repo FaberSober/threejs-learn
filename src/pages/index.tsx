@@ -95,6 +95,8 @@ export default function App() {
           <Link to="/threejs2/DemoTwo13React">threejs2/DemoTwo13: Raycaster射线检测，控制方块移动（React实现）</Link>
 
           <Link to="/threejs2/DemoTwo14React">threejs2/DemoTwo14: Raycaster射线检测，控制人物移动（React实现）</Link>
+
+          <Link to="/threejs2/DemoTwo15React">threejs2/DemoTwo15: 第三人称实现：PointLockControl，键盘控制人物移动（React实现）</Link>
         </div>
         <div>
           <p>index.tsx</p>

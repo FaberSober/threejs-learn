@@ -118,9 +118,6 @@ function Scene() {
         {/*<MyHelper size={5} />*/}
       </object3D>
 
-      <lineSegments>
-
-      </lineSegments>
       <Line
         // points={[[0,0,0], [1,0.1,1]]}
         points={linePoints}

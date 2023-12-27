@@ -95,9 +95,6 @@ function Scene() {
         <meshPhongMaterial color={0x00FF00} />
       </Box>
 
-      <lineSegments>
-
-      </lineSegments>
       <Line
         // points={[[0,0,0], [1,0.1,1]]}
         points={linePoints}
