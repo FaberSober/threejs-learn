@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Line, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper } from "@react-three/drei";
+import { Cone, Line, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper } from "@react-three/drei";
 import XbotModel, { Anim } from "@/components/modal/bot/XbotModel";
 import MyHelper from "@/components/modal/MyHelper";
+import { MathUtils } from "three";
 
 
 const raycaster = new THREE.Raycaster();
@@ -37,7 +38,8 @@ function Scene() {
     const intersects = raycaster.intersectObject(planeRef.current);
     if ( intersects.length > 0 ) {
       // 更新指示小球的位置
-      sphereRef.current.position.copy(intersects[0].point);
+      sphereRef.current.position.setX(intersects[0].point.x)
+      sphereRef.current.position.setZ(intersects[0].point.z)
     }
 
     // 更新移动进度
@@ -65,16 +67,11 @@ function Scene() {
         {/* 使用react-three-fiber的嵌套属性 */}
         <orthographicCamera ref={camera} attach="shadow-camera" args={[-20, 20, 20, -20]}/>
       </directionalLight>
-      <Plane ref={planeRef} args={[20, 20]} rotation-x={Math.PI * -0.5} receiveShadow>
-        <meshPhongMaterial color={0xEEEEEE} />
-      </Plane>
-
-      <Sphere
-        ref={sphereRef}
-        args={[0.5, 32, 32]}
-        onClick={event => {
-          // console.log('Sphere.onClick', event)
-        }}
+      <Plane
+        ref={planeRef}
+        args={[20, 20]}
+        rotation-x={Math.PI * -0.5}
+        receiveShadow
         onContextMenu={event => {
           // console.log('Sphere.onContextMenu', event)
           // 生成新的线段
@@ -102,10 +99,19 @@ function Scene() {
 
           // boxRef.current.position.set(targetVector.x, 0.5, targetVector.z)
         }}
+      >
+        <meshPhongMaterial color={0xEEEEEE} />
+      </Plane>
+
+      <Cone
+        ref={sphereRef}
+        args={[0.2, 1, 4]}
+        rotation={[Math.PI, 0, 0]}
+        position={[0,0.5,0]}
         castShadow
       >
-        <meshPhongMaterial color={0xff0000}/>
-      </Sphere>
+        <meshLambertMaterial color='red' />
+      </Cone>
 
       <object3D ref={boxRef} position={[0, 0, 0]}>
         <XbotModel selAnim={anim} />
