@@ -1,15 +1,32 @@
 import React, { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Cone, GizmoHelper, GizmoViewport, KeyboardControls, KeyboardControlsEntry, Line, OrbitControls, PerspectiveCamera, Plane, PointerLockControls, Sphere, useHelper, useKeyboardControls } from "@react-three/drei";
+import {
+  Box,
+  Cone,
+  GizmoHelper,
+  GizmoViewport,
+  KeyboardControls,
+  KeyboardControlsEntry,
+  Line,
+  OrbitControls,
+  PerspectiveCamera,
+  Plane,
+  PointerLockControls,
+  Sphere,
+  useHelper,
+  useKeyboardControls
+} from "@react-three/drei";
 import XbotModel, { Anim } from "@/components/modal/bot/XbotModel";
 import MyHelper from "@/components/modal/MyHelper";
 import { MathUtils, Vector3 } from "three";
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
+import MyFactory from "@/components/modal/myFactory/MyFactory";
 
 
 const _velocity = new Vector3() // 移动速度向量
 let canJump = true; // 是否可以跳跃
+const speed = 0.05;
 
 const transformed = new THREE.Vector3(); // 移动向量
 
@@ -46,18 +63,18 @@ function Scene() {
 
     // 前后方向
     if (state.forward) {
-      transformed.z = -0.03
+      transformed.z = -speed
     } else if (state.back) {
-      transformed.z = 0.03
+      transformed.z = speed
     } else {
       transformed.z = 0
     }
 
     // 左右方向
     if (state.left) {
-      transformed.x = -0.03
+      transformed.x = -speed
     } else if (state.right) {
-      transformed.x = 0.03
+      transformed.x = speed
     } else {
       transformed.x = 0
     }
@@ -92,6 +109,10 @@ function Scene() {
       >
         <meshPhongMaterial color={0xEEEEEE} />
       </Plane>
+
+      <Box args={[1,1,1]} position={[0,1,0]} castShadow>
+        <meshPhongMaterial color='blue' />
+      </Box>
 
       <object3D ref={boxRef} position={[0, 0, 0]}>
         <XbotModel selAnim={anim}/>
@@ -133,9 +154,6 @@ export default function DemoTwo15React() {
           <Scene/>
         </KeyboardControls>
 
-        {/*<MyHelper />*/}
-        {/*<OrbitControls />*/}
-
         <MyHelper size={20} unit={20} />
         <GizmoHelper alignment='bottom-right' margin={[100, 100]}>
           <GizmoViewport />
@@ -146,7 +164,7 @@ export default function DemoTwo15React() {
         <ol>
           <li>WASD控制人物移动</li>
           <li>鼠标控制镜头</li>
-          <li>按ESC键退出视角控制</li>
+          <li>空格跳跃（暂未实现）</li>
         </ol>
       </div>
     </div>
