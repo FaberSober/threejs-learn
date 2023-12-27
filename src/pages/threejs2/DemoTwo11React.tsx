@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas, MeshProps, useFrame } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera, Plane, Sphere } from "@react-three/drei";
+import { Box, OrbitControls, PerspectiveCamera, Plane, Sphere } from "@react-three/drei";
 import MyHelper from "@/components/modal/MyHelper";
 
 
 const raycaster = new THREE.Raycaster();
-const pointerEvent = new THREE.Vector2();
-// const pointer = new THREE.Vector2();
 
 function Scene() {
   const planeRef = useRef<THREE.Mesh>(null!);
@@ -30,7 +28,16 @@ function Scene() {
     <>
       <Plane ref={planeRef} args={[20, 20]} rotation-x={Math.PI * -0.5} />
 
-      <Sphere ref={sphereRef} args={[0.5, 32, 32]} material-color={0xff0000} />
+      <Sphere
+        ref={sphereRef}
+        args={[0.5, 32, 32]}
+        material-color={0xff0000}
+        onClick={event => {
+          console.log('Sphere.onClick', event)
+        }}
+      />
+
+      <Box args={[1,1,1]} position={[0,1,0]} material-color={0x00FF00} />
 
       <raycaster ref={raycasterRef} />
     </>

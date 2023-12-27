@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Billboard, CycleRaycast, GizmoHelper, GizmoViewport, Html, Line, OrbitControls, PerspectiveCamera, PointerLockControls, Text, useHelper } from "@react-three/drei";
+import { Box, GizmoHelper, GizmoViewport, Line, OrbitControls, PerspectiveCamera, PointerLockControls, useHelper } from "@react-three/drei";
 import MyFactory from "@/components/modal/myFactory/MyFactory";
 import { Checkbox, Radio, Space } from "antd";
 import MyHelper from "@/components/modal/MyHelper";
@@ -109,13 +109,6 @@ function Scene() {
       {/* 小车 */}
       <MovingCar />
 
-      <CycleRaycast
-        onChanged={(objects, cycle) => {
-          // console.log(objects, cycle)
-          return null;
-        }}
-      />
-
       {/* 场景摄像机 */}
       <PerspectiveCamera
         ref={cameraRef}
@@ -135,12 +128,12 @@ enum CameraType {
   Car,
 }
 
-export interface ConfigLayoutContextProps {
+interface ConfigLayoutContextProps {
   cameraType: CameraType;
   showHelper: boolean;
 }
 
-export const ConfigLayoutContext = createContext<ConfigLayoutContextProps>({} as any);
+const ConfigLayoutContext = createContext<ConfigLayoutContextProps>({} as any);
 
 export default function DemoTwo06React() {
   const [controlType, setControlType] = useState<'Orbit' | 'PointerLock'>('Orbit')
@@ -153,10 +146,15 @@ export default function DemoTwo06React() {
   }
 
   return (
-    <ConfigLayoutContext.Provider value={contextValue}>
       <div>
         <Canvas shadows>
-          <Scene/>
+
+          {/* Context需要包裹Scene，如果Context包裹Canvas，会导致每次热更新代码触发THREE.WebGLRenderer: Context Lost.。导致重新渲染 */}
+          <ConfigLayoutContext.Provider value={contextValue}>
+            <Scene/>
+          </ConfigLayoutContext.Provider>
+
+          <Box args={[1,1,1]} position={[0,1,0]} material-color={0x00FF00} />
 
           {/* 全局摄像机 */}
           <PerspectiveCamera
@@ -204,6 +202,5 @@ export default function DemoTwo06React() {
           </ol>
         </div>
       </div>
-    </ConfigLayoutContext.Provider>
   )
 }

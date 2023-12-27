@@ -135,10 +135,10 @@ export default function MyFactory({ showHelper }: MyFactoryProps) {
 
           <Billboard
             follow={true}
-            position={[20, 0, 5]}
+            position={[10, 5, 5]}
           >
             {hoverBoxId === 3 && (
-              <Html center transform={false} occlude={false}>
+              <Html center={false} transform={false} occlude={false}>
                 <div
                   style={{
                     background: '#fffefd',
