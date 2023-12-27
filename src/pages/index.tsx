@@ -88,6 +88,9 @@ export default function App() {
 
           <Link to="/threejs2/DemoTwo11">threejs2/DemoTwo11: Raycaster射线检测</Link>
           <Link to="/threejs2/DemoTwo11React">threejs2/DemoTwo11: Raycaster射线检测（React实现）</Link>
+
+          <Link to="/threejs2/DemoTwo12">threejs2/DemoTwo12: 人物动画</Link>
+          <Link to="/threejs2/DemoTwo12React">threejs2/DemoTwo12: 人物动画（React实现）</Link>
         </div>
         <div>
           <p>index.tsx</p>
