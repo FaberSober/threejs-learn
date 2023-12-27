@@ -7,7 +7,7 @@ import { GLTF } from "three-stdlib";
 const botUrl = '/assets/model/Xbot.glb'
 useGLTF.preload(botUrl)
 
-enum Anim {
+export enum Anim {
   idle,walk,run
 }
 
@@ -20,7 +20,7 @@ type AnimationControllerProps = {
 
 function AnimationController(props: AnimationControllerProps) {
   const { actions } = useAnimations(props.animations, props.ybotRef)
-  console.log('props.animations', props.animations)
+  // console.log('props.animations', props.animations)
 
   // Storybook Knobs
   const actionOptions = Object.keys(actions)
@@ -54,6 +54,11 @@ interface XbotModelProps extends Object3DNode<any, any> {
 export default function XbotModel({ selAnim, ...props }: XbotModelProps) {
   const ybotRef = React.useRef<THREE.Group>(null!)
   const { animations, scene } = useGLTF(botUrl) as GLTF
+
+  // 设置阴影
+  scene.traverse(function (object: any) {
+    if (object.isMesh) object.castShadow = true;
+  });
 
   return (
     <>

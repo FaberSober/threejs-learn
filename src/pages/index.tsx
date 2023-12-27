@@ -93,6 +93,8 @@ export default function App() {
           <Link to="/threejs2/DemoTwo12React">threejs2/DemoTwo12: 人物动画（React实现）</Link>
 
           <Link to="/threejs2/DemoTwo13React">threejs2/DemoTwo13: Raycaster射线检测，控制方块移动（React实现）</Link>
+
+          <Link to="/threejs2/DemoTwo14React">threejs2/DemoTwo14: Raycaster射线检测，控制人物移动（React实现）</Link>
         </div>
         <div>
           <p>index.tsx</p>

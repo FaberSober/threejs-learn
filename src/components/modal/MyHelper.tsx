@@ -1,6 +1,7 @@
 import React from "react";
 
 interface MyHelperProps {
+  size?: number,
   unit?: number,
   helperVisible?: boolean,
 }
@@ -11,11 +12,11 @@ interface MyHelperProps {
  * @param helperVisible
  * @constructor
  */
-export default function MyHelper({ unit = 10, helperVisible }: MyHelperProps) {
+export default function MyHelper({ size = 10, unit = 10, helperVisible }: MyHelperProps) {
   return (
     <>
-      <gridHelper visible={helperVisible} args={[unit, unit]} renderOrder={1} onUpdate={self => self.material.depthTest = false}/>
-      <axesHelper visible={helperVisible} renderOrder={2} onUpdate={self => self.material.depthTest = false}/>
+      <gridHelper visible={helperVisible} args={[size, unit]} renderOrder={1} material-depthTest={false} />
+      <axesHelper visible={helperVisible} renderOrder={2} material-depthTest={false} />
     </>
   )
 }
