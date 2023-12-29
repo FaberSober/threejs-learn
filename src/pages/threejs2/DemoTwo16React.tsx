@@ -1,4 +1,4 @@
-import React, { createContext, PropsWithoutRef, RefAttributes, useContext, useImperativeHandle, useMemo, useRef, useState } from 'react'
+import React, { createContext, PropsWithoutRef, RefAttributes, Suspense, useContext, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
@@ -215,10 +215,12 @@ const Scene: ForwardRefComponent<SceneProps, SceneImpl> = React.forwardRef(
 
         {/* 工厂-基础模型 */}
         {/*<MyFactory showHelper={showHelper}/>*/}
-        <object3D position={[0, -1, 0]}>
-          <MyFactory01 />
-        </object3D>
-        <MyHelper />
+        <Suspense>
+          <object3D position={[0, -1, 0]}>
+            <MyFactory01/>
+          </object3D>
+        </Suspense>
+        <MyHelper/>
 
         {/* 小车 */}
         {/*<MovingCar/>*/}

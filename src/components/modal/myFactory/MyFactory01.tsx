@@ -3,7 +3,8 @@ import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 
 
-const gltfUrl = '/assets/model/factory01/factory-base-old.01.glb'
+// const gltfUrl = '/assets/model/factory01/factory-base-old.01.glb'
+const gltfUrl = 'http://file.qiniu.test.dward.cn/3dmodel/ls-smart-beam-yard/model/factory-base-old.01.glb'
 useGLTF.preload(gltfUrl)
 
 /**
