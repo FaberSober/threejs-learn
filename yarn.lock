@@ -461,6 +461,13 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@masatomakino/raf-ticker@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.npmmirror.com/@masatomakino/raf-ticker/-/raf-ticker-0.4.2.tgz#3f2b8725bbe2d2b39a49e6a07f80fd92fcf2d374"
+  integrity sha512-H55kGf7K1fh9rzNbVUopLveZLY2TritZYqLNEox5oGNpvpzx4qF8DBNccKkrAzId9Tdn0AE4N8O6cFmLVqz9wQ==
+  dependencies:
+    eventemitter3 "^4.0.7"
+
 "@mediapipe/tasks-vision@0.10.2":
   version "0.10.2"
   resolved "https://registry.npmmirror.com/@mediapipe/tasks-vision/-/tasks-vision-0.10.2.tgz"
@@ -1546,6 +1553,11 @@ esprima@^4.0.0:
   version "4.0.1"
   resolved "https://registry.npmmirror.com/esprima/-/esprima-4.0.1.tgz"
   integrity sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
+
+eventemitter3@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.npmmirror.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
+  integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
 
 extend-shallow@^2.0.1:
   version "2.0.1"
@@ -3005,10 +3017,16 @@ three-stdlib@^2.28.9:
     fflate "^0.6.9"
     potpack "^1.0.1"
 
-three@^0.158.0:
-  version "0.158.0"
-  resolved "https://registry.npmmirror.com/three/-/three-0.158.0.tgz"
-  integrity sha512-TALj4EOpdDPF1henk2Q+s17K61uEAAWQ7TJB68nr7FKxqwyDr3msOt5IWdbGm4TaWKjrtWS8DJJWe9JnvsWOhQ==
+three@0.160.0:
+  version "0.160.0"
+  resolved "https://registry.npmmirror.com/three/-/three-0.160.0.tgz#cd1e4dbd01aee0719280a9086d75545db52b7a8f"
+  integrity sha512-DLU8lc0zNIPkM7rH5/e1Ks1Z8tWCGRq6g8mPowdDJpw1CFBJMU7UoJjC6PefXW7z//SSl0b2+GCw14LB+uDhng==
+
+threejs-shader-materials@MasatoMakino/threejs-shader-materials:
+  version "0.5.0"
+  resolved "https://codeload.github.com/MasatoMakino/threejs-shader-materials/tar.gz/7a3b9270c471480797994527ba10e4ef02b032ca"
+  dependencies:
+    "@masatomakino/raf-ticker" "^0.4.2"
 
 throttle-debounce@^5.0.0:
   version "5.0.0"

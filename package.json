@@ -20,8 +20,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.17.0",
-    "three": "^0.158.0",
-    "three-stdlib": "^2.28.9"
+    "three": "0.160.0",
+    "three-stdlib": "^2.28.9",
+    "threejs-shader-materials": "MasatoMakino/threejs-shader-materials"
   },
   "devDependencies": {
     "@types/react": "18.2.30",
