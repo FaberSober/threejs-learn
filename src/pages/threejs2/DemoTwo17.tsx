@@ -74,7 +74,7 @@ export default function DemoTwo17() {
       height: 4,
       radius: 5,
       maxRadius: 15,
-      color: '#efad35',
+      color: '#0a85ff',
       opacity: 0.4,
       period: 2,
     }
@@ -87,6 +87,7 @@ export default function DemoTwo17() {
     geometry.computeBoundingBox();
     const max = geometry.boundingBox!.max;
     const min = geometry.boundingBox!.min
+    console.log('max', max, 'min', min)
 
     // 顶点着色器
     const vertexShader = `
@@ -130,8 +131,9 @@ export default function DemoTwo17() {
         },
         uColor: {
           value: new THREE.Color(wallData.color)
-        }
+        },
       },
+      // vertexShader,
       vertexShader: `
         varying vec4 vPosition;
         void main() {
@@ -139,13 +141,13 @@ export default function DemoTwo17() {
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
       `,
+      // fragmentShader,
       fragmentShader: `
         uniform vec3 uColor; // 光墙半径
         uniform vec3 uMax;
         uniform vec3 uMin;
         uniform mat4 modelMatrix; // 世界矩阵
         varying vec4 vPosition; // 接收顶点着色传递进来的位置数据
-
 
         void main() {
           // 转世界坐标
@@ -154,7 +156,7 @@ export default function DemoTwo17() {
           // 根据像素点世界坐标的y轴高度,设置透明度
           float opacity =1.0 - (vPosition.y - uMin_world.y) / (uMax_world.y -uMin_world.y);
 
-           gl_FragColor = vec4( uColor, opacity);
+          gl_FragColor = vec4( uColor, opacity);
         }
       `,
     })
@@ -173,22 +175,22 @@ export default function DemoTwo17() {
     wall.updateMatrix()
 
     // 解耦
-    const originScale = wall.scale.clone()
-    setInterval(() => {
-      const time = _time
-      const {
-        period,
-        radius,
-        maxRadius
-      } = wallData
-      const rate = (time % period) / period
-      const currRadius = rate * (maxRadius - radius) + radius
-      const scaleRate = currRadius / radius
-      const matrix = new THREE.Matrix4().makeScale(scaleRate, 1, scaleRate)
-
-      wall.scale.copy(originScale.clone().applyMatrix4(matrix))
-      wall.updateMatrix()
-    }, 50)
+    // const originScale = wall.scale.clone()
+    // setInterval(() => {
+    //   const time = _time
+    //   const {
+    //     period,
+    //     radius,
+    //     maxRadius
+    //   } = wallData
+    //   const rate = (time % period) / period
+    //   const currRadius = rate * (maxRadius - radius) + radius
+    //   const scaleRate = currRadius / radius
+    //   const matrix = new THREE.Matrix4().makeScale(scaleRate, 1, scaleRate)
+    //
+    //   wall.scale.copy(originScale.clone().applyMatrix4(matrix))
+    //   wall.updateMatrix()
+    // }, 50)
 
     return wall;
   }
