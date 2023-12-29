@@ -2,36 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, ConfigProvider, DatePicker, Radio } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
-import dayjs from 'dayjs';
 import enUS from 'antd/es/locale/en_US';
 import zhCN from 'antd/es/locale/zh_CN';
 
 // 国际化
 import 'dayjs/locale/en';
 import 'dayjs/locale/zh-cn';
-import Demo10Sparkles from "@/pages/threejs/Demo10Sparkles";
-import Demo13Star from "@/pages/threejs/Demo13Star";
-import Demo14WireframeScene from "@/pages/threejs/Demo14WireframeScene";
-import Demo15UseMatcapTexture from "@/pages/threejs/Demo15UseMatcapTexture";
-import Demo16UseNormalTexture from "@/pages/threejs/Demo16UseNormalTexture";
-import Demo17Adaptive from "@/pages/threejs/Demo17Adaptive";
-import Demo18BasicPointsBuffer from "@/pages/threejs/Demo18BasicPointsBuffer";
-import Demo19BasicPointsInstances from "@/pages/threejs/Demo19BasicPointsInstances";
-import Demo20BasicPointsInstancesSelection from "@/pages/threejs/Demo20BasicPointsInstancesSelection";
-import Demo21Segments from "@/pages/threejs/Demo21Segments";
-import Demo23FaceControls from "@/pages/threejs/Demo23FaceControls";
-import Demo25KeyboardControls from "@/pages/threejs/Demo25KeyboardControls";
-import Demo26MapControls from "@/pages/threejs/Demo26MapControls";
-import Demo27Outlines from "@/pages/threejs/Demo27Outlines";
-import Demo28Svg from "@/pages/threejs/Demo28Svg";
-import Demo29UseAnimations from "@/pages/threejs/Demo29UseAnimations";
-import Demo30Stats from "@/pages/threejs/Demo30Stats";
-import Demo31StatsGl from "@/pages/threejs/Demo31StatsGl";
-import Demo32GizmoHelper from "@/pages/threejs/Demo32GizmoHelper";
-import Demo33MeshRefractionMaterial from "@/pages/threejs/Demo33MeshRefractionMaterial";
-import Demo34FirstPersonControls2 from "@/pages/threejs/Demo34FirstPersonControls2";
-import DemoTwo06React from "@/pages/threejs2/DemoTwo06React";
-import DemoTwo16React from "@/pages/threejs2/DemoTwo16React";
 
 export default function App() {
   const [theme, setTheme] = useState('default');
@@ -58,6 +34,12 @@ export default function App() {
   return (
     <ConfigProvider locale={local === 'zhCN' ? zhCN : enUS}>
       <div>
+        <div className='fa-div-line'>
+          <p>threejs2 综合功能</p>
+
+          <Link to="/threejs2/DemoTwo06React">threejs2/DemoTwo06: 锁定点控制（React实现）</Link>
+          <Link to="/threejs2/DemoTwo16React">threejs2/DemoTwo16: 场站综合功能（React实现）</Link>
+        </div>
         <div className='fa-div-line'>
           <p>threejs2</p>
           <Link to="/threejs2/DemoTwo01">threejs2/DemoTwo01: 简单场景+旋转立方体</Link>
@@ -100,87 +82,90 @@ export default function App() {
           <Link to="/threejs2/DemoTwo15React">threejs2/DemoTwo15: 第三人称实现：PointLockControl，键盘控制人物移动（React实现）</Link>
 
           <Link to="/threejs2/DemoTwo16React">threejs2/DemoTwo16: 场站综合功能（React实现）</Link>
+
+          <Link to="/threejs2/DemoTwo17">threejs2/DemoTwo17: 光墙光幕效果</Link>
+          <Link to="/threejs2/DemoTwo17React">threejs2/DemoTwo17: 光墙光幕效果（React实现）</Link>
         </div>
         <div>
           <p>index.tsx</p>
           <Link to="/threejs/demo01">threejs/demo01: just use threejs</Link>
-          <br />
+          <br/>
           <Link to="/threejs/demo02">threejs/demo02: use @react-three/fiber</Link>
-          <br />
+          <br/>
           <Link to="/threejs/demo03">threejs/demo03: use @react-three/fiber @react-three/drei</Link>
-          <br />
+          <br/>
           <Link to="/threejs/demo04">threejs/demo04: use @react-three/drei load gltf</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo05">threejs/demo05: load monkey glb</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo06">threejs/demo06: load simple-factory gltf</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo07">threejs/demo07: drei</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo08">threejs/demo08: Environment</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo09">threejs/demo09: Sky</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo10Sparkles">threejs/demo10: Sparkles</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo11Spotlight">threejs/demo11: Spotlight</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo12Stage">threejs/demo12: Spotlight</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo13Star">threejs/demo13: Star</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo14WireframeScene">threejs/demo14: WireframeScene</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo15UseMatcapTexture">threejs/demo15: useMatcapTexture</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo16UseNormalTexture">threejs/demo16: useNormalTexture</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo17Adaptive">threejs/demo17: Adaptive</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo18BasicPointsBuffer">threejs/Demo18: BasicPointsBuffer</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo19BasicPointsInstances">threejs/Demo19: BasicPointsInstances</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo20BasicPointsInstancesSelection">threejs/Demo20 - BasicPointsInstancesSelection</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo21Segments">threejs/Demo21 - Segments</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo22AnimatedSegments">threejs/Demo22 - AnimatedSegments</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo23FaceControls">threejs/Demo23 - FaceControls</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo24FirstPersonControls">threejs/Demo24 - FirstPersonControls</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo25KeyboardControls">threejs/Demo25 - KeyboardControls</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo26MapControls">threejs/Demo26 - MapControls</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo27Outlines">threejs/Demo27 - Outlines</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo28Svg">threejs/Demo28 - Svg</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo29UseAnimations">threejs/Demo29 - UseAnimations</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo30Stats">threejs/Demo30 - Stats</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo31StatsGl">threejs/Demo31 - StatsGl</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo32GizmoHelper">threejs/Demo32 - GizmoHelper</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo33MeshRefractionMaterial">threejs/Demo33 - MeshRefractionMaterial</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo34FirstPersonControls2">threejs/Demo34 - 第一人称</Link>
-          <br />
+          <br/>
           <Link to="/threejs/Demo35KeyboardControls2">threejs/Demo35 - 键盘控制角色</Link>
-          <br />
+          <br/>
           <Link to="/threejs/demo36">threejs/demo36 - 使用threejs坦克、固定路线移动、4个视角摄像机</Link>
-          <br />
+          <br/>
         </div>
-        <div style={{ marginTop: 12 }}>
+        <div style={{marginTop: 12}}>
           <Radio.Group
             options={[
-              { label: 'default', value: 'default' },
-              { label: 'green', value: 'green' },
+              {label: 'default', value: 'default'},
+              {label: 'green', value: 'green'},
             ]}
             onChange={(e) => changeTheme(e.target.value)}
             value={theme}
@@ -189,11 +174,11 @@ export default function App() {
           />
         </div>
 
-        <div style={{ marginTop: 12 }}>
+        <div style={{marginTop: 12}}>
           <Radio.Group
             options={[
-              { label: 'English', value: 'enUS' },
-              { label: '中文', value: 'zhCN' },
+              {label: 'English', value: 'enUS'},
+              {label: '中文', value: 'zhCN'},
             ]}
             onChange={(e) => changeLocal(e.target.value)}
             value={local}
@@ -202,17 +187,17 @@ export default function App() {
           />
         </div>
 
-        <div style={{ marginTop: 12 }}>
-          <Button type="primary" icon={<HeartOutlined />}>
+        <div style={{marginTop: 12}}>
+          <Button type="primary" icon={<HeartOutlined/>}>
             Hello
           </Button>
         </div>
 
-        <div style={{ marginTop: 12 }}>
-          <DatePicker />
+        <div style={{marginTop: 12}}>
+          <DatePicker/>
         </div>
 
-        <div style={{ marginTop: 24 }}>
+        <div style={{marginTop: 24}}>
           <span className="foo">SCSS</span>
         </div>
       </div>
