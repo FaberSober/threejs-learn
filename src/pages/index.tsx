@@ -89,6 +89,7 @@ export default function App() {
           <Link to="/threejs2/DemoTwo18React">threejs2/DemoTwo18: 粒子效果（React实现）（有问题）</Link>
 
           <Link to="/threejs2/DemoTwo19">threejs2/DemoTwo19: shader材质</Link>
+          <Link to="/threejs2/DemoTwo19React">threejs2/DemoTwo19: shader材质（React实现）</Link>
         </div>
         <div>
           <p>index.tsx</p>
