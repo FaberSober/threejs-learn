@@ -1,9 +1,9 @@
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 export default function Threejs() {
   return (
     <div className="fa-threejs-main">
-      <a href="/">back</a>
+      <Link to="/">back</Link>
       <div>Threejs demo</div>
 
       <div>

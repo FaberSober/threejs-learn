@@ -95,7 +95,7 @@ function Scene({anim}: {anim: Anim}) {
 
   return (
     <>
-      <directionalLight ref={lightRef} position={[0, 5, 5]} color={0xFFFFFF} intensity={3} castShadow shadow-mapSize={[4096, 4096]}>
+      <directionalLight ref={lightRef} position={[0, 5, 5]} color={0xFFFFFF} intensity={3} castShadow shadow-mapSize={[512, 512]}>
         {/* 使用react-three-fiber的嵌套属性 */}
         <orthographicCamera ref={camera} attach="shadow-camera" args={[-20, 20, 20, -20]}/>
       </directionalLight>

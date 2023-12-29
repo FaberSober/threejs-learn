@@ -31,6 +31,7 @@ import Demo32GizmoHelper from "@/pages/threejs/Demo32GizmoHelper";
 import Demo33MeshRefractionMaterial from "@/pages/threejs/Demo33MeshRefractionMaterial";
 import Demo34FirstPersonControls2 from "@/pages/threejs/Demo34FirstPersonControls2";
 import DemoTwo06React from "@/pages/threejs2/DemoTwo06React";
+import DemoTwo16React from "@/pages/threejs2/DemoTwo16React";
 
 export default function App() {
   const [theme, setTheme] = useState('default');
@@ -97,6 +98,8 @@ export default function App() {
           <Link to="/threejs2/DemoTwo14React">threejs2/DemoTwo14: Raycaster射线检测，控制人物移动（React实现）</Link>
 
           <Link to="/threejs2/DemoTwo15React">threejs2/DemoTwo15: 第三人称实现：PointLockControl，键盘控制人物移动（React实现）</Link>
+
+          <Link to="/threejs2/DemoTwo16React">threejs2/DemoTwo16: 场站综合功能（React实现）</Link>
         </div>
         <div>
           <p>index.tsx</p>

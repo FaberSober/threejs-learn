@@ -1,30 +1,15 @@
 import React, { createContext, PropsWithoutRef, RefAttributes, useContext, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three';
+import { Vector3 } from 'three';
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import {
-  Box,
-  Cone,
-  GizmoHelper,
-  GizmoViewport,
-  KeyboardControls,
-  KeyboardControlsEntry,
-  Line,
-  OrbitControls,
-  PerspectiveCamera,
-  Plane,
-  PointerLockControls,
-  StatsGl,
-  useHelper,
-  useKeyboardControls
-} from "@react-three/drei";
-import MyFactory from "@/components/modal/myFactory/MyFactory";
+import { GizmoHelper, GizmoViewport, KeyboardControls, KeyboardControlsEntry, Line, OrbitControls, PerspectiveCamera, Sky, StatsGl, useHelper, useKeyboardControls } from "@react-three/drei";
 import { Button, Checkbox, Radio, Space } from "antd";
 import MyHelper from "@/components/modal/MyHelper";
 import MyCar from "@/components/modal/car/MyCar";
 import XbotModel, { Anim } from "@/components/modal/bot/XbotModel";
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib/controls/OrbitControls";
 import gsap from "gsap";
-import { Vector3 } from "three";
+import MyFactory01 from "@/components/modal/myFactory/MyFactory01";
 
 
 // Create a sine-like wave
@@ -51,22 +36,13 @@ const curve = new THREE.CatmullRomCurve3(
 
 const points = curve.getPoints(250);
 
-const raycaster = new THREE.Raycaster();
-const cursorPosition = new THREE.Vector3(); // 移动指标位置
-const fromVector = new THREE.Vector3(0, 0, 0); // 初始位置
-const targetVector = new THREE.Vector3(0, 0, 0); // 目标移动位置
-
-// let speed = 0.03; // 移动速度0.1m/s
-let time0 = 0; // 移动时间
-let distance = 0; // 移动的总距离
-let moveDistance = 0; // 移动的距离
 
 const carWorldPosition = new THREE.Vector3();
 const carPosition = new THREE.Vector3();
 const carTarget = new THREE.Vector3();
 const personPosition = new THREE.Vector3(); // 人物位置
 
-enum OprType { GLOBAL, PERSON, SET_PERSON }
+enum OprType { GLOBAL, PERSON }
 let oprType:OprType = OprType.GLOBAL; // 操作类型
 
 function MovingCar() {
@@ -118,9 +94,8 @@ type ForwardRefComponent<P, T> = React.ForwardRefExoticComponent<PropsWithoutRef
 
 interface SceneProps {}
 interface SceneImpl {
-  handleFreeView: () => void;
   handleFollowPerson: () => void;
-  handleSetPerson: () => void;
+  handleFreeView: () => void;
   animPerson: (anim: Anim) => void;
 }
 
@@ -132,8 +107,6 @@ const Scene: ForwardRefComponent<SceneProps, SceneImpl> = React.forwardRef(
     const light1ShadowCamera = useRef<THREE.OrthographicCamera>(null!)
 
     const botBoxRef = useRef<THREE.Mesh>(null!); // 人物
-    const planeRef = useRef<THREE.Mesh>(null!);
-    const sphereRef = useRef<THREE.Mesh>(null!);
 
     useHelper(showHelper && cameraRef, THREE.CameraHelper)
     useHelper(showHelper && light1, THREE.DirectionalLightHelper)
@@ -179,53 +152,11 @@ const Scene: ForwardRefComponent<SceneProps, SceneImpl> = React.forwardRef(
           orbitControl.enableZoom = false;
         }
       },
-      handleSetPerson: () => {
-        console.log('点击地面，设置人物位置')
-        oprType = OprType.SET_PERSON;
-      },
       animPerson: (anim: Anim) => {
         setAnim(anim)
       },
     }));
 
-
-    // 射线检测
-    useFrame(({ camera, pointer }, delta) => {
-      if (oprType !== OprType.SET_PERSON) {
-        return;
-      }
-
-      // 计算与拾取射线相交的对象
-      {
-        // 使用相机和指针位置更新拾取光线
-        raycaster.setFromCamera( pointer, camera );
-        const intersects = raycaster.intersectObject(planeRef.current);
-        if ( intersects.length > 0 ) {
-          cursorPosition.copy(intersects[0].point)
-          // 更新指示小球的位置
-          sphereRef.current.position.setX(intersects[0].point.x)
-          sphereRef.current.position.setZ(intersects[0].point.z)
-        }
-      }
-
-      // 更新移动进度
-      if (moveDistance < distance && distance > 0) {
-        time0 += delta;
-        moveDistance += speed;
-        if (moveDistance >= distance) {
-          moveDistance = distance;
-          setAnim(Anim.idle)
-        }
-
-        // 计算移动的目标点
-        const movePer = moveDistance / distance;
-        const moveX = (targetVector.x - fromVector.x) * movePer
-        const moveZ = (targetVector.z - fromVector.z) * movePer
-        // 更新移动方块的位置
-        botBoxRef.current.position.setX(fromVector.x + moveX)
-        botBoxRef.current.position.setZ(fromVector.z + moveZ)
-      }
-    })
 
     // 键盘控制
     const [, get] = useKeyboardControls<Controls>()
@@ -279,80 +210,24 @@ const Scene: ForwardRefComponent<SceneProps, SceneImpl> = React.forwardRef(
           <orthographicCamera ref={light1ShadowCamera} attach="shadow-camera" args={[-50, 50, 50, -50]}/>
         </directionalLight>
 
+        <Sky distance={450000} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} />
         <ambientLight intensity={0.8}/>
 
         {/* 工厂-基础模型 */}
-        <object3D>
-          <MyFactory showHelper={showHelper}/>
-
-          <Plane
-            ref={planeRef}
-            name="平面检测"
-            position={[0,-0.1,0]}
-            args={[100, 100]}
-            // material={new THREE.MeshPhongMaterial({color: 0xFF0000})}
-            rotation={[Math.PI * -0.5, 0, 0]}
-            onPointerOver={(event) => event.stopPropagation()}
-          >
-            <meshBasicMaterial transparent color={0x000000} opacity={0} />
-          </Plane>
+        {/*<MyFactory showHelper={showHelper}/>*/}
+        <object3D position={[0, -1, 0]}>
+          <MyFactory01 />
         </object3D>
+        <MyHelper />
 
         {/* 小车 */}
-        <MovingCar/>
+        {/*<MovingCar/>*/}
 
         {/* 人物 */}
         <object3D ref={botBoxRef} position={[0, 0, 0]} scale={[1,1,1]} name="Person01">
           <XbotModel selAnim={anim}/>
           {/*<MyHelper size={5} unit={20}/>*/}
         </object3D>
-
-        {/* 移动指示器 */}
-        <Cone
-          ref={sphereRef}
-          args={[0.4, 2, 4]}
-          rotation={[Math.PI, 0, 0]}
-          position={[0,0,0]}
-          castShadow
-          // visible={oprType === OprType.SET_PERSON}
-          // 点击左键，直接设置人物坐标
-          onClick={event => {
-            console.log('移动指示器.onClick', oprType, cursorPosition)
-            // 移动人物到点击位置
-            if (oprType !== OprType.SET_PERSON) {
-              return;
-            }
-            botBoxRef.current.position.setX(cursorPosition.x)
-            botBoxRef.current.position.setZ(cursorPosition.z)
-          }}
-          // 点击右键，动画移动人物
-          onContextMenu={event => {
-            // console.log('Sphere.onContextMenu', event)
-            // 生成新的线段
-            fromVector.copy(botBoxRef.current.position)
-            targetVector.copy(event.point)
-
-            // 重置移动数据
-            time0 = 0;
-            distance = fromVector.distanceTo(targetVector)
-            moveDistance = 0
-            console.log('distance', distance)
-
-            // 设置动画、移动速度
-            if (distance > 5) {
-              setAnim(Anim.run)
-              speed = 0.1
-            } else {
-              setAnim(Anim.walk)
-              speed = 0.05
-            }
-
-            // 设置朝向
-            botBoxRef.current.lookAt(targetVector)
-          }}
-        >
-          <meshLambertMaterial color='red' />
-        </Cone>
 
         {/* 场景摄像机 */}
         <PerspectiveCamera
@@ -384,7 +259,7 @@ const ConfigLayoutContext = createContext<ConfigLayoutContextProps>({} as any);
 const _velocity = new Vector3() // 移动速度向量
 let moving = false; // 是否在移动中
 let canJump = true; // 是否可以跳跃
-let speed = 0.05;
+const speed = 0.05;
 
 const transformed = new THREE.Vector3(); // 移动向量
 
@@ -396,7 +271,7 @@ enum Controls {
   jump = 'jump',
 }
 
-export default function DemoTwo06React() {
+export default function DemoTwo16React() {
   const [controlType, setControlType] = useState<'Orbit' | 'PointerLock'>('Orbit')
   const [cameraType, setCameraType] = useState<CameraType>(CameraType.Global)
   const [showHelper, setShowHelper] = useState(true)
@@ -510,9 +385,8 @@ export default function DemoTwo06React() {
 
         <Space style={{marginTop: 12}}>
           <div>操作方式：</div>
-          <Button onClick={() => sceneRef.current && sceneRef.current.handleFreeView()}>自动视角</Button>
           <Button onClick={() => sceneRef.current && sceneRef.current.handleFollowPerson()}>跟随人物</Button>
-          <Button onClick={() => sceneRef.current && sceneRef.current.handleSetPerson()}>设置人物位置</Button>
+          <Button onClick={() => sceneRef.current && sceneRef.current.handleFreeView()}>自动视角</Button>
         </Space>
 
         <Space style={{marginTop: 12}}>
@@ -546,7 +420,6 @@ export default function DemoTwo06React() {
         <ol>
           <li>固定路线循环运动小车</li>
           <li>控制移动的人物</li>
-          <li>设置人物位置：鼠标左键直接设置位置，鼠标右键人物走动</li>
         </ol>
       </div>
     </div>
