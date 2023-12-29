@@ -1,49 +1,24 @@
 import React, { useRef } from 'react'
 import * as THREE from 'three';
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera, Plane, Tube, useHelper } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera, Plane, useHelper } from "@react-three/drei";
 import MyHelper from "@/components/modal/MyHelper";
+import { useSpring } from "@react-spring/three";
+import ParticleCloud from '@/components/effect/ParticleCloud';
 
-
-const point1 = new THREE.Vector3(0, 0, 0)
-const point2 = new THREE.Vector3(0, 4, 0)
-const curve = new THREE.LineCurve3(point1, point2);
-
-const vertexShader = `
-  varying vec4 vPosition;
-  void main() {
-    vPosition = modelMatrix * vec4(position,1.0);
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-`;
-const fragmentShader = `
-  uniform vec3 uColor; // 光墙半径
-  uniform vec3 uMax;
-  uniform vec3 uMin;
-  uniform mat4 modelMatrix; // 世界矩阵
-  varying vec4 vPosition; // 接收顶点着色传递进来的位置数据
-
-  void main() {
-    // 转世界坐标
-    vec4 uMax_world = modelMatrix * vec4(uMax,1.0);
-    vec4 uMin_world = modelMatrix * vec4(uMin,1.0);
-    // 根据像素点世界坐标的y轴高度,设置透明度
-    float opacity =1.0 - (vPosition.y - uMin_world.y) / (uMax_world.y -uMin_world.y);
-
-    gl_FragColor = vec4( uColor, opacity);
-  }
-`
 
 function Scene() {
   const planeRef = useRef<THREE.Mesh>(null!);
-  const tubeRef = useRef<THREE.Mesh>(null!);
+  // const tubeRef = useRef<THREE.Mesh>(null!);
 
   const lightRef = useRef<THREE.DirectionalLight>(null!);
   useHelper(lightRef, THREE.DirectionalLightHelper)
 
-  useHelper(tubeRef, THREE.BoxHelper, 'cyan')
+  // useHelper(tubeRef, THREE.BoxHelper, 'cyan')
 
-  useFrame(({ camera, pointer }, delta) => {
+  const { spring } = useSpring({ from: { spring: 1 }, to: { spring: 0 }, loop: true });
+
+  useFrame(({camera, pointer}, delta) => {
   })
 
   return (
@@ -62,56 +37,31 @@ function Scene() {
         <meshPhongMaterial color={0xEEEEEE}/>
       </Plane>
 
-      <Tube
-        ref={tubeRef}
-        args={[curve, 10, 5, 50, false]}
-        onUpdate={self => {
-          if (self.geometry.boundingBox) {
-            const min = self.geometry.boundingBox?.min;
-            const max = self.geometry.boundingBox?.max;
-            self.material.uniforms.uMin.value = min;
-            self.material.uniforms.uMax.value = max;
-          }
-        }}
-      >
-        {/*<meshPhongMaterial color="#f3f3f3" wireframe/>*/}
-        <shaderMaterial
-          // args={[
-          //
-          // ]}
-          opacity={0.4}
-          transparent={true}
-          side={THREE.DoubleSide}
-          depthTest={false}
-          uniforms={{
-            uMax: {
-              value: new THREE.Vector3(5, 5, 5)
-            },
-            uMin: {
-              value: new THREE.Vector3(-5, 0, -5)
-            },
-            uColor: {
-              value: new THREE.Color('#0a85ff')
-            },
-          }}
-          vertexShader={vertexShader}
-          fragmentShader={fragmentShader}
-        />
-      </Tube>
+      <ParticleCloud count={1000} />
+
+      <mesh>
+        <boxGeometry />
+        <meshStandardMaterial attach="material" color="#CA8" roughness={0.5} metalness={1} />
+      </mesh>
+
+      <mesh scale={spring.to(s => [1 + s * 0.1, 1 + s * 0.1, 1 + s * 0.1])} rotation={[0, spring.to(s => s * Math.PI * 2), 0]}>
+        <icosahedronGeometry />
+        <meshStandardMaterial attach="material" color="#8AC" roughness={0.5} metalness={1} />
+      </mesh>
     </>
   )
 }
 
-export default function DemoTwo17React() {
+export default function DemoTwo18React() {
   return (
     <div>
       <Canvas shadows>
-        <PerspectiveCamera makeDefault fov={75} position={[5, 5, 5]} />
+        <PerspectiveCamera makeDefault fov={75} position={[5, 5, 5]}/>
 
-        <Scene />
+        <Scene/>
 
-        <MyHelper />
-        <OrbitControls />
+        <MyHelper/>
+        <OrbitControls/>
       </Canvas>
 
       <div>

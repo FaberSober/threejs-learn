@@ -85,6 +85,8 @@ export default function App() {
 
           <Link to="/threejs2/DemoTwo17">threejs2/DemoTwo17: 光墙光幕效果</Link>
           <Link to="/threejs2/DemoTwo17React">threejs2/DemoTwo17: 光墙光幕效果（React实现）</Link>
+
+          <Link to="/threejs2/DemoTwo18React">threejs2/DemoTwo18: 粒子效果（React实现）（有问题）</Link>
         </div>
         <div>
           <p>index.tsx</p>
