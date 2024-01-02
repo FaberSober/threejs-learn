@@ -2,7 +2,7 @@ import React, { createContext, PropsWithoutRef, RefAttributes, Suspense, useCont
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { GizmoHelper, GizmoViewport, KeyboardControls, KeyboardControlsEntry, Line, OrbitControls, PerspectiveCamera, Sky, StatsGl, useHelper, useKeyboardControls } from "@react-three/drei";
+import { Cone, GizmoHelper, GizmoViewport, KeyboardControls, KeyboardControlsEntry, Line, OrbitControls, PerspectiveCamera, Plane, Sky, StatsGl, useHelper, useKeyboardControls } from "@react-three/drei";
 import { Button, Checkbox, Radio, Space } from "antd";
 import MyHelper from "@/components/modal/MyHelper";
 import MyCar from "@/components/modal/car/MyCar";
@@ -37,12 +37,14 @@ const curve = new THREE.CatmullRomCurve3(
 const points = curve.getPoints(250);
 
 
+const raycaster = new THREE.Raycaster();
+const cursorPosition = new THREE.Vector3(); // 移动指标位置
 const carWorldPosition = new THREE.Vector3();
 const carPosition = new THREE.Vector3();
 const carTarget = new THREE.Vector3();
 const personPosition = new THREE.Vector3(); // 人物位置
 
-enum OprType { GLOBAL, PERSON }
+enum OprType { GLOBAL, PERSON, SET_PERSON }
 let oprType:OprType = OprType.GLOBAL; // 操作类型
 
 function MovingCar() {
@@ -96,6 +98,7 @@ interface SceneProps {}
 interface SceneImpl {
   handleFollowPerson: () => void;
   handleFreeView: () => void;
+  handleSetPerson: () => void;
   animPerson: (anim: Anim) => void;
 }
 
@@ -107,6 +110,8 @@ const Scene: ForwardRefComponent<SceneProps, SceneImpl> = React.forwardRef(
     const light1ShadowCamera = useRef<THREE.OrthographicCamera>(null!)
 
     const botBoxRef = useRef<THREE.Mesh>(null!); // 人物
+    const planeRef = useRef<THREE.Mesh>(null!);
+    const sphereRef = useRef<THREE.Mesh>(null!);
 
     useHelper(showHelper && cameraRef, THREE.CameraHelper)
     useHelper(showHelper && light1, THREE.DirectionalLightHelper)
@@ -152,11 +157,35 @@ const Scene: ForwardRefComponent<SceneProps, SceneImpl> = React.forwardRef(
           orbitControl.enableZoom = false;
         }
       },
+      handleSetPerson: () => {
+        console.log('点击地面，设置人物位置')
+        oprType = OprType.SET_PERSON;
+      },
       animPerson: (anim: Anim) => {
         setAnim(anim)
       },
     }));
 
+
+    // 射线检测
+    useFrame(({ camera, pointer }, delta) => {
+      if (oprType !== OprType.SET_PERSON) {
+        return;
+      }
+
+      // 计算与拾取射线相交的对象
+      {
+        // 使用相机和指针位置更新拾取光线
+        raycaster.setFromCamera( pointer, camera );
+        const intersects = raycaster.intersectObject(planeRef.current);
+        if ( intersects.length > 0 ) {
+          cursorPosition.copy(intersects[0].point)
+          // 更新指示小球的位置
+          sphereRef.current.position.setX(intersects[0].point.x)
+          sphereRef.current.position.setZ(intersects[0].point.z)
+        }
+      }
+    })
 
     // 键盘控制
     const [, get] = useKeyboardControls<Controls>()
@@ -216,9 +245,22 @@ const Scene: ForwardRefComponent<SceneProps, SceneImpl> = React.forwardRef(
         {/* 工厂-基础模型 */}
         {/*<MyFactory showHelper={showHelper}/>*/}
         <Suspense>
-          <object3D position={[0, -1, 0]}>
+          <object3D position={[0, -1.4, 0]}>
             <MyFactory01/>
           </object3D>
+
+          <Plane
+            ref={planeRef}
+            name="平面检测"
+            position={[0,0,0]}
+            args={[700, 700]}
+            // material={new THREE.MeshPhongMaterial({color: 0xFF0000})}
+            rotation={[Math.PI * -0.5, 0, 0]}
+            onPointerOver={(event) => event.stopPropagation()}
+            receiveShadow
+          >
+            <meshBasicMaterial transparent={true} color={0xFFFF00} opacity={0} />
+          </Plane>
         </Suspense>
         <MyHelper/>
 
@@ -226,10 +268,34 @@ const Scene: ForwardRefComponent<SceneProps, SceneImpl> = React.forwardRef(
         {/*<MovingCar/>*/}
 
         {/* 人物 */}
-        <object3D ref={botBoxRef} position={[0, 0, 0]} scale={[1,1,1]} name="Person01">
+        <object3D ref={botBoxRef} position={[0, 0, 0]} scale={[1.3,1.3,1.3]} name="Person01">
           <XbotModel selAnim={anim}/>
           {/*<MyHelper size={5} unit={20}/>*/}
         </object3D>
+
+
+        {/* 移动指示器 */}
+        <Cone
+          ref={sphereRef}
+          args={[0.4, 2, 4]}
+          rotation={[Math.PI, 0, 0]}
+          position={[0,0,0]}
+          renderOrder={1}
+          castShadow
+          // visible={oprType === OprType.SET_PERSON}
+          // 点击左键，直接设置人物坐标
+          onClick={event => {
+            console.log('移动指示器.onClick', oprType, cursorPosition)
+            // 移动人物到点击位置
+            if (oprType !== OprType.SET_PERSON) {
+              return;
+            }
+            botBoxRef.current.position.setX(cursorPosition.x)
+            botBoxRef.current.position.setZ(cursorPosition.z)
+          }}
+        >
+          <meshLambertMaterial color='red' depthTest={false} />
+        </Cone>
 
         {/* 场景摄像机 */}
         <PerspectiveCamera
@@ -261,7 +327,7 @@ const ConfigLayoutContext = createContext<ConfigLayoutContextProps>({} as any);
 const _velocity = new Vector3() // 移动速度向量
 let moving = false; // 是否在移动中
 let canJump = true; // 是否可以跳跃
-const speed = 0.05;
+const speed = 0.08;
 
 const transformed = new THREE.Vector3(); // 移动向量
 
@@ -389,6 +455,7 @@ export default function DemoTwo16React() {
           <div>操作方式：</div>
           <Button onClick={() => sceneRef.current && sceneRef.current.handleFollowPerson()}>跟随人物</Button>
           <Button onClick={() => sceneRef.current && sceneRef.current.handleFreeView()}>自动视角</Button>
+          <Button onClick={() => sceneRef.current && sceneRef.current.handleSetPerson()}>设置人物位置</Button>
         </Space>
 
         <Space style={{marginTop: 12}}>
@@ -422,6 +489,7 @@ export default function DemoTwo16React() {
         <ol>
           <li>固定路线循环运动小车</li>
           <li>控制移动的人物</li>
+          <li>设置人物位置：鼠标左键直接设置位置</li>
         </ol>
       </div>
     </div>
