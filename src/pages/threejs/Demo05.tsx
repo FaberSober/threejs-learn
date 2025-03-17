@@ -2,6 +2,10 @@ import React, { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { useGLTF, OrbitControls } from '@react-three/drei'
 import Monkey from '@/components/modal/Monkey'
+import Elec220v from '@/components/modal/Elec220v'
+import House01 from '@/components/modal/House01'
+// import House02 from '@/components/modal/House02'
+import House02b from '@/components/modal/House02b'
 
 
 /**
@@ -15,9 +19,13 @@ export default function Demo05() {
 
       <Canvas shadows camera={{ position: [10, 10, 10], fov: 75 }}>
         {/*<ambientLight />*/}
-        <pointLight position={[10, 10, 10]} intensity={500} distance={1000} />
+        <pointLight position={[10, 10, 10]} intensity={1000} distance={1000} />
         <Suspense>
-          <Monkey />
+          {/* <Monkey /> */}
+          {/* <Elec220v /> */}
+          {/* <House01 /> */}
+          {/* <House02 /> */}
+          <House02b />
         </Suspense>
         <OrbitControls />
       </Canvas>
