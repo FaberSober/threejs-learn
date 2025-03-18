@@ -6,6 +6,7 @@ import Elec220v from '@/components/modal/Elec220v'
 import House01 from '@/components/modal/House01'
 // import House02 from '@/components/modal/House02'
 import House02b from '@/components/modal/House02b'
+import House03 from '@/components/modal/House03'
 
 
 /**
@@ -25,7 +26,8 @@ export default function Demo05() {
           {/* <Elec220v /> */}
           {/* <House01 /> */}
           {/* <House02 /> */}
-          <House02b />
+          {/* <House02b /> */}
+          <House03 />
         </Suspense>
         <OrbitControls />
       </Canvas>
