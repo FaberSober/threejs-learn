@@ -45,3 +45,10 @@ npm install -g npm-check-updates
 ```
 ncu -u --timeout 120000
 ```
+
+# 如何将glb转换为jsx
+执行下面的命令，会将glb模型转换为jsx文件
+https://github.com/pmndrs/gltfjsx
+```bash
+npx gltfjsx modal.glb --keepgroups --keepnames
+```

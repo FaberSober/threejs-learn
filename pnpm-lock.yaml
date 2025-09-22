@@ -54,6 +54,9 @@ importers:
         specifier: MasatoMakino/threejs-shader-materials
         version: '@masatomakino/threejs-shader-materials@https://codeload.github.com/MasatoMakino/threejs-shader-materials/tar.gz/03379acf3de1d2b4e32e1b652a74335a5fd79f48(@masatomakino/raf-ticker@0.6.4)(three@0.160.0)'
     devDependencies:
+      '@masatomakino/threejs-shader-materials':
+        specifier: ^0.10.0
+        version: 0.10.0(@masatomakino/raf-ticker@0.6.4)(three@0.160.0)
       '@types/react':
         specifier: 18.2.30
         version: 18.2.30
@@ -369,6 +372,12 @@ packages:
 
   '@masatomakino/raf-ticker@0.6.4':
     resolution: {integrity: sha512-D5vGV0rb6ZK7AHO0YK8shZMANKOVZdUeYiH1SIzQXR0KCrvOrajkf40nFpxgaHKJifEwGRbF0pB35vk5MdU4zw==}
+
+  '@masatomakino/threejs-shader-materials@0.10.0':
+    resolution: {integrity: sha512-mQQ/M1cUpNcxw1Dbh1x+MA/Xq8mJZQ8DpROlz9d5LLHuyaDGwATWnLDeUzlTzOAWNQoJz0Q39AcZirK0APTNrg==}
+    peerDependencies:
+      '@masatomakino/raf-ticker': 0.5.3 - 0.6.x
+      three: 0.168.0 - 0.168.x
 
   '@masatomakino/threejs-shader-materials@https://codeload.github.com/MasatoMakino/threejs-shader-materials/tar.gz/03379acf3de1d2b4e32e1b652a74335a5fd79f48':
     resolution: {tarball: https://codeload.github.com/MasatoMakino/threejs-shader-materials/tar.gz/03379acf3de1d2b4e32e1b652a74335a5fd79f48}
@@ -2241,6 +2250,11 @@ snapshots:
   '@masatomakino/raf-ticker@0.6.4':
     dependencies:
       eventemitter3: 5.0.1
+
+  '@masatomakino/threejs-shader-materials@0.10.0(@masatomakino/raf-ticker@0.6.4)(three@0.160.0)':
+    dependencies:
+      '@masatomakino/raf-ticker': 0.6.4
+      three: 0.160.0
 
   '@masatomakino/threejs-shader-materials@https://codeload.github.com/MasatoMakino/threejs-shader-materials/tar.gz/03379acf3de1d2b4e32e1b652a74335a5fd79f48(@masatomakino/raf-ticker@0.6.4)(three@0.160.0)':
     dependencies:

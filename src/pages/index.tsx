@@ -90,6 +90,8 @@ export default function App() {
 
           <Link to="/threejs2/DemoTwo19">threejs2/DemoTwo19: shader材质</Link>
           <Link to="/threejs2/DemoTwo19React">threejs2/DemoTwo19: shader材质（React实现）</Link>
+
+          <Link to="/threejs2/DemoTwo20React">threejs2/DemoTwo20: 加载glb模型（React实现）</Link>
         </div>
         <div>
           <p>index.tsx</p>

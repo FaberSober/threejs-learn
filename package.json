@@ -25,6 +25,7 @@
     "threejs-shader-materials": "MasatoMakino/threejs-shader-materials"
   },
   "devDependencies": {
+    "@masatomakino/threejs-shader-materials": "^0.10.0",
     "@types/react": "18.2.30",
     "@types/react-dom": "18.2.14",
     "@types/react-router-config": "5.0.9",
