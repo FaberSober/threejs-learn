@@ -3,8 +3,14 @@ import { Html, OrbitControls, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import { useRef } from 'react'
 
+
+export interface IndicatorProps {
+  targetRef: React.RefObject<THREE.Group>
+  name?: string
+}
+
 // ✅ 指示牌组件
-export default function Indicator({ targetRef }: { targetRef: React.RefObject<THREE.Group> }) {
+export default function Indicator({ targetRef, name }: IndicatorProps) {
   const labelRef = useRef<THREE.Group>(null!)
   const lineRef = useRef<THREE.LineSegments>(null!)
 
@@ -14,7 +20,7 @@ export default function Indicator({ targetRef }: { targetRef: React.RefObject<TH
       targetRef.current.getWorldPosition(targetPos)
 
       // 把指示牌放到目标点上方
-      labelRef.current.position.copy(targetPos.clone().add(new THREE.Vector3(0, 20, 20)))
+      labelRef.current.position.copy(targetPos.clone().add(new THREE.Vector3(0, 0, 20)))
 
       // 更新连线（起点=指示牌，终点=目标点）
       if (lineRef.current.geometry instanceof THREE.BufferGeometry) {
@@ -41,7 +47,7 @@ export default function Indicator({ targetRef }: { targetRef: React.RefObject<TH
               whiteSpace: 'nowrap',
             }}
           >
-            指示牌
+            {name}
           </div>
         </Html>
       </group>

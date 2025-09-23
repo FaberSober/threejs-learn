@@ -7,6 +7,8 @@ import TestModel from '@/components/modal/hhiot/TestModel';
 import { animated, useSpring } from '@react-spring/three';
 import { Button } from 'antd';
 import { Cube419 } from '@/components/modal/hhiot/Cube419';
+import { Cube418 } from '@/components/modal/hhiot/Cube418';
+import { Cube417 } from '@/components/modal/hhiot/Cube417';
 
 function Scene({ target }: any) {
   const planeRef = useRef<THREE.Mesh>(null!);
@@ -45,6 +47,8 @@ function Scene({ target }: any) {
       <animated.group position={position}>
         {/* <TestModel position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
         <Cube419 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube418 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube417 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
       </animated.group>
 
       {/* <Billboard

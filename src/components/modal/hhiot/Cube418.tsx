@@ -7,19 +7,18 @@ import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import Indicator from './Indicator'
 
-export function Cube419(props) {
+export function Cube418(props) {
   const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb')
   const targetRef = useRef<THREE.Group>(null!)
 
   return (
-    <group name="419" {...props} dispose={null}>
+    <group name="418" {...props} dispose={null}>
       {/* <group name="Mesh419" position={[-15.494, 33.843, 61.451]}> */}
-      <group ref={targetRef} name="Mesh419" position={[-15.494, 33.843, 61.451]}>
-        <mesh name="Mesh169" geometry={nodes.Mesh169.geometry} material={materials.Color_M05} />
-        <mesh name="Mesh169_1" geometry={nodes.Mesh169_1.geometry} material={materials.BackColor} />
+      <group ref={targetRef} name="Mesh418" position={[-15.429, 16.2524, 57.9112]}>
+        <mesh name="Mesh418" geometry={nodes.Mesh418.geometry} material={materials.Color_M05} />
 
         {/* 指示牌 */}
-        <Indicator targetRef={targetRef} name='419' />
+        <Indicator targetRef={targetRef} name='418' />
       </group>
     </group>
   )
