@@ -1,13 +1,14 @@
-import React, { useMemo, useRef } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
-import { Box, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper } from "@react-three/drei";
+import { Billboard, Box, Text, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper } from "@react-three/drei";
 import MyHelper from "@/components/modal/MyHelper";
-import JzModel from '@/components/modal/hhiot/JzModel';
 import TestModel from '@/components/modal/hhiot/TestModel';
+import { animated, useSpring } from '@react-spring/three';
+import { Button } from 'antd';
+import { Cube419 } from '@/components/modal/hhiot/Cube419';
 
-
-function Scene() {
+function Scene({ target }: any) {
   const planeRef = useRef<THREE.Mesh>(null!);
   const tubeRef = useRef<THREE.Mesh>(null!);
 
@@ -16,7 +17,13 @@ function Scene() {
 
   useHelper(tubeRef, THREE.BoxHelper, 'cyan')
 
+  // 使用 useSpring 控制 group 的 position
+  const { position } = useSpring({
+    position: target,
+    config: { mass: 1, tension: 120, friction: 14 }, // 动画阻尼参数
+  })
 
+  console.log('position', position, 'target', target)
   return (
     <>
       <directionalLight ref={lightRef} position={[0, 15, 15]} color={0xFFFFFF} intensity={1} castShadow shadow-mapSize={[4096, 4096]}>
@@ -34,28 +41,43 @@ function Scene() {
       </Plane>
 
       {/* <JzModel position={[0, 0, 0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
-      <TestModel position={[0, 0, 0]} scale={0.1} rotation={[0, 0, 0]} castShadow/>
+      {/* <TestModel position={[0, 0, 0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
+      <animated.group position={position}>
+        {/* <TestModel position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
+        <Cube419 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+      </animated.group>
+
+      {/* <Billboard
+        follow={true}
+        lockX={false}
+        lockY={false}
+        lockZ={false} // Lock the rotation on the z axis (default=false)
+      >
+        <Text fontSize={1}>I'm a billboard</Text>
+      </Billboard> */}
     </>
   )
 }
 
 export default function DemoTwo20React() {
+  const [pos, setPos] = useState<[number, number, number]>([0, 0, 0])
+
   return (
     <div>
+      <div>
+        <div>
+          <Button onClick={() => setPos([0, 0, 0])}>回到原点</Button>
+          <Button onClick={() => setPos([2, 1, -1])}>移动到 (2,1,-1)</Button>
+          <Button onClick={() => setPos([-2, 0, 2])}>移动到 (-2,0,2)</Button>
+        </div>
+      </div>
+
       <Canvas shadows>
         <PerspectiveCamera makeDefault fov={75} position={[5, 5, 5]}/>
-
-        <Scene/>
-
+        <Scene target={pos} />
         <MyHelper/>
         <OrbitControls/>
       </Canvas>
-
-      <div>
-        <ol>
-          <li></li>
-        </ol>
-      </div>
     </div>
   )
 }

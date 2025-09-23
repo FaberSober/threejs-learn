@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import * as THREE from 'three';
 // 导入轨道控制器
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { CrossGridMaterial, HexGridMaterial } from "threejs-shader-materials";
+import { CrossGridMaterial, HexGridMaterial } from "@masatomakino/threejs-shader-materials";
 
 
 export default function DemoTwo17() {

@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
 import { Box, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper } from "@react-three/drei";
 import MyHelper from "@/components/modal/MyHelper";
-import { HexGridMaterial } from "threejs-shader-materials";
+import { HexGridMaterial } from "@masatomakino/threejs-shader-materials";
 
 
 function Scene() {
