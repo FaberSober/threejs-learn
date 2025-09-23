@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { Box, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper } from "@react-three/drei";
 import MyHelper from "@/components/modal/MyHelper";
 import JzModel from '@/components/modal/hhiot/JzModel';
+import TestModel from '@/components/modal/hhiot/TestModel';
 
 
 function Scene() {
@@ -23,16 +24,17 @@ function Scene() {
         <orthographicCamera attach="shadow-camera" args={[-20, 20, 20, -20]}/>
       </directionalLight>
       <ambientLight intensity={0.8}/>
-      {/* <Plane
+      <Plane
         ref={planeRef}
         args={[20, 20]}
         rotation-x={Math.PI * -0.5}
         receiveShadow
       >
         <meshPhongMaterial color={0xEEEEEE}/>
-      </Plane> */}
+      </Plane>
 
-      <JzModel position={[0, 0, 0]} scale={0.1} rotation={[0, 0, 0]} castShadow/>
+      {/* <JzModel position={[0, 0, 0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
+      <TestModel position={[0, 0, 0]} scale={0.1} rotation={[0, 0, 0]} castShadow/>
     </>
   )
 }
@@ -45,7 +47,7 @@ export default function DemoTwo20React() {
 
         <Scene/>
 
-        {/* <MyHelper/> */}
+        <MyHelper/>
         <OrbitControls/>
       </Canvas>
 
