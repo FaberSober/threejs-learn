@@ -9,6 +9,11 @@ import { Button } from 'antd';
 import { Cube419 } from '@/components/modal/hhiot/Cube419';
 import { Cube418 } from '@/components/modal/hhiot/Cube418';
 import { Cube417 } from '@/components/modal/hhiot/Cube417';
+import { Cube426 } from '@/components/modal/hhiot/Cube426';
+import { Cube425 } from '@/components/modal/hhiot/Cube425';
+import { Cube424 } from '@/components/modal/hhiot/Cube424';
+import { Cube577 } from '@/components/modal/hhiot/Cube577';
+import { Cube578 } from '@/components/modal/hhiot/Cube578';
 
 function Scene({ target }: any) {
   const planeRef = useRef<THREE.Mesh>(null!);
@@ -49,6 +54,14 @@ function Scene({ target }: any) {
         <Cube419 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
         <Cube418 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
         <Cube417 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+
+        <Cube426 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube425 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube424 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+
+        <Cube577 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube578 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+
       </animated.group>
 
       {/* <Billboard

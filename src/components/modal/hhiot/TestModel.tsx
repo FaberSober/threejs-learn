@@ -35,9 +35,10 @@ export default function TestModel(props) {
             </group>
           </group>
           <mesh name="Mesh417" geometry={nodes.Mesh417.geometry} material={materials.Color_M04} />
+
+          {/* 指示牌 */}
+          <Indicator targetRef={targetRef} name="417A" />
         </group>
-        {/* 指示牌 */}
-        <Indicator targetRef={targetRef} />
 
         <group name="418">
           <mesh name="Mesh418" geometry={nodes.Mesh418.geometry} material={materials.Color_M05} />

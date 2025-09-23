@@ -15,8 +15,8 @@ export function Cube419(props) {
     <group name="419" {...props} dispose={null}>
       {/* <group name="Mesh419" position={[-15.494, 33.843, 61.451]}> */}
       <group ref={targetRef} name="Mesh419" position={[-15.494, 33.843, 61.451]}>
-        <mesh name="Mesh169" geometry={nodes.Mesh169.geometry} material={materials.Color_M05} />
-        <mesh name="Mesh169_1" geometry={nodes.Mesh169_1.geometry} material={materials.BackColor} />
+        <mesh name="Mesh419_1" geometry={nodes.Mesh419_1.geometry} material={materials.Color_M05} />
+        <mesh name="Mesh419_2" geometry={nodes.Mesh419_2.geometry} material={materials.BackColor} />
 
         {/* 指示牌 */}
         <Indicator targetRef={targetRef} name='419' />
