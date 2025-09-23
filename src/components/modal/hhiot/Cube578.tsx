@@ -18,7 +18,7 @@ export function Cube578(props) {
         <mesh name="Mesh578_2" geometry={nodes.Mesh578_2.geometry} material={materials.BackColor} />
 
         {/* 指示牌 */}
-        <Indicator targetRef={targetRef} name='578' />
+        <Indicator targetRef={targetRef} name='578' orientPos={[-30,0,0]} />
       </group>
     </group>
   )

@@ -7,10 +7,11 @@ import { useRef } from 'react'
 export interface IndicatorProps {
   targetRef: React.RefObject<THREE.Group>
   name?: string
+  orientPos?: [number, number, number]
 }
 
 // ✅ 指示牌组件
-export default function Indicator({ targetRef, name }: IndicatorProps) {
+export default function Indicator({ targetRef, name, orientPos = [0, 0, 20] }: IndicatorProps) {
   const labelRef = useRef<THREE.Group>(null!)
   const lineRef = useRef<THREE.LineSegments>(null!)
 
@@ -20,7 +21,7 @@ export default function Indicator({ targetRef, name }: IndicatorProps) {
       targetRef.current.getWorldPosition(targetPos)
 
       // 把指示牌放到目标点上方
-      labelRef.current.position.copy(targetPos.clone().add(new THREE.Vector3(0, 0, 20)))
+      labelRef.current.position.copy(targetPos.clone().add(new THREE.Vector3(...orientPos)))
 
       // 更新连线（起点=指示牌，终点=目标点）
       if (lineRef.current.geometry instanceof THREE.BufferGeometry) {

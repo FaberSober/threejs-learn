@@ -14,6 +14,18 @@ import { Cube425 } from '@/components/modal/hhiot/Cube425';
 import { Cube424 } from '@/components/modal/hhiot/Cube424';
 import { Cube577 } from '@/components/modal/hhiot/Cube577';
 import { Cube578 } from '@/components/modal/hhiot/Cube578';
+import { Cube580 } from '@/components/modal/hhiot/Cube580';
+import { Cube581 } from '@/components/modal/hhiot/Cube581';
+import { Cube583 } from '@/components/modal/hhiot/Cube583';
+import { Cube584 } from '@/components/modal/hhiot/Cube584';
+import { Cube586 } from '@/components/modal/hhiot/Cube586';
+import { Cube587 } from '@/components/modal/hhiot/Cube587';
+import { Cube498 } from '@/components/modal/hhiot/Cube498';
+import { Cube499 } from '@/components/modal/hhiot/Cube499';
+import { Cube500 } from '@/components/modal/hhiot/Cube500';
+import { Cube505 } from '@/components/modal/hhiot/Cube505';
+import { Cube506 } from '@/components/modal/hhiot/Cube506';
+import { Cube507 } from '@/components/modal/hhiot/Cube507';
 
 function Scene({ target }: any) {
   const planeRef = useRef<THREE.Mesh>(null!);
@@ -62,6 +74,22 @@ function Scene({ target }: any) {
         <Cube577 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
         <Cube578 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
 
+        <Cube580 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube581 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+
+        <Cube583 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube584 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+
+        <Cube586 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube587 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+
+        <Cube498 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube499 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube500 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+
+        <Cube505 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube506 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube507 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
       </animated.group>
 
       {/* <Billboard
