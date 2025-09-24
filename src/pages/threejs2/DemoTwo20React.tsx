@@ -60,7 +60,7 @@ function Scene({ target }: any) {
       <ambientLight intensity={0.8}/>
       <Plane
         ref={planeRef}
-        args={[20, 20]}
+        args={[384, 216]}
         rotation-x={Math.PI * -0.5}
         receiveShadow
       >
@@ -70,36 +70,38 @@ function Scene({ target }: any) {
 
       {/* <JzModel position={[0, 0, 0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
       {/* <TestModel position={[0, 0, 0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
-      <animated.group position={position}>
-        {/* <TestModel position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
-        <Cube419 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '419')} />
-        <Cube418 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '418')} />
-        <Cube417 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '417')} />
+      <group position={[0,0,0]} rotation={[0, -Math.PI*0.3, 0]}>
+        <animated.group position={position}>
+          {/* <TestModel position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
+          <Cube419 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '419')} />
+          <Cube418 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '418')} />
+          <Cube417 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '417')} />
 
-        <Cube426 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '426')} />
-        <Cube425 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '425')} />
-        <Cube424 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '424')} />
+          <Cube426 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '426')} />
+          <Cube425 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '425')} />
+          <Cube424 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '424')} />
 
-        <Cube577 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '577')} />
-        <Cube578 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '578')} />
+          <Cube577 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '577')} />
+          <Cube578 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '578')} />
 
-        <Cube580 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '580')} />
-        <Cube581 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '581')} />
+          <Cube580 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '580')} />
+          <Cube581 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '581')} />
 
-        <Cube583 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '583')} />
-        <Cube584 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '584')} />
+          <Cube583 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '583')} />
+          <Cube584 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '584')} />
 
-        <Cube586 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '586')} />
-        <Cube587 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '587')} />
+          <Cube586 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '586')} />
+          <Cube587 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '587')} />
 
-        <Cube498 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '498')} />
-        <Cube499 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '499')} />
-        <Cube500 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '500')} />
+          <Cube498 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '498')} />
+          <Cube499 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '499')} />
+          <Cube500 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '500')} />
 
-        <Cube505 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '505')} />
-        <Cube506 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '506')} />
-        <Cube507 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '507')} />
-      </animated.group>
+          <Cube505 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '505')} />
+          <Cube506 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '506')} />
+          <Cube507 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '507')} />
+        </animated.group>
+      </group>
 
       {/* <Billboard
         follow={true}
@@ -127,7 +129,7 @@ export default function DemoTwo20React() {
       </div>
 
       <Canvas shadows>
-        <PerspectiveCamera makeDefault fov={75} position={[5, 5, 5]}/>
+        <PerspectiveCamera makeDefault fov={75} position={[3, 6, 10]}/>
         <Scene target={pos} />
         <MyHelper/>
         <OrbitControls/>

@@ -11,6 +11,7 @@ import { CubeProps } from '../type'
 import * as THREE from 'three'
 import BimText3D from '../text/BimText3D'
 import useHover from '../hooks/useHover'
+import CubeInfoCard from '../card/CubeInfoCard'
 
 type GLTFResult = GLTF & {
   nodes: { [key: string]: THREE.Mesh }
@@ -20,7 +21,7 @@ type GLTFResult = GLTF & {
 export function Cube506({ ...props }: CubeProps) {
   const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb') as GLTFResult
   const targetRef = useRef<THREE.Group>(null!)
-  const { hovered, onPointerOver, onPointerOut } = useHover()
+  const { hovered, setHovered, onPointerOver, onPointerOut } = useHover()
 
   // 克隆材质以防止影响其他使用相同材质的对象
   const meshMaterial = materials.Color_M05.clone()
@@ -48,7 +49,17 @@ export function Cube506({ ...props }: CubeProps) {
         <mesh name="Mesh5061_2" geometry={nodes.Mesh5061_2.geometry} material={backMaterial} />
 
         {/* 指示牌 */}
-        {hovered && <Indicator targetRef={targetRef} name='506' orientPos={[0,0,-20]} />}
+
+          <Indicator targetRef={targetRef} visible={hovered} name='506' orientPos={[0,0,-30]}>
+            <CubeInfoCard
+              no='506'
+              name='③联C40砼上涵首墙身及顶板'
+              status='已浇筑'
+              temperature={30}
+              onClose={() => setHovered(false)}
+            />
+          </Indicator>
+
         <BimText3D text="506" width={6} position={[12.3, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
         <BimText3D text="506" width={6} position={[12.3, 0, -6.5]} rotation={[0, Math.PI / 1, 0]} />
       </group>

@@ -21,7 +21,7 @@ type GLTFResult = GLTF & {
 export function Cube586({ ...props }: CubeProps) {
   const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb')
   const targetRef = useRef<THREE.Group>(null!)
-  const { hovered, setHovered, onPointerOver } = useHover()
+  const { hovered, setHovered, onPointerOver, onPointerOut } = useHover()
 
   // 克隆材质以防止影响其他使用相同材质的对象
   const meshMaterial = materials.Color_M00.clone()
@@ -43,13 +43,14 @@ export function Cube586({ ...props }: CubeProps) {
         name="Mesh586"
         position={[14.906, 2.647, -19.706]}
         onPointerOver={onPointerOver}
+        onPointerOut={onPointerOut}
       >
         <mesh name="Mesh586_1" geometry={nodes.Mesh586_1.geometry} material={meshMaterial} />
         <mesh name="Mesh586_2" geometry={nodes.Mesh586_2.geometry} material={backMaterial} />
 
         {/* 指示牌 */}
-        {hovered && (
-          <Indicator targetRef={targetRef} name='586' orientPos={[20, 0, 0]}>
+
+          <Indicator targetRef={targetRef} visible={hovered} name='586' orientPos={[20, 0, 0]}>
             <CubeInfoCard
               no='586'
               name='③联C40砼上涵首墙身及顶板'
@@ -58,7 +59,6 @@ export function Cube586({ ...props }: CubeProps) {
               onClose={() => setHovered(false)}
             />
           </Indicator>
-        )}
         <BimText3D text="586" width={6} position={[12.3, 0, 16]} rotation={[0, Math.PI / 2, 0]} />
       </group>
     </group>

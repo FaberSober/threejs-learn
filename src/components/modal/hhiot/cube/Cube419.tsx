@@ -22,15 +22,12 @@ export function Cube419({ ...props }: CubeProps) {
 
   // 克隆材质以防止影响其他使用相同材质的对象
   const meshMaterial = materials.Color_M05.clone()
-  // const backMaterial = materials.BackColor.clone()
 
   // 设置发光效果
   if (hovered) {
     meshMaterial.emissive = new THREE.Color(0x666666)
-    // backMaterial.emissive = new THREE.Color(0x666666)
   } else {
     meshMaterial.emissive = new THREE.Color(0x000000)
-    // backMaterial.emissive = new THREE.Color(0x000000)
   }
 
   return (
@@ -41,13 +38,14 @@ export function Cube419({ ...props }: CubeProps) {
         name="Mesh419"
         position={[-15.494, 33.843, 61.451]}
         onPointerOver={onPointerOver}
+        onPointerOut={onPointerOut}
       >
         <mesh name="Mesh419_1" geometry={nodes.Mesh419_1.geometry} material={meshMaterial} />
         {/* <mesh name="Mesh419_2" geometry={nodes.Mesh419_2.geometry} material={backMaterial} /> */}
 
         {/* 指示牌 */}
-        {hovered && (
-          <Indicator targetRef={targetRef} name='419'>
+
+          <Indicator targetRef={targetRef} visible={hovered} name='419'>
             <CubeInfoCard
               no='419'
               name='③联C40砼上涵首墙身及顶板'
@@ -56,7 +54,6 @@ export function Cube419({ ...props }: CubeProps) {
               onClose={() => setHovered(false)}
             />
           </Indicator>
-        )}
         <BimText3D text="419" width={6} position={[5, 0, 8]} />
         <BimText3D text="419" width={6} position={[-12.3, 0, 1]} rotation={[0, -Math.PI / 2, 0]} />
       </group>

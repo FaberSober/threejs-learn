@@ -10,6 +10,8 @@ import Indicator from '../Indicator'
 import { CubeProps } from '../type'
 import * as THREE from 'three'
 import BimText3D from '../text/BimText3D'
+import useHover from '../hooks/useHover'
+import CubeInfoCard from '../card/CubeInfoCard'
 
 type GLTFResult = GLTF & {
   nodes: { [key: string]: THREE.Mesh }
@@ -19,19 +21,16 @@ type GLTFResult = GLTF & {
 export function Cube499({ ...props }: CubeProps) {
   const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb') as GLTFResult
   const targetRef = useRef<THREE.Group>(null!)
-  const [hovered, setHovered] = useState(false)
+    const { hovered, setHovered, onPointerOver, onPointerOut } = useHover()
 
   // 克隆材质以防止影响其他使用相同材质的对象
   const meshMaterial = materials.Color_M05.clone()
-  const backMaterial = materials.BackColor.clone()
 
   // 设置发光效果
   if (hovered) {
     meshMaterial.emissive = new THREE.Color(0x666666)
-    backMaterial.emissive = new THREE.Color(0x666666)
   } else {
     meshMaterial.emissive = new THREE.Color(0x000000)
-    backMaterial.emissive = new THREE.Color(0x000000)
   }
 
   return (
@@ -40,28 +39,29 @@ export function Cube499({ ...props }: CubeProps) {
         ref={targetRef}
         name="Mesh4991"
         position={[-15.494, 16.088, -62.293]}
-        onPointerOver={(e) => {
-          e.stopPropagation()
-          setHovered(true)
-          document.body.style.cursor = 'pointer'
-        }}
-        onPointerOut={(e) => {
-          e.stopPropagation()
-          setHovered(false)
-          document.body.style.cursor = 'default'
-        }}
+        onPointerOver={onPointerOver}
+        onPointerOut={onPointerOut}
       >
         <mesh name="Mesh4991_1" geometry={nodes.Mesh4991_1.geometry} material={meshMaterial} />
-        <mesh name="Mesh4991_2" geometry={nodes.Mesh4991_2.geometry} material={backMaterial} />
+        {/* <mesh name="Mesh4991_2" geometry={nodes.Mesh4991_2.geometry} material={backMaterial} /> */}
 
         {/* 指示牌 */}
-        {hovered && <Indicator targetRef={targetRef} name='499' orientPos={[0,0,-20]} />}
+
+          <Indicator targetRef={targetRef} visible={hovered} name='499'>
+            <CubeInfoCard
+              no='499'
+              name='③联C40砼上涵首墙身及顶板'
+              status='已浇筑'
+              temperature={30}
+              onClose={() => setHovered(false)}
+            />
+          </Indicator>
         <BimText3D text="499" width={6} position={[-12.3, 0, -6.5]} rotation={[0, -Math.PI / 2, 0]} />
         <BimText3D text="499" width={6} position={[12.3, 0, -6.5]} rotation={[0, Math.PI / 1, 0]} />
       </group>
       <group name="Mesh4992" position={[-15.494, 15.722, -49.877]}>
         <mesh name="Mesh4992_1" geometry={nodes.Mesh4992_1.geometry} material={meshMaterial} />
-        <mesh name="Mesh4992_2" geometry={nodes.Mesh4992_2.geometry} material={backMaterial} />
+        {/* <mesh name="Mesh4992_2" geometry={nodes.Mesh4992_2.geometry} material={backMaterial} /> */}
       </group>
     </group>
   )

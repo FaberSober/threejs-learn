@@ -11,10 +11,11 @@ export interface IndicatorProps {
   name?: string;
   orientPos?: [number, number, number];
   children?: React.ReactNode;
+  visible?: boolean;
 }
 
 // ✅ 指示牌组件
-export default function Indicator({ targetRef, name, orientPos = [0, 0, 30], children, ...props }: IndicatorProps) {
+export default function Indicator({ targetRef, name, orientPos = [0, 0, 30], children, visible = false, ...props }: IndicatorProps) {
   const labelRef = useRef<THREE.Group>(null!)
   const lineRef = useRef<THREE.LineSegments>(null!)
 
@@ -36,6 +37,7 @@ export default function Indicator({ targetRef, name, orientPos = [0, 0, 30], chi
     }
   })
 
+  if (!visible) return null;
   return (
     <>
       {/* 3D 空节点，作为指示牌容器 */}

@@ -10,6 +10,8 @@ import Indicator from '../Indicator'
 import { CubeProps } from '../type'
 import * as THREE from 'three'
 import BimText3D from '../text/BimText3D'
+import CubeInfoCard from '../card/CubeInfoCard'
+import useHover from '../hooks/useHover'
 
 type GLTFResult = GLTF & {
   nodes: { [key: string]: THREE.Mesh }
@@ -19,7 +21,7 @@ type GLTFResult = GLTF & {
 export function Cube507({ ...props }: CubeProps) {
   const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb') as GLTFResult
   const targetRef = useRef<THREE.Group>(null!)
-  const [hovered, setHovered] = useState(false)
+  const { hovered, setHovered, onPointerOver, onPointerOut } = useHover()
 
   // 克隆材质以防止影响其他使用相同材质的对象
   const meshMaterial = materials.Color_M05.clone()
@@ -37,21 +39,23 @@ export function Cube507({ ...props }: CubeProps) {
         ref={targetRef}
         name="Mesh507"
         position={[14.906, 34.884, -61.16]}
-        onPointerOver={(e) => {
-          e.stopPropagation()
-          setHovered(true)
-          document.body.style.cursor = 'pointer'
-        }}
-        onPointerOut={(e) => {
-          e.stopPropagation()
-          setHovered(false)
-          document.body.style.cursor = 'default'
-        }}
+        onPointerOver={onPointerOver}
+        onPointerOut={onPointerOut}
       >
         <mesh name="Mesh507" geometry={nodes.Mesh507.geometry} material={meshMaterial} />
 
         {/* 指示牌 */}
-        {hovered && <Indicator targetRef={targetRef} name='507' orientPos={[0,0,-20]} />}
+
+          <Indicator targetRef={targetRef} visible={hovered} name='507' orientPos={[0,0,-30]}>
+            <CubeInfoCard
+              no='507'
+              name='③联C40砼上涵首墙身及顶板'
+              status='已浇筑'
+              temperature={30}
+              onClose={() => setHovered(false)}
+            />
+          </Indicator>
+
         <BimText3D text="507" width={6} position={[12.3, 0, -1]} rotation={[0, Math.PI / 2, 0]} />
         <BimText3D text="507" width={6} position={[12.3, 0, -7.6]} rotation={[0, Math.PI / 1, 0]} />
       </group>
