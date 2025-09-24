@@ -16,15 +16,15 @@ export function Cube419({ ...props }: CubeProps) {
   const [hovered, setHovered] = useState(false)
   // 克隆材质以防止影响其他使用相同材质的对象
   const meshMaterial = materials.Color_M05.clone()
-  const backMaterial = materials.BackColor.clone()
+  // const backMaterial = materials.BackColor.clone()
 
   // 设置发光效果
   if (hovered) {
     meshMaterial.emissive = new THREE.Color(0x666666)
-    backMaterial.emissive = new THREE.Color(0x666666)
+    // backMaterial.emissive = new THREE.Color(0x666666)
   } else {
     meshMaterial.emissive = new THREE.Color(0x000000)
-    backMaterial.emissive = new THREE.Color(0x000000)
+    // backMaterial.emissive = new THREE.Color(0x000000)
   }
 
   return (
@@ -46,7 +46,7 @@ export function Cube419({ ...props }: CubeProps) {
         }}
       >
         <mesh name="Mesh419_1" geometry={nodes.Mesh419_1.geometry} material={meshMaterial} />
-        <mesh name="Mesh419_2" geometry={nodes.Mesh419_2.geometry} material={backMaterial} />
+        {/* <mesh name="Mesh419_2" geometry={nodes.Mesh419_2.geometry} material={backMaterial} /> */}
 
         {/* 指示牌 */}
         <Indicator targetRef={targetRef} name='419' />
