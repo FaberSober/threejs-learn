@@ -11,6 +11,7 @@ import { CubeProps } from '../type'
 import * as THREE from 'three'
 import BimText3D from '../text/BimText3D'
 import useHover from '../hooks/useHover'
+import CubeInfoCard from '../card/CubeInfoCard'
 
 type GLTFResult = GLTF & {
   nodes: { [key: string]: THREE.Mesh }
@@ -18,9 +19,9 @@ type GLTFResult = GLTF & {
 }
 
 export function Cube426({ ...props }: CubeProps) {
-  const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb')
   const targetRef = useRef<THREE.Group>(null!)
-  const { hovered, onPointerOver, onPointerOut } = useHover()
+  const { hovered, setHovered, onPointerOver } = useHover()
 
   // 克隆材质以防止影响其他使用相同材质的对象
   const meshMaterial = materials.Color_M05.clone()
@@ -34,18 +35,26 @@ export function Cube426({ ...props }: CubeProps) {
 
   return (
     <group name="426" {...props} dispose={null}>
-      <group ref={targetRef} name="Mesh426" position={[14.9061, 33.7707, 61.7309]}>
+      <group ref={targetRef} name="Mesh426" position={[14.9061, 33.7707, 61.7309]} onPointerOver={onPointerOver}>
         <mesh
           name="Mesh426_1"
           geometry={nodes.Mesh426_1.geometry}
           material={meshMaterial}
-          onPointerOver={onPointerOver}
-          onPointerOut={onPointerOut}
         />
         {/* <mesh name="Mesh426_2" geometry={nodes.Mesh426_2.geometry} material={materials.BackColor} /> */}
 
         {/* 指示牌 */}
-        {hovered && <Indicator targetRef={targetRef} name='426' />}
+        {hovered && (
+          <Indicator targetRef={targetRef} name='426'>
+            <CubeInfoCard
+              no='426'
+              name='③联C40砼上涵首墙身及顶板'
+              status='已浇筑'
+              temperature={30}
+              onClose={() => setHovered(false)}
+            />
+          </Indicator>
+        )}
         <BimText3D text="426" width={6} position={[5, 0, 8]} />
         <BimText3D text="426" width={6} position={[12.3, 0, 7]} rotation={[0, Math.PI / 2, 0]} />
       </group>

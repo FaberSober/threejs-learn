@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
-import { Billboard, Box, Text, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper, Sky } from "@react-three/drei";
+import { Billboard, Box, Text, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper, Sky, useTexture } from "@react-three/drei";
 import MyHelper from "@/components/modal/MyHelper";
 import TestModel from '@/components/modal/hhiot/TestModel';
 import { animated, useSpring } from '@react-spring/three';
@@ -47,6 +47,8 @@ function Scene({ target }: any) {
     console.log('click', name)
   }
 
+  const textureGround = useTexture('/file/image/ground.png'); // 地面贴图
+
   console.log('position', position, 'target', target)
   return (
     <>
@@ -62,7 +64,8 @@ function Scene({ target }: any) {
         rotation-x={Math.PI * -0.5}
         receiveShadow
       >
-        <meshPhongMaterial color={0xEEEEEE}/>
+        {/* <meshPhongMaterial color={0xEEEEEE}/> */}
+        <meshPhongMaterial transparent={true} color={0xffffff} opacity={1} depthTest={true} map={textureGround} />
       </Plane>
 
       {/* <JzModel position={[0, 0, 0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
