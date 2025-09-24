@@ -6,37 +6,40 @@ Command: npx gltfjsx@6.5.3 jz.glb --keepgroups --keepnames
 import React, { useRef, useState } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
-import Indicator from './Indicator'
-import { CubeProps } from './type'
+import Indicator from '../Indicator'
+import { CubeProps } from '../type'
 import * as THREE from 'three'
-import BimText3D from './text/BimText3D'
+import BimText3D from '../text/BimText3D'
 
 type GLTFResult = GLTF & {
   nodes: { [key: string]: THREE.Mesh }
   materials: { [key: string]: THREE.MeshStandardMaterial }
 }
 
-export function Cube507({ ...props }: CubeProps) {
+export function Cube581({ ...props }: CubeProps) {
   const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb') as GLTFResult
   const targetRef = useRef<THREE.Group>(null!)
   const [hovered, setHovered] = useState(false)
 
   // 克隆材质以防止影响其他使用相同材质的对象
-  const meshMaterial = materials.Color_M05.clone()
+  const meshMaterial = materials.Color_M04.clone()
+  const backMaterial = materials.BackColor.clone()
 
   // 设置发光效果
   if (hovered) {
     meshMaterial.emissive = new THREE.Color(0x666666)
+    backMaterial.emissive = new THREE.Color(0x666666)
   } else {
     meshMaterial.emissive = new THREE.Color(0x000000)
+    backMaterial.emissive = new THREE.Color(0x000000)
   }
 
   return (
-    <group name="507" {...props} dispose={null}>
+    <group name="581" {...props} dispose={null}>
       <group
         ref={targetRef}
-        name="Mesh507"
-        position={[14.906, 34.884, -61.16]}
+        name="Mesh581"
+        position={[-15.494, 14.964, -19.706]}
         onPointerOver={(e) => {
           e.stopPropagation()
           setHovered(true)
@@ -48,12 +51,12 @@ export function Cube507({ ...props }: CubeProps) {
           document.body.style.cursor = 'default'
         }}
       >
-        <mesh name="Mesh507" geometry={nodes.Mesh507.geometry} material={meshMaterial} />
+        <mesh name="Mesh581_1" geometry={nodes.Mesh581_1.geometry} material={meshMaterial} />
+        <mesh name="Mesh581_2" geometry={nodes.Mesh581_2.geometry} material={backMaterial} />
 
         {/* 指示牌 */}
-        {hovered && <Indicator targetRef={targetRef} name='507' orientPos={[0,0,-20]} />}
-        <BimText3D text="507" width={6} position={[12.3, 0, -1]} rotation={[0, Math.PI / 2, 0]} />
-        <BimText3D text="507" width={6} position={[12.3, 0, -7.6]} rotation={[0, Math.PI / 1, 0]} />
+        {hovered && <Indicator targetRef={targetRef} name='581' orientPos={[-20,0,0]} />}
+        <BimText3D text="581" width={6} position={[-12.3, 0, -17]} rotation={[0, -Math.PI / 2, 0]} />
       </group>
     </group>
   )

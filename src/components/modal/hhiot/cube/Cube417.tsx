@@ -6,10 +6,11 @@ Command: npx gltfjsx@6.5.3 cube419.glb --keepgroups --keepnames
 import React, { useRef, useState } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
-import Indicator from './Indicator'
-import { CubeProps } from './type'
+import Indicator from '../Indicator'
+import { CubeProps } from '../type'
 import * as THREE from 'three'
-import BimText3D from './text/BimText3D'
+import BimText3D from '../text/BimText3D'
+import useHover from '../hooks/useHover'
 
 type GLTFResult = GLTF & {
   nodes: { [key: string]: THREE.Mesh }
@@ -19,7 +20,7 @@ type GLTFResult = GLTF & {
 export function Cube417({ ...props }: CubeProps) {
   const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb') as GLTFResult
   const targetRef = useRef<THREE.Group>(null!)
-  const [hovered, setHovered] = useState(false)
+  const {hovered, onPointerOver, onPointerOut} = useHover()
 
   // 克隆材质以防止影响其他使用相同材质的对象
   const meshMaterial = materials.Color_M05.clone()
@@ -37,16 +38,8 @@ export function Cube417({ ...props }: CubeProps) {
         ref={targetRef}
         name="Mesh417"
         position={[-15.4939, 3.15592, 62.43]}
-        onPointerOver={(e) => {
-          e.stopPropagation()
-          setHovered(true)
-          document.body.style.cursor = 'pointer'
-        }}
-        onPointerOut={(e) => {
-          e.stopPropagation()
-          setHovered(false)
-          document.body.style.cursor = 'default'
-        }}
+        onPointerOver={onPointerOver}
+        onPointerOut={onPointerOut}
       >
         <mesh name="Mesh417" geometry={nodes.Mesh417.geometry} material={meshMaterial} />
 

@@ -5,36 +5,38 @@ Command: npx gltfjsx@6.5.3 cube419.glb --keepgroups --keepnames
 
 import React, { useRef, useState } from 'react'
 import { useGLTF } from '@react-three/drei'
-import Indicator from './Indicator'
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
+import Indicator from '../Indicator'
+import { CubeProps } from '../type'
 import * as THREE from 'three'
-import { CubeProps } from './type'
-import BimText3D from './text/BimText3D'
+import BimText3D from '../text/BimText3D'
 
+type GLTFResult = GLTF & {
+  nodes: { [key: string]: THREE.Mesh }
+  materials: { [key: string]: THREE.MeshStandardMaterial }
+}
 
-export function Cube419({ ...props }: CubeProps) {
-  const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb')
+export function Cube418({ ...props }: CubeProps) {
+  const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb') as GLTFResult
   const targetRef = useRef<THREE.Group>(null!)
   const [hovered, setHovered] = useState(false)
+
   // 克隆材质以防止影响其他使用相同材质的对象
   const meshMaterial = materials.Color_M05.clone()
-  // const backMaterial = materials.BackColor.clone()
 
   // 设置发光效果
   if (hovered) {
     meshMaterial.emissive = new THREE.Color(0x666666)
-    // backMaterial.emissive = new THREE.Color(0x666666)
   } else {
     meshMaterial.emissive = new THREE.Color(0x000000)
-    // backMaterial.emissive = new THREE.Color(0x000000)
   }
 
   return (
-    <group name="419" {...props} dispose={null}>
-      {/* <group name="Mesh419" position={[-15.494, 33.843, 61.451]}> */}
+    <group name="418" {...props} dispose={null}>
       <group
         ref={targetRef}
-        name="Mesh419"
-        position={[-15.494, 33.843, 61.451]}
+        name="Mesh418"
+        position={[-15.429, 16.2524, 57.9112]}
         onPointerOver={(e) => {
           e.stopPropagation()
           setHovered(true)
@@ -46,13 +48,12 @@ export function Cube419({ ...props }: CubeProps) {
           document.body.style.cursor = 'default'
         }}
       >
-        <mesh name="Mesh419_1" geometry={nodes.Mesh419_1.geometry} material={meshMaterial} />
-        {/* <mesh name="Mesh419_2" geometry={nodes.Mesh419_2.geometry} material={backMaterial} /> */}
+        <mesh name="Mesh418" geometry={nodes.Mesh418.geometry} material={meshMaterial} />
 
         {/* 指示牌 */}
-        {hovered && <Indicator targetRef={targetRef} name='419' />}
-        <BimText3D text="419" width={6} position={[5, 0, 8]} />
-        <BimText3D text="419" width={6} position={[-12.3, 0, 1]} rotation={[0, -Math.PI / 2, 0]} />
+        {hovered && <Indicator targetRef={targetRef} name='418' />}
+        <BimText3D text="418" width={6} position={[5, 0, 12]} />
+        <BimText3D text="418" width={6} position={[-12.3, 0, 5]} rotation={[0, -Math.PI / 2, 0]} />
       </group>
     </group>
   )

@@ -6,10 +6,10 @@ Command: npx gltfjsx@6.5.3 cube424.glb --keepgroups --keepnames
 import React, { useRef, useState } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
-import Indicator from './Indicator'
-import { CubeProps } from './type'
+import Indicator from '../Indicator'
+import { CubeProps } from '../type'
 import * as THREE from 'three'
-import BimText3D from './text/BimText3D'
+import BimText3D from '../text/BimText3D'
 
 type GLTFResult = GLTF & {
   nodes: { [key: string]: THREE.Mesh }
