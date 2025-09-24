@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
-import { Billboard, Box, Text, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper } from "@react-three/drei";
+import { Billboard, Box, Text, OrbitControls, PerspectiveCamera, Plane, Sphere, useHelper, Sky } from "@react-three/drei";
 import MyHelper from "@/components/modal/MyHelper";
 import TestModel from '@/components/modal/hhiot/TestModel';
 import { animated, useSpring } from '@react-spring/three';
@@ -54,6 +54,7 @@ function Scene({ target }: any) {
         {/* 使用react-three-fiber的嵌套属性 */}
         <orthographicCamera attach="shadow-camera" args={[-20, 20, 20, -20]}/>
       </directionalLight>
+      <Sky distance={450000} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} />
       <ambientLight intensity={0.8}/>
       <Plane
         ref={planeRef}

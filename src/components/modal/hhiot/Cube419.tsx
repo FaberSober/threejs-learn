@@ -8,6 +8,7 @@ import { useGLTF } from '@react-three/drei'
 import Indicator from './Indicator'
 import * as THREE from 'three'
 import { CubeProps } from './type'
+import BimText3D from './text/BimText3D'
 
 
 export function Cube419({ ...props }: CubeProps) {
@@ -49,7 +50,9 @@ export function Cube419({ ...props }: CubeProps) {
         {/* <mesh name="Mesh419_2" geometry={nodes.Mesh419_2.geometry} material={backMaterial} /> */}
 
         {/* 指示牌 */}
-        <Indicator targetRef={targetRef} name='419' />
+        {hovered && <Indicator targetRef={targetRef} name='419' />}
+        <BimText3D text="419" width={6} position={[5, 0, 8]} />
+        <BimText3D text="419" width={6} position={[-12.3, 0, 1]} rotation={[0, -Math.PI / 2, 0]} />
       </group>
     </group>
   )

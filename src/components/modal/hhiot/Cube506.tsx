@@ -9,6 +9,7 @@ import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 import Indicator from './Indicator'
 import { CubeProps } from './type'
 import * as THREE from 'three'
+import BimText3D from './text/BimText3D'
 
 type GLTFResult = GLTF & {
   nodes: { [key: string]: THREE.Mesh }
@@ -54,7 +55,9 @@ export function Cube506({ ...props }: CubeProps) {
         <mesh name="Mesh5061_2" geometry={nodes.Mesh5061_2.geometry} material={backMaterial} />
 
         {/* 指示牌 */}
-        <Indicator targetRef={targetRef} name='506' orientPos={[0,0,-20]} />
+        {hovered && <Indicator targetRef={targetRef} name='506' orientPos={[0,0,-20]} />}
+        <BimText3D text="506" width={6} position={[12.3, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
+        <BimText3D text="506" width={6} position={[12.3, 0, -6.5]} rotation={[0, Math.PI / 1, 0]} />
       </group>
       <group name="Mesh5062" position={[14.906, 15.722, -49.877]}>
         <mesh name="Mesh5062_1" geometry={nodes.Mesh5062_1.geometry} material={meshMaterial} />
