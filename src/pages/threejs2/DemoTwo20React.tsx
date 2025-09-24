@@ -42,6 +42,11 @@ function Scene({ target }: any) {
     config: { mass: 1, tension: 120, friction: 14 }, // 动画阻尼参数
   })
 
+  function handleCubeClick(e: { stopPropagation: () => void }, name: string) {
+    e.stopPropagation()
+    console.log('click', name)
+  }
+
   console.log('position', position, 'target', target)
   return (
     <>
@@ -63,33 +68,33 @@ function Scene({ target }: any) {
       {/* <TestModel position={[0, 0, 0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
       <animated.group position={position}>
         {/* <TestModel position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow/> */}
-        <Cube419 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube418 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube417 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube419 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '419')} />
+        <Cube418 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '418')} />
+        <Cube417 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '417')} />
 
-        <Cube426 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube425 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube424 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube426 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '426')} />
+        <Cube425 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '425')} />
+        <Cube424 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '424')} />
 
-        <Cube577 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube578 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube577 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '577')} />
+        <Cube578 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '578')} />
 
-        <Cube580 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube581 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube580 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '580')} />
+        <Cube581 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '581')} />
 
-        <Cube583 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube584 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube583 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '583')} />
+        <Cube584 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '584')} />
 
-        <Cube586 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube587 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube586 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '586')} />
+        <Cube587 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '587')} />
 
-        <Cube498 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube499 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube500 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube498 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '498')} />
+        <Cube499 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '499')} />
+        <Cube500 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '500')} />
 
-        <Cube505 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube506 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
-        <Cube507 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow />
+        <Cube505 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '505')} />
+        <Cube506 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '506')} />
+        <Cube507 position={[0,0,0]} scale={0.1} rotation={[0, 0, 0]} castShadow onClick={e => handleCubeClick(e, '507')} />
       </animated.group>
 
       {/* <Billboard

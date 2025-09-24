@@ -6,8 +6,9 @@ Command: npx gltfjsx@6.5.3 cube419.glb --keepgroups --keepnames
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import Indicator from './Indicator'
+import { CubeProps } from './type'
 
-export function Cube418(props) {
+export function Cube418({ ...props }: CubeProps) {
   const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb')
   const targetRef = useRef<THREE.Group>(null!)
 

@@ -5,10 +5,17 @@ Command: npx gltfjsx@6.5.3 jz.glb --keepgroups --keepnames
 
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 import Indicator from './Indicator'
+import { CubeProps } from './type'
 
-export function Cube507(props) {
-  const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb')
+type GLTFResult = GLTF & {
+  nodes: { [key: string]: THREE.Mesh }
+  materials: { [key: string]: THREE.Material }
+}
+
+export function Cube507({ ...props }: CubeProps) {
+  const { nodes, materials } = useGLTF('/assets/model/hhiot/jz.glb') as GLTFResult
   const targetRef = useRef<THREE.Group>(null!)
 
   return (
