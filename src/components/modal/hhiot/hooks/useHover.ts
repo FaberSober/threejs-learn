@@ -16,5 +16,5 @@ export default function useHover() {
     document.body.style.cursor = 'default'
   }
 
-  return { hovered, onPointerOver, onPointerOut }
+  return { hovered, setHovered, onPointerOver, onPointerOut }
 }

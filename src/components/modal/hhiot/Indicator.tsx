@@ -2,16 +2,19 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Html, OrbitControls, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import { useRef } from 'react'
+import { Button } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 
 
 export interface IndicatorProps {
-  targetRef: React.RefObject<THREE.Group>
-  name?: string
-  orientPos?: [number, number, number]
+  targetRef: React.RefObject<THREE.Group>;
+  name?: string;
+  orientPos?: [number, number, number];
+  children?: React.ReactNode;
 }
 
 // ✅ 指示牌组件
-export default function Indicator({ targetRef, name, orientPos = [0, 0, 20] }: IndicatorProps) {
+export default function Indicator({ targetRef, name, orientPos = [0, 0, 30], children, ...props }: IndicatorProps) {
   const labelRef = useRef<THREE.Group>(null!)
   const lineRef = useRef<THREE.LineSegments>(null!)
 
@@ -46,9 +49,10 @@ export default function Indicator({ targetRef, name, orientPos = [0, 0, 20] }: I
               borderRadius: '4px',
               fontSize: '14px',
               whiteSpace: 'nowrap',
+              position: 'relative',
             }}
           >
-            {name}
+            {children}
           </div>
         </Html>
       </group>
