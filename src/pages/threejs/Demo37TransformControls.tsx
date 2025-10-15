@@ -35,7 +35,17 @@ export default function Demo37TransformControls() {
         <axesHelper args={[5]} />
 
         {/* 可拖拽操作手柄 */}
-        <TransformControls object={groupRef} mode={mode} />
+        <TransformControls
+          object={groupRef}
+          mode={mode}
+          onObjectChange={(e) => {
+            // 这里可以获取最新的位置信息
+            const obj = groupRef.current
+            console.log('position:', obj.position)
+            console.log('rotation:', obj.rotation)
+            console.log('scale:', obj.scale)
+          }}
+        />
 
         {/* Orbit 控制相机移动（可与TransformControls共用） */}
         <OrbitControls makeDefault />
